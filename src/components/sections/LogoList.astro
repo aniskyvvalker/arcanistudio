@@ -1,5 +1,6 @@
 ---
 import { Atom, Hexagon, Layers, Sparkle, Zap } from 'lucide-react'
+import { ScrollGlow } from '../ScrollGlow'
 
 const logos = [
   { label: 'Nordica', icon: Atom },
@@ -10,7 +11,7 @@ const logos = [
 ]
 ---
 
-<section class="relative pt-12 pb-24">
+<section class="relative pt-12 pb-0">
   <div class="mx-auto max-w-5xl px-4 text-center">
     <p class="mb-8 text-p-bold font-semibold text-palette-950">Trusted by teams everywhere</p>
   </div>
@@ -27,6 +28,8 @@ const logos = [
       </div>
     </div>
   </div>
+
+  <ScrollGlow client:visible className="mt-20 block" />
 </section>
 
 <style>

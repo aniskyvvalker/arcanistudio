@@ -1,1 +1,52 @@
-<!-- StatsSection section -->
+---
+import { ArrowRight } from 'lucide-react'
+
+const stats = [
+  {
+    value: '150+',
+    label: 'Websites launched',
+    description: 'Projects completed for startups and established brands',
+  },
+  {
+    value: '38%',
+    label: 'Average conversion lift',
+    description: 'Typical improvement clients see within six months',
+  },
+]
+---
+
+<section class="bg-palette-950 py-24">
+  <div class="mx-auto grid max-w-5xl gap-12 px-4 md:grid-cols-2 md:gap-8">
+    <div class="flex flex-col gap-4">
+      <p class="text-tooltip-l font-semibold uppercase text-primary-500">Proof</p>
+      <h2 class="text-h2 font-semibold text-white">Numbers that speak for themselves</h2>
+      <p class="text-subtitle text-palette-400">We measure what matters. Here's what we've built.</p>
+
+      <div class="mt-4 flex items-center gap-4">
+        <a
+          href="#contact"
+          class="rounded-full border border-palette-700 px-6 py-3 text-p-bold font-semibold text-white transition-colors hover:bg-palette-800"
+        >
+          Quote
+        </a>
+        <a
+          href="#work"
+          class="flex items-center gap-1 text-p-bold font-semibold text-white transition-colors hover:text-primary-500"
+        >
+          Discover
+          <ArrowRight size={16} />
+        </a>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-10">
+      {stats.map(({ value, label, description }) => (
+        <div class="border-l border-palette-800 pl-6">
+          <p class="text-h1 font-semibold text-white">{value}</p>
+          <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
+          <p class="mt-1 text-p-regular text-palette-400">{description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
