@@ -14,7 +14,7 @@ type ScrollGlowProps = {
  * Height interpolates from minHeight -> maxHeight as the element scrolls
  * into view, mimicking the Framer ScrollGradient asset.
  */
-export function ScrollGlow({ className, minHeight = 4, maxHeight = 14 }: ScrollGlowProps) {
+export function ScrollGlow({ className, minHeight = 9, maxHeight = 24 }: ScrollGlowProps) {
   const container = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -32,8 +32,17 @@ export function ScrollGlow({ className, minHeight = 4, maxHeight = 14 }: ScrollG
         style={{
           width: '100%',
           height,
-          background:
-            'radial-gradient(120% 100% at 50% 135%, #0A0A0A 0%, #0A0A0A 58%, #F94500 66%, #FF852F 70%, rgba(255,133,47,0.25) 78%, transparent 88%)',
+          // The full "sun" is a vertical color ramp (black base -> deep red ->
+          // bright orange -> fade), then a dome-shaped mask clips it so the
+          // WHOLE stack is tall at the horizontal center and tapers to a sliver
+          // at the edges. Every band (red, orange, fade) follows the same arch,
+          // not just the orange rim.
+          backgroundImage:
+            'linear-gradient(to top, #0A0A0A 0%, #0A0A0A 14%, #C73600 30%, #F94500 40%, #FF852F 50%, #FFB066 60%, rgba(255,176,102,0.4) 74%, rgba(255,176,102,0) 88%)',
+          WebkitMaskImage:
+            'radial-gradient(130% 100% at 50% 132%, #000 0%, #000 66%, rgba(0,0,0,0.6) 73%, rgba(0,0,0,0) 80%)',
+          maskImage:
+            'radial-gradient(130% 100% at 50% 132%, #000 0%, #000 66%, rgba(0,0,0,0.6) 73%, rgba(0,0,0,0) 80%)',
         }}
       />
     </div>
