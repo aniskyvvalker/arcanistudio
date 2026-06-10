@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebFetch(domain:github.com)",
+      "Bash(npx impeccable *)",
+      "Read(//tmp/impeccable/**)",
+      "Read(//private/tmp/impeccable/**)",
+      "Bash(mkdir -p \"/Users/pc/Desktop/Agency/arcaniStudio Website/.claude/skills\" \"/Users/pc/Desktop/Agency/arcaniStudio Website/.claude/agents\")",
+      "Bash(cp -r /tmp/impeccable/.claude/skills/impeccable \"/Users/pc/Desktop/Agency/arcaniStudio Website/.claude/skills/\")",
+      "Bash(cp /tmp/impeccable/.claude/agents/impeccable-manual-edit-applier.md \"/Users/pc/Desktop/Agency/arcaniStudio Website/.claude/agents/\")",
+      "Bash(npm --version)",
+      "Read(//Users/pc/.nvm/versions/node/**)",
+      "Bash(fnm --version)",
+      "Bash(volta --version)",
+      "Bash(~/.nvm/versions/node/v22.22.3/bin/node --version)",
+      "Bash(~/.nvm/versions/node/v22.22.3/bin/npm --version)",
+      "Bash(ls /tmp/arcani-scaffold/)",
+      "Bash(cp /tmp/arcani-scaffold/astro.config.mjs \"/Users/pc/Desktop/Agency/arcaniStudio Website/\")",
+      "Bash(cp /tmp/arcani-scaffold/package.json \"/Users/pc/Desktop/Agency/arcaniStudio Website/\")",
+      "Bash(cp /tmp/arcani-scaffold/tsconfig.json \"/Users/pc/Desktop/Agency/arcaniStudio Website/\")",
+      "Bash(cp -r /tmp/arcani-scaffold/public \"/Users/pc/Desktop/Agency/arcaniStudio Website/\")",
+      "Bash(cp -r /tmp/arcani-scaffold/src \"/Users/pc/Desktop/Agency/arcaniStudio Website/\")"
+    ]
+  }
+}

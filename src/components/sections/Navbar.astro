@@ -1,0 +1,51 @@
+---
+import { Menu } from 'lucide-react'
+
+const navLinks = [
+  { label: 'Services', href: '#services' },
+  { label: 'About', href: '#about' },
+  { label: 'How We Work', href: '#how-we-work' },
+  { label: 'Work', href: '#portfolio' },
+  { label: 'Contact', href: '#contact' },
+]
+---
+
+<header class="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+  <nav
+    class="flex w-full max-w-4xl items-center justify-between gap-6 rounded-full bg-palette-950 px-3 py-2 pl-4 shadow-lg shadow-black/10"
+  >
+    <a href="/" class="flex items-center gap-2">
+      <img src="/logo.svg" alt="Arcani Studio" class="h-5 w-5 invert" />
+      <span class="font-clash text-h5 leading-tight font-medium text-white whitespace-nowrap">Arcani<span class="hidden lg:inline"> Studio</span></span>
+    </a>
+
+    <ul class="hidden items-center gap-6 text-tooltip-l font-medium text-palette-300 md:flex">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="rounded-full px-3 py-1.5 transition-colors hover:bg-palette-800 hover:text-white"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href="#contact"
+        class="rounded-full bg-primary-500 px-4 py-2 text-tooltip-l font-medium text-white transition-colors hover:bg-primary-600"
+      >
+        Get started
+      </a>
+      <button
+        type="button"
+        aria-label="Open menu"
+        class="flex h-9 w-9 items-center justify-center rounded-full text-white md:hidden"
+      >
+        <Menu size={18} />
+      </button>
+    </div>
+  </nav>
+</header>

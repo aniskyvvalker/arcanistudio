@@ -1,0 +1,62 @@
+---
+import { Atom, Hexagon, Layers, Sparkle, Zap } from 'lucide-react'
+
+const logos = [
+  { label: 'Nordica', icon: Atom },
+  { label: 'Acme Co', icon: Sparkle },
+  { label: 'Lumen', icon: Zap },
+  { label: 'Vertex', icon: Layers },
+  { label: 'Sphere', icon: Hexagon },
+]
+---
+
+<section class="relative pt-32 pb-24">
+  <div class="mx-auto max-w-5xl px-4 text-center">
+    <p class="mb-8 text-p-bold font-semibold text-palette-950">Trusted by teams everywhere</p>
+  </div>
+
+  <div class="mx-auto max-w-5xl px-4">
+    <div class="ticker-mask relative overflow-hidden">
+      <div class="ticker-track flex w-max items-center">
+        {[...logos, ...logos, ...logos, ...logos].map(({ label, icon: Icon }) => (
+          <div class="flex shrink-0 items-center gap-2 px-8 text-palette-800">
+            <Icon size={20} />
+            <span class="text-h5 font-semibold whitespace-nowrap">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticker-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+  }
+
+  .ticker-track {
+    animation: ticker-scroll 15s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-25%);
+    }
+  }
+</style>
