@@ -3,12 +3,7 @@ import { Sparkles } from 'lucide-react'
 import { Wormhole } from '../Wormhole'
 ---
 
-<section class="relative flex min-h-screen flex-col items-center justify-center">
-  <div class="wormhole-fade pointer-events-none absolute inset-x-0 top-64 -z-10 flex justify-center overflow-hidden">
-    <Wormhole client:visible className="h-auto w-[2400px] max-w-none" />
-    <div class="wormhole-light absolute inset-0"></div>
-  </div>
-
+<section class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
   <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center">
     <div
       class="flex items-center gap-2 rounded-full border border-palette-200 bg-white px-3 py-1 text-tooltip-l text-palette-600"
@@ -23,19 +18,27 @@ import { Wormhole } from '../Wormhole'
     </div>
 
     <h1 class="text-h1 font-semibold text-palette-950">
-      Brands built with care,<br />launched with impact
+      Software That,<br />Moves Markets
     </h1>
 
     <p class="max-w-xl text-subtitle text-palette-600">
-      We design and build digital experiences for ambitious brands —
-      from strategy and identity to product and growth.
+      You bring the vision. We bring it to life — 
+      design, code, testing, and deployment fully handled so you can focus on your business.
     </p>
 
-    <a
-      href="#contact"
-      class="rounded-full bg-black px-6 py-3 text-p-bold font-semibold text-white transition-colors hover:bg-palette-800"
-    >
-      Get started
-    </a>
+    <div class="relative">
+      <a
+        href="#contact"
+        class="rounded-full bg-black px-6 py-3 text-p-bold font-semibold text-white transition-colors hover:bg-palette-800"
+      >
+        Get started
+      </a>
+
+      <div class="wormhole-fade pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[1400px] max-w-none -translate-x-1/2 -translate-y-[53%] overflow-hidden sm:w-[1800px] md:w-[2100px] lg:w-[2400px]">
+        <Wormhole client:visible className="h-auto w-full" />
+        <div class="wormhole-light absolute inset-0"></div>
+      </div>
+      <div class="wormhole-edge-fade pointer-events-none fixed inset-0 -z-10"></div>
+    </div>
   </div>
 </section>
