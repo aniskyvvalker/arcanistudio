@@ -192,6 +192,10 @@
     * {
         @apply border-border outline-ring/50;
     }
+    ::selection {
+        background-color: var(--color-primary-500);
+        color: var(--color-white);
+    }
     body {
         @apply bg-background-light text-foreground font-sans;
     }
