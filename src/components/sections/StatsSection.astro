@@ -13,11 +13,16 @@ const stats = [
     label: 'Average conversion lift',
     description: 'Typical improvement clients see within six months',
   },
+  {
+    value: '4.9',
+    label: 'Average client rating',
+    description: 'Based on post-project satisfaction surveys',
+  },
 ]
 ---
 
 <section class="bg-palette-950 py-24">
-  <div class="mx-auto grid max-w-7xl gap-12 px-4 md:grid-cols-2 md:gap-8">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 md:grid-cols-[2fr_1fr_1fr] md:gap-8">
     <div class="flex flex-col gap-4">
       <p class="text-tooltip-l font-regular uppercase text-primary-500">[ Proof ]</p>
       <h2 class="text-h2 font-semibold text-white">Numbers that speak for themselves</h2>
@@ -41,7 +46,17 @@ const stats = [
     </div>
 
     <div class="flex flex-col gap-10">
-      {stats.map(({ value, label, description }) => (
+      {stats.slice(0, 2).map(({ value, label, description }) => (
+        <div class="border-l border-palette-800 pl-6">
+          <AnimatedCounter client:visible value={value} className="text-h1 font-semibold text-white" />
+          <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
+          <p class="mt-1 text-p-regular text-palette-400">{description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex flex-col">
+      {stats.slice(2, 3).map(({ value, label, description }) => (
         <div class="border-l border-palette-800 pl-6">
           <AnimatedCounter client:visible value={value} className="text-h1 font-semibold text-white" />
           <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
