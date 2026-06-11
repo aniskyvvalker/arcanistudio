@@ -15,8 +15,12 @@ const navLinks = [
     class="flex w-full max-w-4xl items-center justify-between gap-6 rounded-full bg-palette-950 px-3 py-2 pl-4 shadow-lg shadow-black/10"
   >
     <a href="/" class="flex items-center gap-2">
-      <img src="/logo.svg" alt="Arcani Studio" class="h-5 w-5 invert" />
-      <span class="font-clash text-h5 leading-tight font-medium text-white whitespace-nowrap">Arcani<span class="hidden lg:inline"> Studio</span></span>
+      <span
+        class="h-5 w-5 bg-palette-100 [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
+        role="img"
+        aria-label="Arcani Studio"
+      ></span>
+      <span class="font-clash text-h5 leading-tight font-semibold text-white whitespace-nowrap">Arcani<span class="hidden lg:inline"> Studio</span></span>
     </a>
 
     <ul class="hidden items-center gap-6 text-tooltip-l font-medium text-palette-300 md:flex">
