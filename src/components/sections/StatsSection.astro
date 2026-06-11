@@ -1,5 +1,6 @@
 ---
 import { ArrowRight } from 'lucide-react'
+import { AnimatedCounter } from '../AnimatedCounter'
 
 const stats = [
   {
@@ -42,7 +43,7 @@ const stats = [
     <div class="flex flex-col gap-10">
       {stats.map(({ value, label, description }) => (
         <div class="border-l border-palette-800 pl-6">
-          <p class="text-h1 font-semibold text-white">{value}</p>
+          <AnimatedCounter client:visible value={value} className="text-h1 font-semibold text-white" />
           <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
           <p class="mt-1 text-p-regular text-palette-400">{description}</p>
         </div>
