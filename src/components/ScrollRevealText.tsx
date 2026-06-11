@@ -16,7 +16,15 @@ const segments: Segment[] = [
     className: 'italic font-light text-white',
   },
   {
-    text: ' Every pixel either earns trust or costs it. arcaniStudio exists for',
+    text: ' Every pixel either earns trust or costs it.',
+    className: 'font-bold text-white',
+  },
+  {
+    text: ' arcaniStudio',
+    className: 'font-clash font-medium text-white',
+  },
+  {
+    text: ' exists for',
     className: 'font-bold text-white',
   },
   {
