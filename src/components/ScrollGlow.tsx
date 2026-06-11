@@ -14,7 +14,7 @@ type ScrollGlowProps = {
  * Height interpolates from minHeight -> maxHeight as the element scrolls
  * into view, mimicking the Framer ScrollGradient asset.
  */
-export function ScrollGlow({ className, minHeight = 9, maxHeight = 24 }: ScrollGlowProps) {
+export function ScrollGlow({ className, minHeight = 2, maxHeight = 14 }: ScrollGlowProps) {
   const container = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -26,10 +26,16 @@ export function ScrollGlow({ className, minHeight = 9, maxHeight = 24 }: ScrollG
   const height = useTransform(scrollYProgress, [0, 1], [`${minHeight}rem`, `${maxHeight}rem`])
 
   return (
-    <div ref={container} className={className} style={{ width: '100%' }}>
+    // Reserve maxHeight up front so the box above (logo ticker) never
+    // shifts as the inner glow grows — the glow is pinned to the bottom
+    // of this fixed-size box and grows upward into it.
+    <div ref={container} className={className} style={{ width: '100%', height: `${maxHeight}rem`, position: 'relative' }}>
       <motion.div
         aria-hidden="true"
         style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
           width: '100%',
           height,
           // The full "sun" is a vertical color ramp (black base -> deep red ->
