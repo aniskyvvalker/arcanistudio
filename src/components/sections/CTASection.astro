@@ -1,1 +1,43 @@
-<!-- CTASection section -->
+---
+import { ChevronRight, Sparkles } from 'lucide-react'
+import { ShaderGradientBackground } from '../ShaderGradientBackground'
+---
+
+<section
+  class="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#73bfc4_0%,#ff810a_50%,#8da0ce_100%)] text-center"
+>
+  <ShaderGradientBackground client:only="react" />
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12)_0%,transparent_55%)]"></div>
+
+  <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">
+    <div class="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-tooltip-l text-white">
+      <span class="flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-tooltip-s font-semibold uppercase text-primary-600">
+        <Sparkles size={10} />
+        Let's talk
+      </span>
+      <span>Now booking projects for next quarter</span>
+    </div>
+
+    <h2 class="text-[clamp(40px,7vw,96px)] font-semibold leading-[1.05] text-white">
+      Ready to build<br />something great?
+    </h2>
+
+    <p class="max-w-xl text-h6 text-white/80">
+      Tell us about your project and let's turn your idea into a product people love.
+    </p>
+
+    <a
+      href="#contact"
+      class="group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
+    >
+      <span class="relative h-[1.2em] overflow-hidden">
+        <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Start Your Project</span>
+        <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Start Your Project</span>
+      </span>
+      <span class="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
+        <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
+        <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
+      </span>
+    </a>
+  </div>
+</section>
