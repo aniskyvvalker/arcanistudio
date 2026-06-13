@@ -1,1 +1,37 @@
-<!-- ServicesSection section -->
+---
+import ServicesList from './ServicesList'
+---
+
+<section class="bg-palette-950 py-32">
+  <!-- Scrolling banner -->
+  <div class="mb-16 overflow-hidden bg-palette-950 py-8">
+    <div class="ticker-track flex w-max items-start whitespace-nowrap text-6xl font-normal text-white">
+      {[1, 2, 3, 4].map(() => (
+        <div class="flex shrink-0 items-start">
+          <span class="mx-2">OUR SERVICES</span>
+          <span class="mx-2 -mt-2 text-8xl font-light text-primary-600">*</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4">
+    <!-- Services list -->
+    <ServicesList client:visible />
+  </div>
+</section>
+
+<style>
+  .ticker-track {
+    animation: ticker-scroll 8s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-25%);
+    }
+  }
+</style>
