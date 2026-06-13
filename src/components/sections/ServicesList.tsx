@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Minus } from 'lucide-react'
+import { Plus, Minus, ChevronRight } from 'lucide-react'
 
 const services = [
   {
@@ -53,16 +53,14 @@ export default function ServicesList() {
             }
             className={`w-full py-8 text-left ${index !== services.length - 1 ? 'border-b border-palette-300' : ''}`}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex items-start gap-8 flex-1">
-                <span className={`w-12 text-p-regular font-light ${expandedId === service.id ? 'text-primary-600' : 'text-palette-600'}`}>
-                  [{service.number}]
-                </span>
-                <span className={`mx-auto w-1/2 text-left text-h3 font-normal ${expandedId === service.id ? 'text-palette-950' : 'text-palette-600'}`}>
-                  {service.name}
-                </span>
-              </div>
-              <div className="flex-shrink-0">
+            <div className="grid grid-cols-2 items-center gap-3 md:grid-cols-[3rem_1fr_auto] md:items-start">
+              <span className={`col-span-2 w-12 text-p-regular font-light md:col-span-1 ${expandedId === service.id ? 'text-primary-600' : 'text-palette-600'}`}>
+                [{service.number}]
+              </span>
+              <span className={`text-left text-h3 font-normal md:mx-auto md:w-1/2 ${expandedId === service.id ? 'text-palette-950' : 'text-palette-600'}`}>
+                {service.name}
+              </span>
+              <div className="flex-shrink-0 justify-self-end">
                 {expandedId === service.id ? (
                   <Minus size={24} strokeWidth={1.5} className="text-primary-600" />
                 ) : (
@@ -72,8 +70,23 @@ export default function ServicesList() {
             </div>
 
             {expandedId === service.id && (
-              <div className="mt-4 ml-20 text-p-regular font-light text-palette-600">
-                {service.description}
+              <div className="grid grid-cols-2 mt-4 md:grid-cols-[3rem_1fr_auto]">
+                <div className="col-span-2 md:col-span-1 md:col-start-2 md:mx-auto md:w-1/2">
+                  <p className="text-p-regular font-light text-palette-600">{service.description}</p>
+                  <a
+                    href="#contact"
+                    className="group mt-4 inline-flex items-center gap-3 rounded-full bg-primary-600 py-2 pl-5 pr-2 text-[16px] font-light text-white"
+                  >
+                    <span className="relative h-[1.2em] overflow-hidden">
+                      <span className="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Get Started</span>
+                      <span className="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Get Started</span>
+                    </span>
+                    <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white text-palette-950">
+                      <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
+                      <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
+                    </span>
+                  </a>
+                </div>
               </div>
             )}
           </button>
