@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Plus, Minus, ChevronRight } from 'lucide-react'
 
 const services = [
@@ -69,26 +70,36 @@ export default function ServicesList() {
               </div>
             </div>
 
-            {expandedId === service.id && (
-              <div className="grid grid-cols-2 mt-4 md:grid-cols-[3rem_1fr_auto]">
-                <div className="col-span-2 md:col-span-1 md:col-start-2 md:mx-auto md:w-1/2">
-                  <p className="text-p-regular font-light text-palette-600">{service.description}</p>
-                  <a
-                    href="#contact"
-                    className="group mt-4 inline-flex items-center gap-3 rounded-full bg-primary-600 py-2 pl-5 pr-2 text-[16px] font-light text-white"
-                  >
-                    <span className="relative h-[1.2em] overflow-hidden">
-                      <span className="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Get Started</span>
-                      <span className="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Get Started</span>
-                    </span>
-                    <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white text-palette-950">
-                      <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
-                      <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
-                    </span>
-                  </a>
-                </div>
-              </div>
-            )}
+            <AnimatePresence initial={false}>
+              {expandedId === service.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid grid-cols-2 mt-4 md:grid-cols-[3rem_1fr_auto]">
+                    <div className="col-span-2 md:col-span-1 md:col-start-2 md:mx-auto md:w-1/2">
+                      <p className="text-p-regular font-light text-palette-600">{service.description}</p>
+                      <a
+                        href="#contact"
+                        className="group mt-4 inline-flex items-center gap-3 rounded-full bg-primary-600 py-2 pl-5 pr-2 text-[16px] font-light text-white"
+                      >
+                        <span className="relative h-[1.2em] overflow-hidden">
+                          <span className="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Get Started</span>
+                          <span className="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Get Started</span>
+                        </span>
+                        <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white text-palette-950">
+                          <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
+                          <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       ))}

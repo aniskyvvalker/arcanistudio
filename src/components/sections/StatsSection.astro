@@ -4,7 +4,7 @@ import { AnimatedCounter } from '../AnimatedCounter'
 
 const stats = [
   {
-    value: '70+',
+    value: '40+',
     label: 'Websites launched',
     description: 'Websites built for startups and brands that want to stand out',
   },
@@ -56,9 +56,9 @@ const stats = [
     <div class="flex flex-col gap-10">
       {stats.slice(0, 2).map(({ value, label, description }) => (
         <div class="border-l border-palette-800 pl-6">
-          <AnimatedCounter client:visible value={value} className="text-h1 font-semibold text-white" />
+          <AnimatedCounter client:visible value={value} className="text-h1 font-normal text-white" />
           <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
-          <p class="mt-1 text-p-regular text-palette-400">{description}</p>
+          <p class="mt-1 text-p-regular font-light text-palette-400">{description}</p>
         </div>
       ))}
     </div>
@@ -66,9 +66,9 @@ const stats = [
     <div class="flex flex-col">
       {stats.slice(2, 3).map(({ value, label, description }) => (
         <div class="border-l border-palette-800 pl-6">
-          <AnimatedCounter client:visible value={value} className="text-h1 font-semibold text-white" />
+          <AnimatedCounter client:visible value={value} className="text-h1 font-normal text-white" />
           <p class="mt-2 text-p-bold font-semibold text-white">{label}</p>
-          <p class="mt-1 text-p-regular text-palette-400">{description}</p>
+          <p class="mt-1 text-p-regular font-light text-palette-400">{description}</p>
         </div>
       ))}
     </div>
