@@ -54,18 +54,18 @@ export default function ServicesList() {
             }
             className={`w-full py-8 text-left ${index !== services.length - 1 ? 'border-b border-palette-300' : ''}`}
           >
-            <div className="grid grid-cols-2 items-center gap-3 md:grid-cols-[3rem_1fr_auto] md:items-start">
-              <span className={`col-span-2 w-12 text-p-regular font-light md:col-span-1 ${expandedId === service.id ? 'text-primary-600' : 'text-palette-600'}`}>
+            <div className="grid grid-cols-[1fr_auto] items-center gap-3 md:grid-cols-[3rem_1fr_auto] md:items-start">
+              <span className={`col-span-2 w-12 text-p-regular font-light md:col-span-1 ${expandedId === service.id ? 'text-primary-600' : 'text-palette-500'}`}>
                 [{service.number}]
               </span>
-              <span className={`text-left text-h3 font-normal md:mx-auto md:w-1/2 ${expandedId === service.id ? 'text-palette-950' : 'text-palette-600'}`}>
+              <span className={`whitespace-nowrap text-left text-[26px] font-normal leading-[1.2] sm:text-[32px] md:mx-auto md:w-1/2 md:text-[36px] lg:text-[40px] ${expandedId === service.id ? 'text-palette-950' : 'text-palette-500'}`}>
                 {service.name}
               </span>
               <div className="flex-shrink-0 justify-self-end">
                 {expandedId === service.id ? (
                   <Minus size={24} strokeWidth={1.5} className="text-primary-600" />
                 ) : (
-                  <Plus size={24} strokeWidth={1.5} className="text-palette-600" />
+                  <Plus size={24} strokeWidth={1.5} className="text-palette-500" />
                 )}
               </div>
             </div>
