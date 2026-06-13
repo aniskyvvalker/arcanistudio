@@ -21,7 +21,7 @@ const segments: Segment[] = [
   },
   {
     text: ' arcaniStudio',
-    className: 'font-clash font-medium text-primary-600 text-[1.3em] mr-[0.15em]',
+    className: 'font-clash font-medium text-primary-600 text-[1.3em] mr-[0.05em]',
   },
   {
     text: ' exists for',
