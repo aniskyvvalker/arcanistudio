@@ -5,11 +5,157 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Thin.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-ThinItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-ThinItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Light.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-LightItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Regular.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-RegularItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-RegularItalic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue Book';
+    src: url('/fonts/reckless-neue/RecklessNeue-Book.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Book.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue Book';
+    src: url('/fonts/reckless-neue/RecklessNeue-BookItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-BookItalic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Medium.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-MediumItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-SemiBold.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-SemiBoldItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-SemiBoldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Bold.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-BoldItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-BoldItalic.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-Heavy.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Reckless Neue';
+    src: url('/fonts/reckless-neue/RecklessNeue-HeavyItalic.woff2') format('woff2'),
+        url('/fonts/reckless-neue/RecklessNeue-HeavyItalic.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
 @theme inline {
     /* Font */
     --font-sans: 'Switzer', sans-serif;
     --font-heading: 'Switzer', sans-serif;
     --font-clash: 'Clash Display', sans-serif;
+    --font-reckless: 'Reckless Neue', serif;
+    --font-reckless-book: 'Reckless Neue Book', serif;
 
     /* General colors */
     --color-white: #FFFFFF;

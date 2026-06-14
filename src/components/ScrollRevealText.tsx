@@ -13,7 +13,7 @@ const segments: Segment[] = [
   },
   {
     text: " It's the first conversation your product has with the world.",
-    className: 'italic font-light text-white',
+    className: 'font-reckless italic font-light text-white',
   },
   {
     text: ' Every pixel either earns trust or costs it.',
