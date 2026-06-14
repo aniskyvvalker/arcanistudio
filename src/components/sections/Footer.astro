@@ -11,7 +11,6 @@ const navLinks = [
 ]
 
 const legalLinks = [
-  { label: 'Pricing', href: '#' },
   { label: 'Privacy Policy', href: '#' },
   { label: 'Terms of Service', href: '#' },
 ]
@@ -37,32 +36,40 @@ const socialLinks = [
 
 <footer class="overflow-hidden bg-palette-950 px-4 pt-16 pb-6 text-white">
   <div class="mx-auto max-w-6xl">
-    <div class="grid gap-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
-      <div>
-        <h3 class="font-clash text-h5 font-semibold">Stay Connected</h3>
+    <div class="grid grid-cols-2 gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
+      <div class="col-span-2 md:col-span-1">
+        <h3 class="font-sans text-h5 font-semibold">Let's Build Something</h3>
         <p class="mt-3 max-w-xs text-tooltip-l text-palette-400">
-          Join our newsletter for tips, updates, and project highlights—only the good stuff.
+          Drop your email and we'll reach out to discuss your project.
         </p>
 
-        <form class="mt-6 flex max-w-sm items-center justify-between rounded-full border border-palette-800 bg-palette-900 p-1.5 pl-5">
+        <form
+          class="mt-6 flex max-w-sm items-center justify-between rounded-full border border-palette-800 bg-palette-900 p-1.5 pl-5"
+          action="mailto:hello@arcanistudio.com"
+          method="get"
+          enctype="text/plain"
+        >
+          <input type="hidden" name="subject" value="New project inquiry" />
           <input
             type="email"
+            name="body"
             required
             placeholder="Write your email"
             class="w-full bg-transparent text-tooltip-l text-white placeholder:text-palette-500 focus:outline-none"
           />
           <button
             type="submit"
-            aria-label="Subscribe"
-            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700"
+            aria-label="Get in touch"
+            class="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white"
           >
-            <ArrowUpRight size={18} />
+            <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
+            <ArrowUpRight size={18} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
           </button>
         </form>
       </div>
 
       <nav aria-label="Site">
-        <h4 class="font-clash text-h6 font-semibold">Home</h4>
+        <h4 class="font-sans text-h6 font-semibold">Pages</h4>
         <ul class="mt-4 flex flex-col gap-3 text-tooltip-l text-palette-400">
           {navLinks.map((link) => (
             <li>
@@ -73,7 +80,7 @@ const socialLinks = [
       </nav>
 
       <nav aria-label="Legal">
-        <h4 class="font-clash text-h6 font-semibold">Legal</h4>
+        <h4 class="font-sans text-h6 font-semibold">Legal</h4>
         <ul class="mt-4 flex flex-col gap-3 text-tooltip-l text-palette-400">
           {legalLinks.map((link) => (
             <li>
@@ -82,14 +89,6 @@ const socialLinks = [
           ))}
         </ul>
       </nav>
-
-      <div>
-        <h4 class="font-clash text-h6 font-semibold">Location</h4>
-        <p class="mt-4 text-tooltip-l text-palette-400">
-          1242 Echo Ridge Blvd, Suite 402<br />
-          San Francisco, CA 94103
-        </p>
-      </div>
     </div>
 
     <div class="my-10 h-px w-full bg-palette-800"></div>
@@ -119,9 +118,10 @@ const socialLinks = [
     </div>
   </div>
 
-  <div class="-mx-4 -mb-12 mt-10">
-    <p class="select-none whitespace-nowrap text-center font-clash text-[16vw] leading-none font-medium text-primary-600">
-      arcaniStudio
+  <div class="-mx-4 pb-[2.5vw]">
+    <p class="select-none whitespace-nowrap text-center font-clash text-[16vw] leading-[1.2] font-medium text-primary-600 mt-[0.25em] -mb-[0.3em] scale-y-120 max-[450px]:text-[30vw]">
+      <span class="max-[450px]:hidden">arcaniStudio</span>
+      <span class="hidden max-[450px]:inline max-[450px]:font-semibold">arcani</span>
     </p>
   </div>
 </footer>
