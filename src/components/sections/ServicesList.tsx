@@ -58,8 +58,12 @@ export default function ServicesList() {
               <span className={`col-span-2 w-12 text-p-regular font-light md:col-span-1 ${expandedId === service.id ? 'text-primary-600' : 'text-palette-500'}`}>
                 [{service.number}]
               </span>
-              <span className={`whitespace-nowrap text-left text-[26px] font-normal leading-[1.2] sm:text-[32px] md:mx-auto md:w-1/2 md:text-[36px] lg:text-[40px] ${expandedId === service.id ? 'text-palette-950' : 'text-palette-500'}`}>
-                {service.name}
+              <span className={`max-[410px]:whitespace-normal whitespace-nowrap text-left text-[26px] font-normal leading-[1.2] sm:text-[32px] md:mx-auto md:w-1/2 md:text-[36px] lg:text-[40px] ${expandedId === service.id ? 'text-palette-950' : 'text-palette-500'}`}>
+                {service.id === 2 ? (
+                  <><span className="max-[410px]:block hidden">BRANDING &<br />UI/UX DESIGN</span><span className="max-[410px]:hidden">BRANDING & UI/UX DESIGN</span></>
+                ) : service.id === 5 ? (
+                  <><span className="max-[410px]:block hidden">E-COMMERCE<br />SOLUTIONS</span><span className="max-[410px]:hidden">E-COMMERCE SOLUTIONS</span></>
+                ) : service.name}
               </span>
               <div className="flex-shrink-0 justify-self-end">
                 {expandedId === service.id ? (
