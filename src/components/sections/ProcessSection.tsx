@@ -9,7 +9,7 @@ const steps = [
     title: 'Discover',
     verb: 'Map the territory',
     body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — the work that makes design decisions obvious, not arbitrary.',
-    color: '#F94500',
+    color: '#CE3000',
     shape: 'icosahedron',
   },
   {
@@ -17,7 +17,7 @@ const steps = [
     title: 'Design',
     verb: 'Build the language',
     body: 'High-fidelity interfaces and a design system built for your product, not borrowed from a template. Every decision is intentional — spacing, type, motion, color — argued and resolved.',
-    color: '#FF6207',
+    color: '#F94500',
     shape: 'torus',
   },
   {
@@ -25,7 +25,7 @@ const steps = [
     title: 'Build',
     verb: 'Ship production code',
     body: 'Astro, React, and whatever the stack demands. Pixel-perfect implementation, performant by default, accessible from the start. Not "developer handoff" — one team, start to finish.',
-    color: '#FF852F',
+    color: '#FF6207',
     shape: 'octahedron',
   },
   {
@@ -33,7 +33,7 @@ const steps = [
     title: 'Launch',
     verb: 'Refine in the real world',
     body: 'Deployment, QA, performance tuning. Then we watch real users and iterate. A site that ships is a hypothesis — we help you confirm or revise it.',
-    color: '#FFB16B',
+    color: '#FF852F',
     shape: 'dodecahedron',
   },
 ]
@@ -118,7 +118,7 @@ export default function ProcessSection() {
       <div className="mx-auto max-w-7xl px-5 pt-28 pb-16">
         <div className="flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
-            className="font-clash text-[clamp(40px,6vw,88px)] font-medium leading-none text-white"
+            className="font-switzer text-[clamp(48px,7vw,88px)] font-medium leading-none text-white"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
             How we
