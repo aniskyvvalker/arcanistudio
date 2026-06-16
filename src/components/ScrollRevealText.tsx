@@ -9,7 +9,7 @@ type Segment = {
 const segments: Segment[] = [
   {
     text: "A website isn't a deliverable.",
-    className: 'font-bold text-white',
+    className: 'font-semibold text-white',
   },
   {
     text: " It's the first conversation your product has with the world.",
