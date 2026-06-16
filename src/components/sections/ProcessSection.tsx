@@ -193,6 +193,7 @@ export default function ProcessSection() {
 
               {/* Step text */}
               <div className="flex flex-1 flex-col justify-center">
+                <div className="h-[280px] flex flex-col justify-end overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
@@ -226,9 +227,10 @@ export default function ProcessSection() {
 
                   </motion.div>
                 </AnimatePresence>
+                </div>
 
                 {/* Step indicators — outside AnimatePresence so they never fade */}
-                <div className="flex gap-2 pt-5">
+                <motion.div layout transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.25, 0, 0, 1] }} className="flex gap-2 pt-5">
                   {steps.map((_, i) => (
                     <motion.div
                       key={i}
@@ -240,7 +242,7 @@ export default function ProcessSection() {
                       transition={{ duration: reducedMotion ? 0 : 0.35, ease: [0.25, 0, 0, 1] }}
                     />
                   ))}
-                </div>
+                </motion.div>
               </div>
 
               {/* Three.js canvas */}
