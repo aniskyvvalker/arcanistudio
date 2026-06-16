@@ -183,22 +183,12 @@ export default function ProcessSection() {
             <div className="flex flex-1 flex-col justify-center gap-0 md:flex-row md:items-center md:gap-12">
               {/* Step number — large typographic anchor */}
               <div className="relative w-full shrink-0 md:w-64">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeStep}
-                    initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reducedMotion ? false : { opacity: 0, y: -20 }}
-                    transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
-                  >
-                    <span
-                      className="block font-clash font-medium leading-none text-white/8 select-none"
-                      style={{ fontSize: 'clamp(96px, 16vw, 200px)' }}
-                    >
-                      {steps[activeStep].number}
-                    </span>
-                  </motion.div>
-                </AnimatePresence>
+                <span
+                  className="block font-clash font-medium leading-none text-white/8 select-none"
+                  style={{ fontSize: 'clamp(96px, 16vw, 200px)' }}
+                >
+                  {steps[activeStep].number}
+                </span>
               </div>
 
               {/* Step text */}
@@ -234,22 +224,23 @@ export default function ProcessSection() {
                       {steps[activeStep].body}
                     </p>
 
-                    {/* Step indicators */}
-                    <div className="flex gap-2 pt-2">
-                      {steps.map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="h-0.5 rounded-full"
-                          animate={{
-                            width: i === activeStep ? 32 : 8,
-                            backgroundColor: i === activeStep ? '#F94500' : 'rgba(255,255,255,0.15)',
-                          }}
-                          transition={{ duration: reducedMotion ? 0 : 0.35, ease: [0.25, 0, 0, 1] }}
-                        />
-                      ))}
-                    </div>
                   </motion.div>
                 </AnimatePresence>
+
+                {/* Step indicators — outside AnimatePresence so they never fade */}
+                <div className="flex gap-2 pt-5">
+                  {steps.map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="h-0.5 rounded-full"
+                      animate={{
+                        width: i === activeStep ? 32 : 8,
+                        backgroundColor: i === activeStep ? '#F94500' : 'rgba(255,255,255,0.15)',
+                      }}
+                      transition={{ duration: reducedMotion ? 0 : 0.35, ease: [0.25, 0, 0, 1] }}
+                    />
+                  ))}
+                </div>
               </div>
 
               {/* Three.js canvas */}
