@@ -215,6 +215,36 @@ function DesktopCard({
 // }
 // ──────────────────────────────────────────────────────────────
 
+// ── LAYOUT OPTION B2: Bento Grid variant (commented out) ──────
+// 3-col CSS grid, 3 rows (340 / 340 / 260px).
+//   [0] tall left (row-span-2) · [1][2] top row
+//   [3] wide mid (col-span-2) · [4] small bottom-left
+//   [5] half-width bottom (col-span-2)
+// Differs from B1: row 2 has wide card spanning cols 2+3,
+// and bottom row has a small card + half-width card instead of panoramic.
+//
+// PROJECTS order same as B1:
+//   0: Copal Studio, 1: POP POP, 2: Violette Mode
+//   3: Maeve in June, 4: Upcycli, 5: Café Buade
+//
+// const BENTO_B2: { gridClass: string }[] = [
+//   { gridClass: 'col-start-1 col-span-1 row-start-1 row-span-2' }, // tall left
+//   { gridClass: 'col-start-2 col-span-1 row-start-1 row-span-1' }, // top-center
+//   { gridClass: 'col-start-3 col-span-1 row-start-1 row-span-1' }, // top-right
+//   { gridClass: 'col-start-2 col-span-2 row-start-2 row-span-1' }, // wide mid (cols 2+3)
+//   { gridClass: 'col-start-1 col-span-1 row-start-3 row-span-1' }, // small bottom-left
+//   { gridClass: 'col-start-2 col-span-2 row-start-3 row-span-1' }, // half-width bottom (cols 2+3)
+// ]
+//
+// Render block (replace Option A desktop divs):
+// <div className="hidden md:grid gap-4"
+//   style={{ gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '340px 340px 260px' }}>
+//   {PROJECTS_BENTO.map((project, i) => (
+//     <BentoCard key={project.id} project={project} index={i} gridClass={BENTO_B2[i].gridClass} reduced={reduced} />
+//   ))}
+// </div>
+// ──────────────────────────────────────────────────────────────
+
 // ── Card (mobile) ─────────────────────────────────────────────
 
 function MobileCard({
