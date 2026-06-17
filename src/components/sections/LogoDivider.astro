@@ -2,7 +2,7 @@
 // Logo divider between Process (dark) and Selected Work (light)
 // mix-blend-mode:difference on white logos:
 //   white on dark bg (#0A0A0A) = appears white
-//   white on light bg (#F8F6F1) = appears dark/black
+//   white on light bg (#F8F6F1) = appears dark
 ---
 
 <div class="logo-divider" aria-hidden="true">
@@ -39,13 +39,16 @@
     display: block;
   }
 
+  /* 0–650px: 3 logos */
   .icon:nth-child(n+4) { display: none; }
 
+  /* 651–1439px: 5 logos */
   @media (min-width: 651px) {
     .icon:nth-child(n+4) { display: block; }
     .icon:nth-child(n+6) { display: none; }
   }
 
+  /* 1440px+: all 7 logos */
   @media (min-width: 1440px) {
     .icon:nth-child(n+6) { display: block; }
   }

@@ -375,7 +375,6 @@ export default function PortfolioSection() {
 
           {/* ── Mobile: stacked grid ── */}
           <div className="grid grid-cols-1 gap-4 sm:hidden">
-
             {PROJECTS.map((project, i) => (
               <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
             ))}
