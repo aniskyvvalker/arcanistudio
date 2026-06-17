@@ -1,0 +1,41 @@
+---
+// Logo divider between Process (dark) and Selected Work (light)
+// mix-blend-mode:difference on white logos:
+//   white on dark bg (#0A0A0A) = appears white
+//   white on light bg (#F8F6F1) = appears dark/black
+---
+
+<div class="logo-divider" aria-hidden="true">
+  <div class="strip">
+    {Array.from({ length: 8 }).map(() => (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="icon">
+        <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="white" />
+      </svg>
+    ))}
+  </div>
+</div>
+
+<style>
+  .logo-divider {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, #0A0A0A 50%, #F8F6F1 50%);
+    overflow: hidden;
+  }
+
+  .strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: difference;
+  }
+
+  .icon {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    display: block;
+  }
+</style>
