@@ -108,7 +108,7 @@ function DesktopCard({
       }
       style={{
         flex: flexValue,
-        transition: reduced ? 'none' : 'flex 1.1s cubic-bezier(0.25, 0, 0, 1)',
+        transition: reduced ? 'none' : 'flex 1.5s cubic-bezier(0.25, 0, 0, 1)',
         minWidth: 0,
       }}
       className="group relative overflow-hidden rounded-2xl"
@@ -131,7 +131,7 @@ function DesktopCard({
       {/* Bottom bar */}
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
         <div
-          className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12"
+          className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-[1100ms] ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-2"
           style={{ transform: active ? 'translateY(-3rem)' : undefined }}
         >
           <span className="text-[11px] uppercase tracking-wider text-white/50">
@@ -142,8 +142,8 @@ function DesktopCard({
           </h3>
         </div>
         <p
-          className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100"
-          style={active ? { transform: 'translateY(0)', opacity: 1 } : undefined}
+          className="absolute bottom-3 left-5 right-14 line-clamp-2 translate-y-8 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-[1100ms] ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-2 group-hover:opacity-100"
+          style={active ? { transform: 'translateY(-0.5rem)', opacity: 1 } : undefined}
         >
           {project.description}
         </p>
@@ -196,7 +196,7 @@ function DesktopCard({
 //         style={{ transform: active ? 'scale(1.04)' : undefined }} />
 //       <div className="absolute inset-x-0 bottom-0 h-4/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 //       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
-//         <div className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12"
+//         <div className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-2"
 //           style={{ transform: active ? 'translateY(-3rem)' : undefined }}>
 //           <span className="text-[11px] uppercase tracking-wider text-white/50">{project.category}</span>
 //           <h3 className="font-clash text-[20px] font-medium leading-tight text-white">{project.name}</h3>
