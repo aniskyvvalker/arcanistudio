@@ -8,13 +8,13 @@ import { ArrowUpRight } from 'lucide-react'
 
 const PROJECTS = [
   {
-    id: 'violette-mode',
-    name: 'Violette Mode',
-    category: 'Fashion boutique',
+    id: 'copal-studio',
+    name: 'Copal Studio',
+    category: 'Design assets',
     description:
-      'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
+      'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180c1a411443935b1b48ad_Frame%206%20(2).png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a15b4ceb326bbd9624cacf7_Group%2074%20(1).png',
   },
   {
     id: 'pop-pop',
@@ -26,13 +26,13 @@ const PROJECTS = [
       'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180f51d2fd6310df0367c0_Group%2028%20(1)%201%20(1).png',
   },
   {
-    id: 'cafe-buade',
-    name: 'Café Buade',
-    category: 'Fine dining',
+    id: 'upcycli',
+    name: 'Upcycli',
+    category: 'Sustainable fashion',
     description:
-      "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
+      'Quebec designers marketplace — 30+ independent brands, curated, conscious, and easy to shop.',
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a16fc158eac902ef9312e0b_Group%2029.png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180bcc9db60d4ac58b8040_Group%202%20(8).png',
   },
   {
     id: 'maeve-june',
@@ -44,50 +44,49 @@ const PROJECTS = [
       'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180372ad7992cf1ffba5dc_Group%209%20(3).png',
   },
   {
-    id: 'upcycli',
-    name: 'Upcycli',
-    category: 'Sustainable fashion',
+    id: 'violette-mode',
+    name: 'Violette Mode',
+    category: 'Fashion boutique',
     description:
-      'Quebec designers marketplace — 30+ independent brands, curated, conscious, and easy to shop.',
+      'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180bcc9db60d4ac58b8040_Group%202%20(8).png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180c1a411443935b1b48ad_Frame%206%20(2).png',
   },
   {
-    id: 'copal-studio',
-    name: 'Copal Studio',
-    category: 'Design assets',
+    id: 'cafe-buade',
+    name: 'Café Buade',
+    category: 'Fine dining',
     description:
-      'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
+      "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a15b4ceb326bbd9624cacf7_Group%2074%20(1).png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a16fc158eac902ef9312e0b_Group%2029.png',
   },
 ]
 
-const ROWS = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)]
-
-// ── Card (desktop flex row) ───────────────────────────────────
+// ── LAYOUT OPTION B: Bento Grid ───────────────────────────────
+// 3-column CSS grid, 3 rows. Cards have varying spans:
+//   [0] Copal Studio  → col 1, rows 1-2  (tall left card)
+//   [1] POP POP Café  → col 2, row 1
+//   [2] Upcycli       → col 3, row 1
+//   [3] Maeve in June → cols 2-3, row 2  (wide mid card)
+//   [4] Violette Mode → col 1, row 3     (small bottom-left)
+//   [5] Café Buade    → cols 2-3, row 3  (half-width bottom)
+// To switch to Option A (flex rows), see the JSX block below.
+// ──────────────────────────────────────────────────────────────
 
 function DesktopCard({
   project,
   index,
-  isHovered,
-  anyHovered,
-  onEnter,
-  onLeave,
+  gridClass,
   reduced,
 }: {
   project: (typeof PROJECTS)[number]
   index: number
-  isHovered: boolean
-  anyHovered: boolean
-  onEnter: () => void
-  onLeave: () => void
+  gridClass: string
   reduced: boolean | null
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
-
-  const flexValue = anyHovered ? (isHovered ? 1.18 : 0.91) : 1
 
   return (
     <motion.div
@@ -99,16 +98,7 @@ function DesktopCard({
           ? { duration: 0 }
           : { duration: 0.6, delay: index * 0.08, ease: [0.25, 0, 0, 1] }
       }
-      style={{
-        flex: flexValue,
-        transition: reduced
-          ? 'none'
-          : 'flex 1.1s cubic-bezier(0.25, 0, 0, 1)',
-        minWidth: 0,
-      }}
-      className="group relative overflow-hidden rounded-2xl"
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
+      className={`group relative overflow-hidden rounded-2xl ${gridClass}`}
     >
       <img
         src={project.image}
@@ -124,16 +114,16 @@ function DesktopCard({
       {/* Bottom bar */}
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
         <div className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12">
-            <span className="text-[11px] uppercase tracking-wider text-white/50">
-              {project.category}
-            </span>
-            <h3 className="font-clash text-[20px] font-medium leading-tight text-white">
-              {project.name}
-            </h3>
-          </div>
-          <p className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100">
-            {project.description}
-          </p>
+          <span className="text-[11px] uppercase tracking-wider text-white/50">
+            {project.category}
+          </span>
+          <h3 className="font-clash text-[20px] font-medium leading-tight text-white">
+            {project.name}
+          </h3>
+        </div>
+        <p className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100">
+          {project.description}
+        </p>
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
           <ArrowUpRight size={15} strokeWidth={1.75} className="text-palette-950" />
         </div>
@@ -141,6 +131,16 @@ function DesktopCard({
     </motion.div>
   )
 }
+
+// Grid placement map — one entry per project (index matches PROJECTS order)
+const BENTO: { gridClass: string }[] = [
+  { gridClass: 'col-start-1 col-span-1 row-start-1 row-span-2' }, // [0] tall left, spans rows 1+2
+  { gridClass: 'col-start-2 col-span-1 row-start-1 row-span-1' }, // [1] top-center
+  { gridClass: 'col-start-3 col-span-1 row-start-1 row-span-1' }, // [2] top-right
+  { gridClass: 'col-start-2 col-span-2 row-start-2 row-span-1' }, // [3] wide mid — cols 2+3
+  { gridClass: 'col-start-1 col-span-1 row-start-3 row-span-1' }, // [4] small bottom-left
+  { gridClass: 'col-start-2 col-span-2 row-start-3 row-span-1' }, // [5] half-width bottom — cols 2+3
+]
 
 // ── Card (mobile) ─────────────────────────────────────────────
 
@@ -196,7 +196,6 @@ function MobileCard({
 // ── Section ───────────────────────────────────────────────────
 
 export default function PortfolioSection() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [seeAllHovered, setSeeAllHovered] = useState(false)
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
   const headerRef = useRef<HTMLDivElement>(null)
@@ -250,25 +249,52 @@ export default function PortfolioSection() {
           </h2>
         </motion.div>
 
-        {/* ── Desktop: flex rows with expanding hover ── */}
-        <div className="hidden flex-col gap-4 md:flex">
-          {ROWS.map((row, rowIdx) => (
-            <div key={rowIdx} className="flex h-[460px] gap-4">
-              {row.map((project, i) => (
-                <DesktopCard
-                  key={project.id}
-                  project={project}
-                  index={rowIdx * 3 + i}
-                  isHovered={hoveredId === project.id}
-                  anyHovered={hoveredId !== null}
-                  onEnter={() => setHoveredId(project.id)}
-                  onLeave={() => setHoveredId(null)}
-                  reduced={reduced}
-                />
-              ))}
-            </div>
+        {/*
+         * ── LAYOUT OPTION B: Bento Grid (currently active) ──────────
+         * 3 cols × 3 rows. Row heights: 340px / 340px / 260px.
+         * Card 0 is tall (row-span-2). Cards 3 and 5 are wide (col-span-2).
+         * To switch to Option A (equal flex rows), comment this block out
+         * and uncomment the Option A block below.
+         * ─────────────────────────────────────────────────────────────
+         */}
+        <div
+          className="hidden md:grid gap-4"
+          style={{ gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '340px 340px 260px' }}
+        >
+          {PROJECTS.map((project, i) => (
+            <DesktopCard
+              key={project.id}
+              project={project}
+              index={i}
+              gridClass={BENTO[i].gridClass}
+              reduced={reduced}
+            />
           ))}
         </div>
+
+        {/*
+         * ── LAYOUT OPTION A: Equal Flex Rows (currently inactive) ───
+         * Two rows of 3 cards each, equal width, with expanding hover.
+         * Cards expand on hover via flex transition.
+         * To activate: uncomment this block, comment out Option B above.
+         *
+         * <div className="hidden flex-col gap-4 md:flex">
+         *   {[PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)].map((row, rowIdx) => (
+         *     <div key={rowIdx} className="flex h-[460px] gap-4">
+         *       {row.map((project, i) => (
+         *         <DesktopCard
+         *           key={project.id}
+         *           project={project}
+         *           index={rowIdx * 3 + i}
+         *           gridClass=""
+         *           reduced={reduced}
+         *         />
+         *       ))}
+         *     </div>
+         *   ))}
+         * </div>
+         * ─────────────────────────────────────────────────────────────
+         */}
 
         {/* ── Mobile: stacked grid ── */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:hidden">
