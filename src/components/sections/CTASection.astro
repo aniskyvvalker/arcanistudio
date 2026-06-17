@@ -1,13 +1,29 @@
 ---
 import { ChevronRight, Sparkles } from 'lucide-react'
-import { ShaderGradientBackground } from '../ShaderGradientBackground'
 ---
+
+<style>
+  @keyframes gradient-shift {
+    0%   { background-position: 0% 50%; }
+    25%  { background-position: 100% 0%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+  }
+  .cta-gradient {
+    /* Static fallback for browsers that don't support animations */
+    background: linear-gradient(135deg, #73bfc4 0%, #ff810a 50%, #8da0ce 100%);
+    /* Animated version — oversized gradient shifts position to simulate fluid motion */
+    background: linear-gradient(135deg, #73bfc4, #ff810a, #8da0ce, #ff810a, #73bfc4);
+    background-size: 400% 400%;
+    animation: gradient-shift 10s ease infinite;
+  }
+</style>
 
 <div class="bg-palette-950">
 <section
-  class="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#73bfc4_0%,#ff810a_50%,#8da0ce_100%)] text-center"
+  class="cta-gradient relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden rounded-2xl text-center"
 >
-  <ShaderGradientBackground client:only="react" />
   <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12)_0%,transparent_55%)]"></div>
 
   <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">

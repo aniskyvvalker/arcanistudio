@@ -1,3 +1,9 @@
+/**
+ * ORIGINAL CTA background — WebGL shader gradient via @shadergradient/react.
+ * Replaced by a pure CSS animated gradient in CTASection.astro for performance reasons
+ * (this caused janky scrolling due to continuous GPU rendering).
+ * Kept here as reference in case the WebGL version is needed again.
+ */
 import { ShaderGradient, ShaderGradientCanvas } from '@shadergradient/react'
 
 export function ShaderGradientBackground() {
