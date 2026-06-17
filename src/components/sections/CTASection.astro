@@ -1,8 +1,23 @@
 ---
 import { ChevronRight, Sparkles } from 'lucide-react'
+/**
+ * CURRENT APPROACH — Option 2: WebGL shader (lazy-loaded, pauses off-screen).
+ * See ShaderGradientBackground.tsx for full explanation and switch instructions.
+ *
+ * OPTION 1 (pure CSS, zero GPU cost): remove this import and the
+ * <ShaderGradientBackground> line below. The .cta-gradient CSS class
+ * is already on the <section> and will take over automatically.
+ */
+import { ShaderGradientBackground } from '../ShaderGradientBackground'
 ---
 
 <style>
+  /**
+   * OPTION 1 — Pure CSS animated gradient (zero GPU/WebGL cost).
+   * Same 3 colors as the shader. Already applied to <section> via .cta-gradient.
+   * Currently acts as: (a) static fallback while shader loads, (b) full background
+   * if you remove ShaderGradientBackground (Option 1 switch).
+   */
   @keyframes gradient-shift {
     0%   { background-position: 0% 50%; }
     25%  { background-position: 100% 0%; }
@@ -24,6 +39,8 @@ import { ChevronRight, Sparkles } from 'lucide-react'
 <section
   class="cta-gradient relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden rounded-2xl text-center"
 >
+  <!-- OPTION 2: WebGL shader. Remove this line to switch to Option 1 (CSS only). -->
+  <ShaderGradientBackground client:only="react" />
   <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12)_0%,transparent_55%)]"></div>
 
   <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">

@@ -1,8 +1,24 @@
 /**
- * ORIGINAL CTA background — WebGL shader gradient via @shadergradient/react.
- * Replaced by a pure CSS animated gradient in CTASection.astro for performance reasons
- * (this caused janky scrolling due to continuous GPU rendering).
- * Kept here as reference in case the WebGL version is needed again.
+ * CURRENT APPROACH — Option 2: WebGL shader gradient with lazy loading.
+ *
+ * Uses @shadergradient/react (Three.js/WebGL) for the animated CTA background.
+ * lazyLoad + rootMargin pause the render loop when the section is far off-screen,
+ * preventing the GPU from running continuously and causing scroll jank.
+ *
+ * rootMargin="800px" — starts rendering 800px before the section enters the viewport
+ * so the animation is already running by the time the user scrolls to it.
+ *
+ * ─── SWITCHING TO OPTION 1 (pure CSS, zero GPU cost) ────────────────────────
+ * If you want to drop the WebGL gradient entirely:
+ *
+ * 1. In CTASection.astro:
+ *    - Remove the import of ShaderGradientBackground (line 3)
+ *    - Remove <ShaderGradientBackground client:only="react" /> (line 28)
+ *    - The CSS .cta-gradient class (already in the <style> block) will take over
+ *      automatically — it is already applied to the <section> element.
+ *
+ * 2. Keep or delete this file — it is no longer used.
+ * ────────────────────────────────────────────────────────────────────────────
  */
 import { ShaderGradient, ShaderGradientCanvas } from '@shadergradient/react'
 
@@ -11,7 +27,9 @@ export function ShaderGradientBackground() {
     <ShaderGradientCanvas
       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       pointerEvents="none"
-      lazyLoad={false}
+      lazyLoad={true}
+      threshold={0}
+      rootMargin="800px"
     >
       <ShaderGradient
         control="props"
