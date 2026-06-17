@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 
@@ -197,11 +197,29 @@ function MobileCard({
 
 export default function PortfolioSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [seeAllHovered, setSeeAllHovered] = useState(false)
+  const [cursor, setCursor] = useState({ x: 0, y: 0 })
   const headerRef = useRef<HTMLDivElement>(null)
   const headerInView = useInView(headerRef, { once: true, margin: '-80px' })
   const reduced = useReducedMotion()
 
+  useEffect(() => {
+    const move = (e: MouseEvent) => setCursor({ x: e.clientX, y: e.clientY })
+    window.addEventListener('mousemove', move)
+    return () => window.removeEventListener('mousemove', move)
+  }, [])
+
   return (
+    <>
+    {/* ── Custom cursor ── */}
+    {seeAllHovered && (
+      <div
+        className="pointer-events-none fixed z-50 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary-600"
+        style={{ left: cursor.x, top: cursor.y }}
+      >
+        <ArrowUpRight size={22} strokeWidth={1.5} className="text-white" />
+      </div>
+    )}
     <section className="bg-background-light pt-24 pb-12 md:pt-32 md:pb-16" aria-label="Selected work">
       <div className="mx-auto max-w-7xl px-5">
 
@@ -262,7 +280,9 @@ export default function PortfolioSection() {
         {/* ── See all projects ── */}
         <a
           href="/work"
-          className="group mt-28 hidden md:inline-flex xl:-ml-14 flex-col"
+          className="group mt-28 hidden md:inline-flex xl:-ml-14 flex-col cursor-none"
+          onMouseEnter={() => setSeeAllHovered(true)}
+          onMouseLeave={() => setSeeAllHovered(false)}
         >
           <div className="inline-flex flex-col">
             <span className="font-sans text-[clamp(40px,8vw,120px)] font-medium leading-none text-palette-950">
@@ -276,5 +296,6 @@ export default function PortfolioSection() {
 
       </div>
     </section>
+    </>
   )
 }
