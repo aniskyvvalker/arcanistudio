@@ -17,7 +17,7 @@ const segments: Segment[] = [
   },
   {
     text: ' Every pixel either earns trust or costs it.',
-    className: 'font-bold text-white',
+    className: 'font-semibold text-white',
   },
   {
     text: ' arcaniStudio',
@@ -25,11 +25,11 @@ const segments: Segment[] = [
   },
   {
     text: ' exists for',
-    className: 'font-bold text-white',
+    className: 'font-semibold text-white',
   },
   {
     text: ' founders and product teams who refuse the generic agency look — and want their site to carry the same craft, the same precision, as the product they spent years building.',
-    className: 'font-bold text-white',
+    className: 'font-semibold text-white',
   },
 ]
 

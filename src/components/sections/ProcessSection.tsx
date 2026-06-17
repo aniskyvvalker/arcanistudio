@@ -216,7 +216,7 @@ export default function ProcessSection() {
                     </div>
 
                     <h3
-                      className="font-clash text-[clamp(36px,4.5vw,64px)] font-medium leading-none text-white"
+                      className="font-switzer text-[clamp(36px,4.5vw,64px)] font-medium leading-none text-white"
                     >
                       {steps[activeStep].title}
                     </h3>
