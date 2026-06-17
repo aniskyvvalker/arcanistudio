@@ -8,13 +8,13 @@ import { ArrowUpRight } from 'lucide-react'
 
 const PROJECTS = [
   {
-    id: 'copal-studio',
-    name: 'Copal Studio',
-    category: 'Design assets',
+    id: 'violette-mode',
+    name: 'Violette Mode',
+    category: 'Fashion boutique',
     description:
-      'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
+      'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a15b4ceb326bbd9624cacf7_Group%2074%20(1).png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180c1a411443935b1b48ad_Frame%206%20(2).png',
   },
   {
     id: 'pop-pop',
@@ -26,13 +26,13 @@ const PROJECTS = [
       'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180f51d2fd6310df0367c0_Group%2028%20(1)%201%20(1).png',
   },
   {
-    id: 'violette-mode',
-    name: 'Violette Mode',
-    category: 'Fashion boutique',
+    id: 'cafe-buade',
+    name: 'Café Buade',
+    category: 'Fine dining',
     description:
-      'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
+      "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180c1a411443935b1b48ad_Frame%206%20(2).png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a16fc158eac902ef9312e0b_Group%2029.png',
   },
   {
     id: 'maeve-june',
@@ -53,45 +53,48 @@ const PROJECTS = [
       'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180bcc9db60d4ac58b8040_Group%202%20(8).png',
   },
   {
-    id: 'cafe-buade',
-    name: 'Café Buade',
-    category: 'Fine dining',
+    id: 'copal-studio',
+    name: 'Copal Studio',
+    category: 'Design assets',
     description:
-      "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
+      'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
     image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a16fc158eac902ef9312e0b_Group%2029.png',
+      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a15b4ceb326bbd9624cacf7_Group%2074%20(1).png',
   },
 ]
 
-// Grid placement: tall left + 2×2 block + full-width panoramic
-const BENTO: { gridClass: string }[] = [
-  { gridClass: 'col-start-1 col-span-1 row-start-1 row-span-2' }, // [0] tall left
-  { gridClass: 'col-start-2 col-span-1 row-start-1 row-span-1' }, // [1] top-center
-  { gridClass: 'col-start-3 col-span-1 row-start-1 row-span-1' }, // [2] top-right
-  { gridClass: 'col-start-2 col-span-1 row-start-2 row-span-1' }, // [3] mid-center
-  { gridClass: 'col-start-3 col-span-1 row-start-2 row-span-1' }, // [4] mid-right
-  { gridClass: 'col-start-1 col-span-3 row-start-3 row-span-1' }, // [5] panoramic strip
-]
+const ROWS = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)]
+const TABLET_ROWS = [PROJECTS.slice(0, 2), PROJECTS.slice(2, 4), PROJECTS.slice(4, 6)]
 
-// ── LAYOUT OPTION B1: Bento Grid (currently active) ───────────
-// 3-col CSS grid, 3 rows (340 / 340 / 260px).
-//   [0] tall left (row-span-2) · [1][2] top row · [3][4] mid row
-//   [5] full-width panoramic strip
+// ── LAYOUT OPTION A: Equal Flex Rows (currently active) ───────
+// Two rows of 3 cards each. Cards expand on hover via flex
+// transition — hovered card grows, others shrink slightly.
 // ──────────────────────────────────────────────────────────────
 
 function DesktopCard({
   project,
   index,
-  gridClass,
+  isHovered,
+  anyHovered,
+  onEnter,
+  onLeave,
   reduced,
 }: {
   project: (typeof PROJECTS)[number]
   index: number
-  gridClass: string
+  isHovered: boolean
+  anyHovered: boolean
+  onEnter: () => void
+  onLeave: () => void
   reduced: boolean | null
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
+  const [touched, setTouched] = useState(false)
+
+  const active = isHovered || touched
+
+  const flexValue = anyHovered ? (isHovered ? 1.18 : 0.91) : 1
 
   return (
     <motion.div
@@ -103,7 +106,15 @@ function DesktopCard({
           ? { duration: 0 }
           : { duration: 0.6, delay: index * 0.08, ease: [0.25, 0, 0, 1] }
       }
-      className={`group relative overflow-hidden rounded-2xl ${gridClass}`}
+      style={{
+        flex: flexValue,
+        transition: reduced ? 'none' : 'flex 1.1s cubic-bezier(0.25, 0, 0, 1)',
+        minWidth: 0,
+      }}
+      className="group relative overflow-hidden rounded-2xl"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      onTouchStart={() => { setTouched(t => !t); onLeave() }}
     >
       <img
         src={project.image}
@@ -111,6 +122,7 @@ function DesktopCard({
         loading="lazy"
         decoding="async"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-[1.04]"
+        style={{ transform: active ? 'scale(1.04)' : undefined }}
       />
 
       {/* Bottom gradient */}
@@ -118,7 +130,10 @@ function DesktopCard({
 
       {/* Bottom bar */}
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
-        <div className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12">
+        <div
+          className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12"
+          style={{ transform: active ? 'translateY(-3rem)' : undefined }}
+        >
           <span className="text-[11px] uppercase tracking-wider text-white/50">
             {project.category}
           </span>
@@ -126,16 +141,79 @@ function DesktopCard({
             {project.name}
           </h3>
         </div>
-        <p className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100">
+        <p
+          className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100"
+          style={active ? { transform: 'translateY(0)', opacity: 1 } : undefined}
+        >
           {project.description}
         </p>
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          style={active ? { transform: 'translateY(-0.125rem) translateX(0.125rem)' } : undefined}
+        >
           <ArrowUpRight size={15} strokeWidth={1.75} className="text-palette-950" />
         </div>
       </div>
     </motion.div>
   )
 }
+
+// ── LAYOUT OPTION B1: Bento Grid (commented out) ──────────────
+// 3-col CSS grid, 3 rows (340 / 340 / 260px).
+//   [0] tall left (row-span-2) · [1][2] top row · [3][4] mid row
+//   [5] full-width panoramic strip
+//
+// To restore: uncomment BentoCard + the desktop bento <div> below,
+// comment out Option A DesktopCard + ROWS + the flex desktop <div>.
+//
+// PROJECTS order for bento:
+//   0: Copal Studio, 1: POP POP, 2: Violette Mode
+//   3: Maeve in June, 4: Upcycli, 5: Café Buade
+//
+// const BENTO: { gridClass: string }[] = [
+//   { gridClass: 'col-start-1 col-span-1 row-start-1 row-span-2' },
+//   { gridClass: 'col-start-2 col-span-1 row-start-1 row-span-1' },
+//   { gridClass: 'col-start-3 col-span-1 row-start-1 row-span-1' },
+//   { gridClass: 'col-start-2 col-span-1 row-start-2 row-span-1' },
+//   { gridClass: 'col-start-3 col-span-1 row-start-2 row-span-1' },
+//   { gridClass: 'col-start-1 col-span-3 row-start-3 row-span-1' },
+// ]
+//
+// function BentoCard({ project, index, gridClass, reduced }) {
+//   const ref = useRef(null)
+//   const inView = useInView(ref, { once: true, margin: '-60px' })
+//   const [touched, setTouched] = useState(false)
+//   const active = touched
+//   return (
+//     <motion.div ref={ref} initial={{ opacity: 0, y: 40 }}
+//       animate={inView ? { opacity: 1, y: 0 } : {}}
+//       transition={reduced ? { duration: 0 } : { duration: 0.6, delay: index * 0.08, ease: [0.25, 0, 0, 1] }}
+//       className={`group relative overflow-hidden rounded-2xl ${gridClass}`}
+//       onTouchStart={() => { setTouched(t => !t); onLeave() }}
+//     >
+//       <img src={project.image} alt={project.name} loading="lazy" decoding="async"
+//         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-[1.04]"
+//         style={{ transform: active ? 'scale(1.04)' : undefined }} />
+//       <div className="absolute inset-x-0 bottom-0 h-4/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+//       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
+//         <div className="flex min-w-0 flex-1 flex-col gap-0.5 transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:-translate-y-12"
+//           style={{ transform: active ? 'translateY(-3rem)' : undefined }}>
+//           <span className="text-[11px] uppercase tracking-wider text-white/50">{project.category}</span>
+//           <h3 className="font-clash text-[20px] font-medium leading-tight text-white">{project.name}</h3>
+//         </div>
+//         <p className="absolute bottom-5 left-5 right-14 line-clamp-2 translate-y-2 text-[12px] leading-relaxed text-white/65 opacity-0 transition-all delay-150 duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:translate-y-0 group-hover:opacity-100"
+//           style={active ? { transform: 'translateY(0)', opacity: 1 } : undefined}>
+//           {project.description}
+//         </p>
+//         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+//           style={active ? { transform: 'translateY(-0.125rem) translateX(0.125rem)' } : undefined}>
+//           <ArrowUpRight size={15} strokeWidth={1.75} className="text-palette-950" />
+//         </div>
+//       </div>
+//     </motion.div>
+//   )
+// }
+// ──────────────────────────────────────────────────────────────
 
 // ── Card (mobile) ─────────────────────────────────────────────
 
@@ -191,6 +269,7 @@ function MobileCard({
 // ── Section ───────────────────────────────────────────────────
 
 export default function PortfolioSection() {
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [seeAllHovered, setSeeAllHovered] = useState(false)
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
   const headerRef = useRef<HTMLDivElement>(null)
@@ -245,40 +324,58 @@ export default function PortfolioSection() {
             </h2>
           </motion.div>
 
-          {/*
-           * ── LAYOUT OPTION B1: Bento Grid — tall + 2×2 + panoramic ──
-           *
-           * Visual layout (3 cols × 3 rows):
-           *   ┌──────────┬──────┬──────┐  row 1  340px
-           *   │  Copal   │ POP  │Viol. │
-           *   │  Studio  ├──────┼──────┤  row 2  340px
-           *   │  (tall)  │Maeve │Upcyc.│
-           *   ├──────────┴──────┴──────┤  row 3  260px
-           *   │    Café Buade (wide)   │
-           *   └───────────────────────┘
-           *
-           * To switch layouts:
-           *   • Option A  (equal flex rows + hover expand) → commit 904805c
-           *   • Option B2 (bento with half-width bottom)  → commit c42cd01
-           * ────────────────────────────────────────────────────────────
-           */}
-          <div
-            className="hidden md:grid gap-4"
-            style={{ gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '340px 340px 260px' }}
-          >
-            {PROJECTS.map((project, i) => (
-              <DesktopCard
-                key={project.id}
-                project={project}
-                index={i}
-                gridClass={BENTO[i].gridClass}
-                reduced={reduced}
-              />
+          {/* ── Tablet: 640–767px — 2-col flex rows with expanding touch/hover ── */}
+          <div className="hidden sm:flex md:hidden flex-col gap-4">
+            {TABLET_ROWS.map((row, rowIdx) => (
+              <div key={rowIdx} className="flex h-[380px] gap-4">
+                {row.map((project, i) => (
+                  <DesktopCard
+                    key={project.id}
+                    project={project}
+                    index={rowIdx * 2 + i}
+                    isHovered={hoveredId === project.id}
+                    anyHovered={hoveredId !== null}
+                    onEnter={() => setHoveredId(project.id)}
+                    onLeave={() => setHoveredId(null)}
+                    reduced={reduced}
+                  />
+                ))}
+              </div>
             ))}
           </div>
 
+          {/* ── Desktop: Option A — equal flex rows with expanding hover ── */}
+          <div className="hidden flex-col gap-4 md:flex">
+            {ROWS.map((row, rowIdx) => (
+              <div key={rowIdx} className="flex h-[460px] gap-4">
+                {row.map((project, i) => (
+                  <DesktopCard
+                    key={project.id}
+                    project={project}
+                    index={rowIdx * 3 + i}
+                    isHovered={hoveredId === project.id}
+                    anyHovered={hoveredId !== null}
+                    onEnter={() => setHoveredId(project.id)}
+                    onLeave={() => setHoveredId(null)}
+                    reduced={reduced}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* ── Desktop: Option B1 — Bento Grid (commented out) ──
+          <div className="hidden md:grid gap-4"
+            style={{ gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '340px 340px 260px' }}>
+            {PROJECTS_BENTO.map((project, i) => (
+              <BentoCard key={project.id} project={project} index={i} gridClass={BENTO[i].gridClass} reduced={reduced} />
+            ))}
+          </div>
+          ── */}
+
           {/* ── Mobile: stacked grid ── */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:hidden">
+          <div className="grid grid-cols-1 gap-4 sm:hidden">
+
             {PROJECTS.map((project, i) => (
               <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
             ))}
