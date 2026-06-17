@@ -202,7 +202,7 @@ export default function PortfolioSection() {
   const reduced = useReducedMotion()
 
   return (
-    <section className="bg-background-light py-24 md:py-32" aria-label="Selected work">
+    <section className="bg-background-light pt-24 pb-12 md:pt-32 md:pb-16" aria-label="Selected work">
       <div className="mx-auto max-w-7xl px-5">
 
         {/* ── Header ── */}
@@ -258,6 +258,21 @@ export default function PortfolioSection() {
             <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
           ))}
         </div>
+
+        {/* ── See all projects ── */}
+        <a
+          href="/work"
+          className="group mt-28 hidden md:inline-flex xl:-ml-14 flex-col"
+        >
+          <div className="inline-flex flex-col">
+            <span className="font-sans text-[clamp(40px,8vw,120px)] font-medium leading-none text-palette-950">
+              See all projects
+            </span>
+            <div className="relative mt-4 h-[6px] w-full bg-palette-950/20">
+              <span className="absolute inset-0 origin-left scale-x-0 bg-palette-950 transition-transform duration-500 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-x-100" />
+            </div>
+          </div>
+        </a>
 
       </div>
     </section>
