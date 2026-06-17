@@ -116,7 +116,7 @@ export default function ProcessSection() {
     <section className="bg-palette-950">
       {/* Header — not sticky */}
       <div className="mx-auto max-w-7xl px-5 pt-28 pb-4">
-        <div className="flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
+        <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
             className="font-switzer text-[clamp(48px,7vw,88px)] font-medium leading-none text-white"
             style={{ textWrap: 'balance' } as React.CSSProperties}
@@ -143,11 +143,13 @@ export default function ProcessSection() {
             <div className="relative flex h-full w-16 shrink-0 flex-col items-center justify-center md:w-24">
               {/* Track */}
               <div className="absolute inset-y-16 left-1/2 w-px -translate-x-1/2 bg-white/10" />
-              {/* Fill */}
-              <motion.div
-                className="absolute top-16 left-1/2 w-px -translate-x-1/2 origin-top bg-primary-600"
-                style={{ height: progressHeight }}
-              />
+              {/* Fill — clipped to track bounds */}
+              <div className="absolute inset-y-16 left-1/2 w-px -translate-x-1/2 overflow-hidden">
+                <motion.div
+                  className="w-full origin-top bg-primary-600"
+                  style={{ height: progressHeight }}
+                />
+              </div>
               {/* Dots */}
               {steps.map((s, i) => (
                 <button
@@ -252,28 +254,9 @@ export default function ProcessSection() {
             </div>
           </div>
 
-          {/* Bottom step label */}
-          <div className="absolute bottom-8 right-8">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={activeStep}
-                className="font-sans text-tooltip-m uppercase tracking-widest text-white/20"
-                initial={reducedMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {steps[activeStep].number} / {String(steps.length).padStart(2, '0')}
-              </motion.span>
-            </AnimatePresence>
-          </div>
         </div>
       </div>
 
-      {/* Bottom divider */}
-      <div className="mx-auto max-w-7xl px-5 pb-12">
-        <div className="border-t border-white/10" />
-      </div>
     </section>
   )
 }
