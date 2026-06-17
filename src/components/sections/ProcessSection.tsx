@@ -115,7 +115,7 @@ export default function ProcessSection() {
   return (
     <section className="bg-palette-950">
       {/* Header — not sticky */}
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-16">
+      <div className="mx-auto max-w-7xl px-5 pt-28 pb-4">
         <div className="flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
             className="font-switzer text-[clamp(48px,7vw,88px)] font-medium leading-none text-white"
@@ -185,7 +185,7 @@ export default function ProcessSection() {
               <div className="relative w-full shrink-0 md:w-64">
                 <span
                   className="block font-clash font-medium leading-none text-white/8 select-none"
-                  style={{ fontSize: 'clamp(96px, 16vw, 200px)' }}
+                  style={{ fontSize: 'clamp(96px, 27vw, 200px)' }}
                 >
                   {steps[activeStep].number}
                 </span>
