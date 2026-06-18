@@ -24,6 +24,66 @@ const TESTIMONIALS = [
       "arcaniStudio pushed back on our brief because they'd spotted something we missed. That one conversation changed the direction of the whole product.",
     author: 'Marcus O.',
   },
+  {
+    quote:
+      "Notre plateforme a été livrée en avance, sans bugs au lancement. Leur rigueur fait vraiment la différence.",
+    author: 'Rayan B.',
+  },
+  {
+    quote:
+      "They didn't just execute — they questioned every assumption we had. The final product was three times better than what we originally asked for.",
+    author: 'Lena W.',
+  },
+  {
+    quote:
+      "Working with arcaniStudio felt like having a co-founder with design superpowers. They cared about the outcome as much as we did.",
+    author: 'Mehdi K.',
+  },
+  {
+    quote:
+      "Our conversion rate jumped 40% after the redesign. I didn't expect numbers like that from a visual overhaul.",
+    author: 'Priya S.',
+  },
+  {
+    quote:
+      "They rebuilt our dashboard from scratch in six weeks. It went from something our team dreaded to something they actually enjoy using.",
+    author: 'Yasmine A.',
+  },
+  {
+    quote:
+      "Every decision was explained. Every tradeoff was laid out. I always knew exactly where we stood and why.",
+    author: 'Daniel F.',
+  },
+  {
+    quote:
+      "We had a tight budget and they never made us feel it. The quality was the same as projects ten times our size.",
+    author: 'Amine D.',
+  },
+  {
+    quote:
+      "I've launched five products. arcaniStudio is the only studio I've worked with where the handoff actually felt complete.",
+    author: 'Nora J.',
+  },
+  {
+    quote:
+      "They understood our market without us having to explain it twice. That saved us weeks of back-and-forth.",
+    author: 'Sofiane M.',
+  },
+  {
+    quote:
+      "The attention to mobile was something we didn't even ask for explicitly. They just built it right from the start.",
+    author: 'Bilal H.',
+  },
+  {
+    quote:
+      "Our investors commented on the product design before we even got to the deck. That's never happened to us before.",
+    author: 'Emma C.',
+  },
+  {
+    quote:
+      "Ils ont su traduire une idée floue en quelque chose de précis et utilisable. C'est exactement ce dont on avait besoin.",
+    author: 'Lydia O.',
+  },
 ]
 
 function Pip() {
@@ -52,7 +112,7 @@ function MarqueeRow({
       className="flex gap-10"
       style={{
         width: 'max-content',
-        animation: reduced ? 'none' : `${anim} 52s linear infinite`,
+        animation: reduced ? 'none' : `${anim} 100s linear infinite`,
         animationPlayState: 'paused',
       }}
       onMouseEnter={(e) => {
