@@ -1,4 +1,76 @@
-@import url("https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700&f[]=clash-display@400,500,600&display=swap");
+/* Switzer */
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/switzer/Switzer-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Clash Display */
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/fonts/clash-display/ClashDisplay-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/fonts/clash-display/ClashDisplay-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/fonts/clash-display/ClashDisplay-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/fonts/clash-display/ClashDisplay-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -153,7 +225,7 @@
     /* Font */
     --font-sans: 'Switzer', sans-serif;
     --font-heading: 'Switzer', sans-serif;
-    --font-clash: 'Clash Display', sans-serif;
+    --font-clash: 'ClashDisplay', sans-serif;
     --font-reckless: 'Reckless Neue', serif;
     --font-reckless-book: 'Reckless Neue Book', serif;
 
