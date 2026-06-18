@@ -31,6 +31,28 @@ import { ShaderGradientBackground } from '../ShaderGradientBackground'
   }
   */
 
+  /* cycle: hold white 3s → 0.5s transition to orange → hold orange 3s → 0.5s back */
+  @keyframes cta-btn-pulse {
+    0%     { background-color: #ffffff; color: #0A0A0A; }
+    7.14%  { background-color: #F94500; color: #ffffff; }
+    50%    { background-color: #F94500; color: #ffffff; }
+    57.14% { background-color: #ffffff; color: #0A0A0A; }
+    100%   { background-color: #ffffff; color: #0A0A0A; }
+  }
+  @keyframes cta-circle-pulse {
+    0%     { background-color: #F94500; color: #ffffff; }
+    7.14%  { background-color: #ffffff; color: #0A0A0A; }
+    50%    { background-color: #ffffff; color: #0A0A0A; }
+    57.14% { background-color: #F94500; color: #ffffff; }
+    100%   { background-color: #F94500; color: #ffffff; }
+  }
+  .cta-btn {
+    animation: cta-btn-pulse 7s ease-in-out infinite;
+  }
+  .cta-btn-circle {
+    animation: cta-circle-pulse 7s ease-in-out infinite;
+  }
+
   /* ═══════════════════════════════════════════════════════════════════════════
      OPTION 3 — Static gradient + SVG grain (ACTIVE)
      Zero animation, zero jank.
@@ -85,13 +107,13 @@ import { ShaderGradientBackground } from '../ShaderGradientBackground'
 
     <a
       href="#contact"
-      class="group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
+      class="cta-btn group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
     >
       <span class="relative h-[1.2em] overflow-hidden">
         <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Start Your Project</span>
         <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Start Your Project</span>
       </span>
-      <span class="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
+      <span class="cta-btn-circle relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
         <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
         <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
       </span>
@@ -99,3 +121,4 @@ import { ShaderGradientBackground } from '../ShaderGradientBackground'
   </div>
 </section>
 </div>
+
