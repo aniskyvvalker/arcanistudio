@@ -13,8 +13,7 @@ const PROJECTS = [
     category: 'Fashion boutique',
     description:
       'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180c1a411443935b1b48ad_Frame%206%20(2).png',
+    image: '/images/portfolio/violette-mode.webp',
   },
   {
     id: 'pop-pop',
@@ -22,8 +21,7 @@ const PROJECTS = [
     category: 'Café & boutique',
     description:
       'Bilingual brand site for a rotating café-boutique concept in Quebec. Playful, local, and never the same twice.',
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180f51d2fd6310df0367c0_Group%2028%20(1)%201%20(1).png',
+    image: '/images/portfolio/pop-pop.webp',
   },
   {
     id: 'cafe-buade',
@@ -31,8 +29,7 @@ const PROJECTS = [
     category: 'Fine dining',
     description:
       "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a16fc158eac902ef9312e0b_Group%2029.png',
+    image: '/images/portfolio/cafe-buade.webp',
   },
   {
     id: 'maeve-june',
@@ -40,8 +37,7 @@ const PROJECTS = [
     category: 'Hair salon',
     description:
       'Rebrand and booking site for a fashion-forward Montreal salon. Black, white, and unapologetically bold.',
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180372ad7992cf1ffba5dc_Group%209%20(3).png',
+    image: '/images/portfolio/maeve-june.webp',
   },
   {
     id: 'upcycli',
@@ -49,8 +45,7 @@ const PROJECTS = [
     category: 'Sustainable fashion',
     description:
       'Quebec designers marketplace — 30+ independent brands, curated, conscious, and easy to shop.',
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a180bcc9db60d4ac58b8040_Group%202%20(8).png',
+    image: '/images/portfolio/upcycli.webp',
   },
   {
     id: 'copal-studio',
@@ -58,8 +53,7 @@ const PROJECTS = [
     category: 'Design assets',
     description:
       'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
-    image:
-      'https://cdn.prod.website-files.com/6a106f5648dd0697c1e26edb/6a15b4ceb326bbd9624cacf7_Group%2074%20(1).png',
+    image: '/images/portfolio/copal-studio.webp',
   },
 ]
 
