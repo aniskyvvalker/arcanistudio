@@ -87,7 +87,6 @@ function DesktopCard({
   const [touched, setTouched] = useState(false)
 
   const active = isHovered || touched
-
   const flexValue = anyHovered ? (isHovered ? 1.18 : 0.91) : 1
 
   return (
@@ -102,7 +101,8 @@ function DesktopCard({
       }
       style={{
         flex: flexValue,
-        transition: reduced ? 'none' : 'flex 1.5s cubic-bezier(0.25, 0, 0, 1)',
+        // Kept under 1s — flex transitions run on CPU (not GPU), longer = more fan noise
+        transition: reduced ? 'none' : 'flex 0.7s cubic-bezier(0.25, 0, 0, 1)',
         minWidth: 0,
       }}
       className="group relative overflow-hidden rounded-2xl"
