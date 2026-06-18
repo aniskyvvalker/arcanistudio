@@ -307,10 +307,11 @@ export default function PortfolioSection() {
   const reduced = useReducedMotion()
 
   useEffect(() => {
+    if (!seeAllHovered) return
     const move = (e: MouseEvent) => setCursor({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
-  }, [])
+  }, [seeAllHovered])
 
   return (
     <>
