@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
 const TESTIMONIALS = [
@@ -48,22 +49,24 @@ function MarqueeRow({
   return (
     <div
       role="list"
+      data-marquee-row
       className="flex gap-10"
       style={{
         width: 'max-content',
         animation: reduced ? 'none' : `${anim} 52s linear infinite`,
+        animationPlayState: 'paused',
       }}
       onMouseEnter={(e) => {
-        if (!reduced) (e.currentTarget as HTMLDivElement).style.animationPlayState = 'paused'
+        if (!reduced) e.currentTarget.style.animationPlayState = 'paused'
       }}
       onMouseLeave={(e) => {
-        if (!reduced) (e.currentTarget as HTMLDivElement).style.animationPlayState = 'running'
+        if (!reduced) e.currentTarget.style.animationPlayState = 'running'
       }}
       onTouchStart={(e) => {
-        if (!reduced) (e.currentTarget as HTMLDivElement).style.animationPlayState = 'paused'
+        if (!reduced) e.currentTarget.style.animationPlayState = 'paused'
       }}
       onTouchEnd={(e) => {
-        if (!reduced) (e.currentTarget as HTMLDivElement).style.animationPlayState = 'running'
+        if (!reduced) e.currentTarget.style.animationPlayState = 'running'
       }}
     >
       {doubled.map((t, i) => (
@@ -96,12 +99,33 @@ function MarqueeRow({
 
 export default function TestimonialsSection() {
   const reduced = useReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (reduced) return
+    const el = sectionRef.current
+    if (!el) return
+
+    const rows = el.querySelectorAll<HTMLDivElement>('[data-marquee-row]')
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        rows.forEach((row) => {
+          row.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused'
+        })
+      },
+      { threshold: 0 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [reduced])
 
   const row1 = TESTIMONIALS
   const row2 = [...TESTIMONIALS].reverse()
 
   return (
-    <section className="relative bg-palette-950" aria-label="Client testimonials">
+    <section ref={sectionRef} className="relative bg-palette-950" aria-label="Client testimonials">
       <div className="mx-auto max-w-7xl px-5 py-10 md:px-10 md:py-14">
         <div className="mb-4 flex items-center gap-3">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
