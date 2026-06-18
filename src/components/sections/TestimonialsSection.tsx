@@ -102,10 +102,6 @@ export default function TestimonialsSection() {
 
   return (
     <section className="relative bg-palette-950" aria-label="Client testimonials">
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
-        <div className="border-t border-white/10" />
-      </div>
-
       <div className="mx-auto max-w-7xl px-5 py-10 md:px-10 md:py-14">
         <div className="mb-4 flex items-center gap-3">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

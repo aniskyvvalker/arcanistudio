@@ -1,0 +1,55 @@
+---
+// Logo divider between Selected Work (light) and Testimonials (dark)
+// mix-blend-mode:difference on white logos:
+//   white on light bg (#F8F6F1) = appears dark
+//   white on dark bg (#0A0A0A)  = appears white
+---
+
+<div class="logo-divider-reverse" aria-hidden="true">
+  <div class="strip">
+    {Array.from({ length: 7 }).map(() => (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="icon">
+        <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="white" />
+      </svg>
+    ))}
+  </div>
+</div>
+
+<style>
+  .logo-divider-reverse {
+    width: 100%;
+    padding: clamp(28px, 4vw, 56px) 0;
+    background: linear-gradient(to bottom, #F8F6F1 50%, #0A0A0A 50%);
+    overflow: hidden;
+  }
+
+  .logo-divider-reverse .strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: clamp(60px, 9vw + 28px, 120px);
+    mix-blend-mode: difference;
+  }
+
+  .logo-divider-reverse .icon {
+    width: clamp(60px, 7.5vw + 33px, 110px);
+    height: clamp(60px, 7.5vw + 33px, 110px);
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* 0–650px: 3 logos */
+  .logo-divider-reverse .icon:nth-child(n+4) { display: none; }
+
+  /* 651–1439px: 5 logos */
+  @media (min-width: 651px) {
+    .logo-divider-reverse .icon:nth-child(n+4) { display: block; }
+    .logo-divider-reverse .icon:nth-child(n+6) { display: none; }
+  }
+
+  /* 1440px+: all 7 logos */
+  @media (min-width: 1440px) {
+    .logo-divider-reverse .icon:nth-child(n+6) { display: block; }
+  }
+</style>
