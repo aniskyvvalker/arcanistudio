@@ -418,10 +418,10 @@ export default function PortfolioSection() {
             onMouseLeave={() => setSeeAllHovered(false)}
           >
             <div className="inline-flex flex-col">
-              <span className="font-sans text-[clamp(40px,8vw,120px)] font-medium leading-none text-palette-950">
+              <span className="font-sans text-[clamp(40px,8vw,120px)] font-medium leading-tight text-palette-950">
                 See all projects
               </span>
-              <div className="relative mt-2 h-[6px] w-full bg-palette-950/20">
+              <div className="relative mt-2 h-[8px] w-full bg-palette-950/20">
                 <span className="absolute inset-0 origin-left scale-x-0 bg-palette-950 transition-transform duration-500 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-x-100" />
               </div>
             </div>
