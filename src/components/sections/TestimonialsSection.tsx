@@ -170,9 +170,6 @@ export default function TestimonialsSection() {
         }
       `}</style>
 
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
-        <div className="border-t border-white/10" />
-      </div>
     </section>
   )
 }
