@@ -48,7 +48,6 @@ function MarqueeRow({
 
   return (
     <div
-      role="list"
       data-marquee-row
       className="flex gap-10"
       style={{
@@ -72,7 +71,6 @@ function MarqueeRow({
       {doubled.map((t, i) => (
         <article
           key={i}
-          role="listitem"
           className="flex shrink-0 items-start gap-4"
           style={{ width: 'min(320px, 74vw)' }}
           aria-label={`Testimonial from ${t.author}`}
