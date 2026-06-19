@@ -141,7 +141,7 @@ function MarqueeRow({
               className="font-reckless text-[clamp(14px,1.55vw,19px)] font-light italic leading-[1.6] text-white/75"
               style={{ textWrap: 'pretty' } as React.CSSProperties}
             >
-              {t.quote}
+              &ldquo;{t.quote}&rdquo;
             </blockquote>
             <footer>
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-white/28">
