@@ -397,7 +397,8 @@ export default function ProcessSection() {
         className="relative"
       >
         <div className="sticky top-0 h-screen overflow-hidden">
-          <div className="mx-auto flex h-full max-w-7xl items-center gap-0 px-5">
+          {/* Original: max-w-7xl — restore if margin feels too wide on large screens */}
+          <div className="mx-auto flex h-full max-w-[1350px] items-center gap-0 px-5">
             {/* Left: progress spine + active number */}
             <div className="relative flex h-full w-16 shrink-0 flex-col items-center justify-center md:w-24">
               {/* Track background — full span */}
