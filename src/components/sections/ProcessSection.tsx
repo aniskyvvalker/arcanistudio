@@ -278,11 +278,11 @@ function LaunchIllustration() {
           <path d="M 140 100 Q 140 145 170 145 L 220 145" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
 
           {/* Main branch commits */}
-          <circle cx="40" cy="100" r="6" fill="#F94500" />
+          <circle cx="40" cy="100" r="6" fill="#CE3000" />
           <circle cx="100" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
           <circle cx="140" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="200" cy="100" r="6" fill="#F94500" />
-          <circle cx="240" cy="100" r="6" fill="#CE3000" />
+          <circle cx="200" cy="100" r="6" fill="#CE3000" />
+          <circle cx="240" cy="100" r="6" fill="#F94500" />
 
           {/* Feature branch commits */}
           <circle cx="140" cy="55" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
@@ -290,17 +290,17 @@ function LaunchIllustration() {
 
           {/* Hotfix branch commits */}
           <circle cx="170" cy="145" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="220" cy="145" r="5" fill="#F94500" />
+          <circle cx="220" cy="145" r="5" fill="#CE3000" />
 
           {/* Version tags */}
-          <rect x="25" y="112" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="40" y="123" textAnchor="middle" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
+          <rect x="25" y="111" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="40" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
 
-          <rect x="185" y="112" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="200" y="123" textAnchor="middle" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
+          <rect x="185" y="111" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="200" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
 
-          <rect x="225" y="112" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
-          <text x="240" y="123" textAnchor="middle" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
+          <rect x="223" y="111" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
+          <text x="238" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
 
           {/* Branch labels */}
           <text x="40" y="88" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">main</text>
@@ -507,7 +507,7 @@ export default function ProcessSection() {
               </div>
 
               {/* Step illustration */}
-              <div className="hidden h-64 w-64 shrink-0 lg:block xl:h-80 xl:w-80">
+              <div className={`hidden h-64 shrink-0 lg:block xl:h-80 ${activeStep === 3 ? 'w-96 xl:w-[28rem]' : 'w-64 xl:w-80'}`}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
