@@ -1,7 +1,5 @@
-import { useRef, useEffect, useState, useMemo } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion'
-import { Canvas, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
 
 const steps = [
   {
@@ -10,7 +8,6 @@ const steps = [
     verb: 'Map the territory',
     body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — the work that makes design decisions obvious, not arbitrary.',
     color: '#CE3000',
-    shape: 'icosahedron',
   },
   {
     number: '02',
@@ -18,7 +15,6 @@ const steps = [
     verb: 'Build the language',
     body: 'High-fidelity interfaces and a design system built for your product, not borrowed from a template. Every decision is intentional — spacing, type, motion, color — argued and resolved.',
     color: '#F94500',
-    shape: 'torus',
   },
   {
     number: '03',
@@ -26,7 +22,6 @@ const steps = [
     verb: 'Ship production code',
     body: 'Astro, React, and whatever the stack demands. Pixel-perfect implementation, performant by default, accessible from the start. Not "developer handoff" — one team, start to finish.',
     color: '#FF6207',
-    shape: 'octahedron',
   },
   {
     number: '04',
@@ -34,53 +29,267 @@ const steps = [
     verb: 'Refine in the real world',
     body: 'Deployment, QA, performance tuning. Then we watch real users and iterate. A site that ships is a hypothesis — we help you confirm or revise it.',
     color: '#FF852F',
-    shape: 'dodecahedron',
   },
 ]
 
-type ShapeType = 'icosahedron' | 'torus' | 'octahedron' | 'dodecahedron'
-
-function StepGeometry({ shape, color, isActive }: { shape: ShapeType; color: string; isActive: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const targetScale = isActive ? 1 : 0.7
-  const currentScale = useRef(targetScale)
-
-  useFrame((_, delta) => {
-    if (!meshRef.current) return
-    meshRef.current.rotation.x += delta * 0.3
-    meshRef.current.rotation.y += delta * 0.5
-    currentScale.current += (targetScale - currentScale.current) * 0.08
-    meshRef.current.scale.setScalar(currentScale.current)
-  })
-
-  const geometry = useMemo(() => {
-    switch (shape) {
-      case 'icosahedron': return new THREE.IcosahedronGeometry(1.4, 0)
-      case 'torus': return new THREE.TorusGeometry(1.1, 0.35, 8, 24)
-      case 'octahedron': return new THREE.OctahedronGeometry(1.5, 0)
-      case 'dodecahedron': return new THREE.DodecahedronGeometry(1.3, 0)
-    }
-  }, [shape])
-
+function DiscoverIllustration() {
   return (
-    <mesh ref={meshRef} geometry={geometry}>
-      <meshBasicMaterial color={color} wireframe />
-    </mesh>
+    <div className="w-full h-full flex items-center justify-center">
+      {/* Outer app window */}
+      <div className="w-72 rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+        {/* Title bar */}
+        <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
+            </svg>
+            <span className="text-[13px] font-semibold text-gray-700">Insights</span>
+          </div>
+          <div className="flex gap-1.5">
+            <div className="w-6 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-5 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-7 h-1.5 rounded-full bg-gray-200" />
+          </div>
+        </div>
+
+        {/* Body: sidebar + content */}
+        <div className="flex">
+          {/* Sidebar dots */}
+          <div className="flex flex-col items-center gap-2 px-3 pt-4 border-r border-black/8 bg-palette-100">
+            <div className="w-2 h-2 rounded-full bg-[#F94500]" />
+            {[0,1,2,3,4].map(i => (
+              <div key={i} className="w-2 h-2 rounded-full border border-gray-300" />
+            ))}
+          </div>
+
+          {/* Cards stack */}
+          <div className="flex-1 overflow-hidden">
+            {/* Market Research card */}
+            <div className="mx-2 mt-2 rounded-lg border border-gray-100 bg-white p-3">
+              <div className="flex items-start justify-between mb-1">
+                <div>
+                  <p className="text-[13px] font-medium text-gray-800">Market Research</p>
+                  <p className="text-[9px] text-gray-400">Compared to Last Year</p>
+                </div>
+                <span className="text-xs font-semibold text-primary-700">+24%</span>
+              </div>
+              <svg viewBox="0 0 200 50" className="w-full h-10" fill="none">
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F94500" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor="#F94500" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,42 C20,40 40,38 60,35 C80,32 100,28 120,24 C140,20 160,18 180,14 L200,12 L200,50 L0,50 Z"
+                  fill="url(#areaGrad)"
+                />
+                <path
+                  d="M0,42 C20,40 40,38 60,35 C80,32 100,28 120,24 C140,20 160,18 180,14 L200,12"
+                  stroke="#F94500"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <circle cx="200" cy="12" r="3" fill="#F94500" />
+                <circle cx="200" cy="12" r="5" fill="#F94500" fillOpacity="0.2" />
+              </svg>
+            </div>
+
+            {/* User Segments card */}
+            <div className="mx-2 mt-1.5 rounded-lg border border-gray-100 bg-white p-3">
+              <p className="text-[13px] font-medium text-gray-800">User Segments</p>
+              <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
+              <div className="flex items-end gap-1 h-10">
+                {[55, 70, 100, 75, 85, 60].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-sm"
+                    style={{
+                      height: `${h}%`,
+                      backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Competitor Analysis card */}
+            <div className="mx-2 mt-1.5 mb-2 rounded-lg border border-gray-100 bg-white p-3">
+              <p className="text-[13px] font-medium text-gray-800">Competitor Analysis</p>
+              <p className="text-[9px] text-gray-400 mb-2">View &amp; manage your data</p>
+              <div className="space-y-1.5">
+                <div className="h-1.5 rounded-full bg-gray-200 w-full" />
+                <div className="h-1.5 rounded-full bg-gray-200 w-4/5" />
+                <div className="h-1.5 rounded-full bg-gray-200 w-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
-function SceneCanvas({ activeStep }: { activeStep: number }) {
-  const step = steps[activeStep]
+function DesignIllustration() {
   return (
-    <Canvas camera={{ position: [0, 0, 4], fov: 45 }} style={{ background: 'transparent' }}>
-      <ambientLight intensity={0.5} />
-      {steps.map((s, i) => (
-        <group key={s.shape} visible={i === activeStep}>
-          <StepGeometry shape={s.shape as ShapeType} color={s.color} isActive={i === activeStep} />
-        </group>
-      ))}
-    </Canvas>
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-72 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
+        {/* Header */}
+        <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+          <span className="text-xs font-medium text-white/60 uppercase tracking-widest">Design System</span>
+          <div className="flex gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-white/20" />
+            <div className="w-2 h-2 rounded-full bg-[#F94500]" />
+          </div>
+        </div>
+        {/* Color palette */}
+        <div className="px-4 py-3 border-b border-white/10">
+          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Palette</p>
+          <div className="flex gap-1.5">
+            {['#CE3000', '#F94500', '#FF6207', '#FF852F', 'rgba(255,255,255,0.15)', 'rgba(255,255,255,0.06)'].map((c) => (
+              <div key={c} className="w-7 h-7 rounded-md" style={{ backgroundColor: c }} />
+            ))}
+          </div>
+        </div>
+        {/* Type scale */}
+        <div className="px-4 py-3 border-b border-white/10">
+          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Type Scale</p>
+          <div className="space-y-1">
+            <div className="flex items-baseline gap-3">
+              <span className="text-white/30 text-[10px] w-10">H1</span>
+              <div className="h-4 rounded bg-white/15 flex-1" />
+            </div>
+            <div className="flex items-baseline gap-3">
+              <span className="text-white/30 text-[10px] w-10">H2</span>
+              <div className="h-3 rounded bg-white/10 w-3/4" />
+            </div>
+            <div className="flex items-baseline gap-3">
+              <span className="text-white/30 text-[10px] w-10">Body</span>
+              <div className="h-2 rounded bg-white/8 flex-1" />
+            </div>
+          </div>
+        </div>
+        {/* Component list */}
+        <div className="px-4 py-3">
+          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Components</p>
+          {['Moodboard', 'UI Mockups', 'Usability Testing', 'Delivery'].map((item, i) => (
+            <div key={item} className="flex items-center gap-2.5 py-1.5 border-b border-white/5 last:border-0">
+              <div className="w-4 h-4 rounded bg-[#F94500]/20 flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-sm bg-[#F94500]" />
+              </div>
+              <span className="text-xs text-white/70">{item}</span>
+              <div className="ml-auto w-1.5 h-1.5 rounded-full" style={{ backgroundColor: i < 2 ? '#F94500' : 'rgba(255,255,255,0.2)' }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   )
+}
+
+function BuildIllustration() {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-72 rounded-xl border border-white/10 bg-[#0d0d0d] overflow-hidden font-mono">
+        {/* Tab bar */}
+        <div className="flex border-b border-white/10 bg-black/30">
+          {['app.tsx', 'api.ts', 'utils.ts'].map((tab, i) => (
+            <div
+              key={tab}
+              className="px-3 py-2 text-[10px] border-r border-white/10"
+              style={{ color: i === 0 ? '#F94500' : 'rgba(255,255,255,0.3)' }}
+            >
+              {i === 0 ? '• ' : '  '}{tab}
+            </div>
+          ))}
+        </div>
+        {/* Code */}
+        <div className="px-4 py-3 text-[10px] leading-5 border-b border-white/10">
+          <div><span className="text-purple-400">import</span> <span className="text-white/70">{'{ useRef, useState }'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'react'</span></div>
+          <div className="mt-1"><span className="text-purple-400">import</span> <span className="text-white/70">{'{ motion }'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'framer-motion'</span></div>
+          <div className="mt-2"><span className="text-blue-400">const</span> <span className="text-yellow-300">deploy</span> <span className="text-white/50">= </span><span className="text-blue-400">async</span> <span className="text-white/70">() =&gt; {'{'}</span></div>
+          <div className="pl-4"><span className="text-blue-400">await</span> <span className="text-white/70">$fetch(</span><span className="text-green-400">'/api/deploy'</span><span className="text-white/70">, {'{'}</span></div>
+          <div className="pl-8"><span className="text-white/50">method: </span><span className="text-green-400">'POST'</span><span className="text-white/50">,</span></div>
+          <div className="pl-8"><span className="text-white/50">env: </span><span className="text-green-400">'production'</span></div>
+          <div className="pl-4"><span className="text-white/70">{'}'}</span><span className="text-white/50">)</span></div>
+          <div><span className="text-white/70">{'}'}</span></div>
+        </div>
+        {/* Terminal */}
+        <div className="px-4 py-2.5 bg-black/50">
+          <div className="text-[10px] text-white/40 mb-1">$ npm run build</div>
+          <div className="text-[10px] text-green-400">✓ Built in 1.2s</div>
+          <div className="flex items-center gap-1 mt-1">
+            <span className="text-white/30 text-[10px]">$</span>
+            <div className="w-1.5 h-3 bg-[#F94500] animate-pulse" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LaunchIllustration() {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-72 h-52 relative">
+        {/* Git graph SVG */}
+        <svg viewBox="0 0 280 200" className="w-full h-full" fill="none">
+          {/* Main branch line */}
+          <line x1="40" y1="100" x2="240" y2="100" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          {/* Feature branch up */}
+          <path d="M 100 100 Q 100 55 140 55 L 200 55" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          {/* Feature branch down */}
+          <path d="M 140 100 Q 140 145 170 145 L 220 145" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+
+          {/* Main branch commits */}
+          <circle cx="40" cy="100" r="6" fill="#F94500" />
+          <circle cx="100" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="140" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="200" cy="100" r="6" fill="#F94500" />
+          <circle cx="240" cy="100" r="6" fill="#CE3000" />
+
+          {/* Feature branch commits */}
+          <circle cx="140" cy="55" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="200" cy="55" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+
+          {/* Hotfix branch commits */}
+          <circle cx="170" cy="145" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="220" cy="145" r="5" fill="#F94500" />
+
+          {/* Version tags */}
+          <rect x="25" y="112" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="40" y="123" textAnchor="middle" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
+
+          <rect x="185" y="112" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="200" y="123" textAnchor="middle" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
+
+          <rect x="225" y="112" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
+          <text x="240" y="123" textAnchor="middle" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
+
+          {/* Branch labels */}
+          <text x="40" y="88" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">main</text>
+          <text x="170" y="44" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">feature</text>
+          <text x="195" y="160" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">hotfix</text>
+        </svg>
+
+        {/* Floating deploy badge */}
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="text-[10px] text-green-400 font-mono">deployed</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function StepIllustration({ step }: { step: number }) {
+  switch (step) {
+    case 0: return <DiscoverIllustration />
+    case 1: return <DesignIllustration />
+    case 2: return <BuildIllustration />
+    case 3: return <LaunchIllustration />
+    default: return null
+  }
 }
 
 function useReducedMotion() {
@@ -261,9 +470,20 @@ export default function ProcessSection() {
                 </motion.div>
               </div>
 
-              {/* Three.js canvas */}
+              {/* Step illustration */}
               <div className="hidden h-64 w-64 shrink-0 lg:block xl:h-80 xl:w-80">
-                <SceneCanvas activeStep={activeStep} />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeStep}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
+                    className="h-full w-full"
+                  >
+                    <StepIllustration step={activeStep} />
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </div>
