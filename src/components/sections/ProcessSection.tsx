@@ -98,11 +98,25 @@ function useReducedMotion() {
 export default function ProcessSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
+  const [sectionEntered, setSectionEntered] = useState(false)
   const reducedMotion = useReducedMotion()
 
+  // Approach phase: section scrolling up into viewport → fills stub
+  const { scrollYProgress: approachProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'start start'],
+  })
+  const stubFillHeight = useTransform(approachProgress, [0, 1], ['0%', '100%'])
+
+  // Main phase: sticky scroll through steps
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
+  })
+
+  useMotionValueEvent(approachProgress, 'change', (v) => {
+    if (v >= 1 && !sectionEntered) setSectionEntered(true)
+    if (v < 1 && sectionEntered) setSectionEntered(false)
   })
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
@@ -141,14 +155,15 @@ export default function ProcessSection() {
           <div className="mx-auto flex h-full max-w-7xl items-center gap-0 px-5">
             {/* Left: progress spine + active number */}
             <div className="relative flex h-full w-16 shrink-0 flex-col items-center justify-center md:w-24">
-              {/* Track */}
+              {/* Track background — full span */}
               <div className="absolute inset-y-16 left-1/2 w-px -translate-x-1/2 bg-white/10" />
-              {/* Fill — clipped to track bounds */}
-              <div className="absolute inset-y-16 left-1/2 w-px -translate-x-1/2 overflow-hidden">
-                <motion.div
-                  className="w-full origin-top bg-primary-600"
-                  style={{ height: progressHeight }}
-                />
+              {/* Stub fill — 64px→96px, fills during approach */}
+              <div className="absolute left-1/2 w-px -translate-x-1/2 overflow-hidden" style={{ top: '64px', height: '32px' }}>
+                <motion.div className="w-full origin-top bg-primary-600" style={{ height: stubFillHeight }} />
+              </div>
+              {/* Main fill — 96px→bottom, fills during sticky scroll */}
+              <div className="absolute left-1/2 w-px -translate-x-1/2 overflow-hidden" style={{ top: '96px', bottom: '64px' }}>
+                <motion.div className="w-full origin-top bg-primary-600" style={{ height: progressHeight }} />
               </div>
               {/* Dots */}
               {steps.map((s, i) => (
@@ -156,7 +171,6 @@ export default function ProcessSection() {
                   key={i}
                   onClick={() => {
                     if (!containerRef.current) return
-                    const rect = containerRef.current.getBoundingClientRect()
                     const totalHeight = containerRef.current.scrollHeight
                     const targetProgress = i / steps.length + 0.001
                     window.scrollTo({
@@ -171,8 +185,8 @@ export default function ProcessSection() {
                   <motion.div
                     className="h-2 w-2 rounded-full border border-white/30 transition-colors duration-300"
                     animate={{
-                      backgroundColor: i <= activeStep ? '#F94500' : 'transparent',
-                      borderColor: i <= activeStep ? '#F94500' : 'rgba(255,255,255,0.3)',
+                      backgroundColor: i === 0 ? (sectionEntered ? '#F94500' : 'transparent') : (i <= activeStep ? '#F94500' : 'transparent'),
+                      borderColor: i === 0 ? (sectionEntered ? '#F94500' : 'rgba(255,255,255,0.3)') : (i <= activeStep ? '#F94500' : 'rgba(255,255,255,0.3)'),
                       scale: i === activeStep ? 1.5 : 1,
                     }}
                     transition={{ duration: reducedMotion ? 0 : 0.3 }}
