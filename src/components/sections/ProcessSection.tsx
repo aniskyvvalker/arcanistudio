@@ -374,7 +374,13 @@ export default function ProcessSection() {
   return (
     <section className="bg-palette-950">
       {/* Header — not sticky */}
-      <div className="mx-auto max-w-[1400px] px-5 pt-28 pb-4">
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-4">
+        <div className="mb-8 flex items-center gap-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
+          </svg>
+          <p className="text-tooltip-l font-regular uppercase text-primary-600">Our process</p>
+        </div>
         <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
             className="font-switzer text-[clamp(48px,7vw,88px)] font-semibold leading-none text-white"
@@ -446,7 +452,7 @@ export default function ProcessSection() {
               {/* Step number — large typographic anchor */}
               <div className="relative w-full shrink-0 md:w-64">
                 <span
-                  className="block font-clash font-medium leading-none text-white/8 select-none"
+                  className="block font-clash font-medium leading-none text-white/15 select-none"
                   style={{ fontSize: 'clamp(96px, 27vw, 200px)' }}
                 >
                   {steps[activeStep].number}
