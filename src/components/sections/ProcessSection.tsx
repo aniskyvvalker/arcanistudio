@@ -374,18 +374,18 @@ export default function ProcessSection() {
   return (
     <section className="bg-palette-950">
       {/* Header — not sticky */}
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-4">
+      <div className="mx-auto max-w-[1400px] px-5 pt-28 pb-4">
         <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
-            className="font-switzer text-[clamp(48px,7vw,88px)] font-medium leading-none text-white"
+            className="font-switzer text-[clamp(48px,7vw,88px)] font-semibold leading-none text-white"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
-            How we
+            <span className="italic">How we</span>
             <br />
-            <em className="font-reckless font-light not-italic text-primary-600">actually</em> work
+            <em className="font-reckless font-light not-italic text-primary-600">actually</em> <span className="font-switzer italic text-white">work?</span>
           </h2>
-          <p className="max-w-xs text-p-regular leading-relaxed text-palette-400 md:text-right">
-            Four phases. One team. No account managers between you and the people doing the work.
+          <p className="max-w-lg text-[17px] leading-relaxed text-palette-400 indent-8" style={{ textAlign: 'justify' }}>
+            Every project is built with intention. From strategy to launch, we move quickly, communicate clearly, with a focused process designed to eliminate friction and keep projects moving. We build digital products that not only look great, but drive real results.
           </p>
         </div>
       </div>
