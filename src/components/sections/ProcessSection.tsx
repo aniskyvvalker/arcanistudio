@@ -211,36 +211,51 @@ function DesignIllustration() {
 function BuildIllustration() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-72 rounded-xl border border-white/10 bg-[#0d0d0d] overflow-hidden font-mono">
+      <div className="w-72 rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
         {/* Tab bar */}
-        <div className="flex border-b border-white/10 bg-black/30">
+        <div className="flex border-b border-gray-100">
           {['app.tsx', 'api.ts', 'utils.ts'].map((tab, i) => (
             <div
               key={tab}
-              className="px-3 py-2 text-[10px] border-r border-white/10"
-              style={{ color: i === 0 ? '#F94500' : 'rgba(255,255,255,0.3)' }}
+              className="px-3 py-2 text-[10px] border-r border-gray-100"
+              style={{ color: i === 0 ? '#F94500' : '#9ca3af', borderBottom: i === 0 ? '2px solid #F94500' : 'none' }}
             >
-              {i === 0 ? '• ' : '  '}{tab}
+              {i === 0 ? '• ' : ''}{tab}
             </div>
           ))}
         </div>
-        {/* Code */}
-        <div className="px-4 py-3 text-[10px] leading-5 border-b border-white/10">
-          <div><span className="text-purple-400">import</span> <span className="text-white/70">{'{ useRef, useState }'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'react'</span></div>
-          <div className="mt-1"><span className="text-purple-400">import</span> <span className="text-white/70">{'{ motion }'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'framer-motion'</span></div>
-          <div className="mt-2"><span className="text-blue-400">const</span> <span className="text-yellow-300">deploy</span> <span className="text-white/50">= </span><span className="text-blue-400">async</span> <span className="text-white/70">() =&gt; {'{'}</span></div>
-          <div className="pl-4"><span className="text-blue-400">await</span> <span className="text-white/70">$fetch(</span><span className="text-green-400">'/api/deploy'</span><span className="text-white/70">, {'{'}</span></div>
-          <div className="pl-8"><span className="text-white/50">method: </span><span className="text-green-400">'POST'</span><span className="text-white/50">,</span></div>
-          <div className="pl-8"><span className="text-white/50">env: </span><span className="text-green-400">'production'</span></div>
-          <div className="pl-4"><span className="text-white/70">{'}'}</span><span className="text-white/50">)</span></div>
-          <div><span className="text-white/70">{'}'}</span></div>
+
+        {/* Code — Vue 3 component: fetches projects, filters active, deploys */}
+        <div className="flex text-[10px] leading-5 border-b border-gray-100">
+          {/* Line numbers */}
+          <div className="py-3 px-2 text-right select-none text-gray-300 border-r border-gray-100" style={{ minWidth: '28px' }}>
+            {[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(n => <div key={n}>{n}</div>)}
+          </div>
+          {/* Code lines */}
+          <div className="py-3 px-3 overflow-hidden">
+            <div><span className="text-pink-500">&lt;script</span> <span className="text-orange-400">setup</span> <span className="text-orange-400">lang</span><span className="text-gray-500">="</span><span className="text-emerald-500">ts</span><span className="text-gray-500">"&gt;</span></div>
+            <div><span className="text-violet-500">import</span> <span className="text-gray-600">{'{ ref, computed }'}</span> <span className="text-violet-500">from</span> <span className="text-emerald-500">'vue'</span></div>
+            <div><span className="text-violet-500">import</span> <span className="text-gray-600">{'{ useApi }'}</span> <span className="text-violet-500">from</span> <span className="text-emerald-500">'@/composables'</span></div>
+            <div>&nbsp;</div>
+            <div><span className="text-violet-500">const</span> <span className="text-sky-500">projects</span> <span className="text-gray-400">=</span> <span className="text-sky-500">useApi</span><span className="text-gray-600">(<span className="text-emerald-500">'/projects'</span>)</span></div>
+            <div><span className="text-violet-500">const</span> <span className="text-sky-500">active</span> <span className="text-gray-400">=</span> <span className="text-sky-500">computed</span><span className="text-gray-600">{'(() => {'}</span></div>
+            <div className="pl-4"><span className="text-violet-500">return</span> <span className="text-sky-500">projects</span><span className="text-gray-600">.filter(p =&gt; p.status ===</span> <span className="text-emerald-500">'active'</span><span className="text-gray-600">)</span></div>
+            <div><span className="text-gray-600">{'})'}</span></div>
+            <div>&nbsp;</div>
+            <div><span className="text-violet-500">const</span> <span className="text-sky-500">deploy</span> <span className="text-gray-400">=</span> <span className="text-violet-500">async</span> <span className="text-gray-600">{'() => {'}</span></div>
+            <div className="pl-4"><span className="text-violet-500">await</span> <span className="text-gray-600">$fetch(<span className="text-emerald-500">'/api/deploy'</span>, {'{'}</span></div>
+            <div className="pl-8"><span className="text-gray-400">method: </span><span className="text-emerald-500">'POST'</span><span className="text-gray-400">,</span></div>
+            <div className="pl-8"><span className="text-gray-400">body: {'{ '}</span><span className="text-gray-400">env: </span><span className="text-emerald-500">'production'</span><span className="text-gray-400">{' }'}</span></div>
+            <div className="pl-4"><span className="text-gray-600">{'})'}</span></div>
+          </div>
         </div>
+
         {/* Terminal */}
-        <div className="px-4 py-2.5 bg-black/50">
-          <div className="text-[10px] text-white/40 mb-1">$ npm run build</div>
-          <div className="text-[10px] text-green-400">✓ Built in 1.2s</div>
+        <div className="px-4 py-2.5 bg-gray-50">
+          <div className="text-[10px] text-gray-400 mb-1">$ npm run build</div>
+          <div className="text-[10px] text-emerald-500 font-medium">✓ Built in 1.2s</div>
           <div className="flex items-center gap-1 mt-1">
-            <span className="text-white/30 text-[10px]">$</span>
+            <span className="text-gray-400 text-[10px]">$</span>
             <div className="w-1.5 h-3 bg-[#F94500] animate-pulse" />
           </div>
         </div>
