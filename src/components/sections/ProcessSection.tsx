@@ -271,11 +271,11 @@ function LaunchIllustration() {
         {/* Git graph SVG */}
         <svg viewBox="0 0 280 200" className="w-full h-full" fill="none">
           {/* Main branch line */}
-          <line x1="40" y1="100" x2="240" y2="100" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          <line x1="40" y1="100" x2="240" y2="100" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
           {/* Feature branch up */}
-          <path d="M 100 100 Q 100 55 140 55 L 200 55" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          <path d="M 100 100 Q 100 55 140 55 L 200 55" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
           {/* Feature branch down */}
-          <path d="M 140 100 Q 140 145 170 145 L 220 145" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          <path d="M 140 100 Q 140 145 170 145 L 220 145" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
 
           {/* Main branch commits */}
           <circle cx="40" cy="100" r="6" fill="#F94500" />
