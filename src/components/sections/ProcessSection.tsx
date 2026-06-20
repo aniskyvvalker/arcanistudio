@@ -68,7 +68,7 @@ function DiscoverIllustration() {
             <div className="mx-2 mt-2 rounded-lg border border-gray-100 bg-white p-3">
               <div className="flex items-start justify-between mb-1">
                 <div>
-                  <p className="text-[13px] font-medium text-gray-800">Market Research</p>
+                  <p className="text-[13px] font-normal text-gray-800">Market Research</p>
                   <p className="text-[9px] text-gray-400">Compared to Last Year</p>
                 </div>
                 <span className="text-xs font-semibold text-primary-700">+24%</span>
@@ -97,7 +97,7 @@ function DiscoverIllustration() {
 
             {/* User Segments card */}
             <div className="mx-2 mt-1.5 rounded-lg border border-gray-100 bg-white p-3">
-              <p className="text-[13px] font-medium text-gray-800">User Segments</p>
+              <p className="text-[13px] font-normal text-gray-800">User Segments</p>
               <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
               <div className="flex items-end gap-1 h-10">
                 {[55, 70, 100, 75, 85, 60].map((h, i) => (
@@ -115,7 +115,7 @@ function DiscoverIllustration() {
 
             {/* Competitor Analysis card */}
             <div className="mx-2 mt-1.5 mb-2 rounded-lg border border-gray-100 bg-white p-3">
-              <p className="text-[13px] font-medium text-gray-800">Competitor Analysis</p>
+              <p className="text-[13px] font-normal text-gray-800">Competitor Analysis</p>
               <p className="text-[9px] text-gray-400 mb-2">View &amp; manage your data</p>
               <div className="space-y-1.5">
                 <div className="h-1.5 rounded-full bg-gray-200 w-full" />
@@ -133,54 +133,75 @@ function DiscoverIllustration() {
 function DesignIllustration() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-72 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
+      <div className="w-72 rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Header */}
-        <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
-          <span className="text-xs font-medium text-white/60 uppercase tracking-widest">Design System</span>
+        <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
+            </svg>
+            <span className="text-[13px] font-semibold text-gray-700">Design System</span>
+          </div>
           <div className="flex gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-white/20" />
-            <div className="w-2 h-2 rounded-full bg-[#F94500]" />
+            <div className="w-6 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-5 h-1.5 rounded-full bg-gray-200" />
           </div>
         </div>
-        {/* Color palette */}
-        <div className="px-4 py-3 border-b border-white/10">
-          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Palette</p>
-          <div className="flex gap-1.5">
-            {['#CE3000', '#F94500', '#FF6207', '#FF852F', 'rgba(255,255,255,0.15)', 'rgba(255,255,255,0.06)'].map((c) => (
-              <div key={c} className="w-7 h-7 rounded-md" style={{ backgroundColor: c }} />
+
+        <div className="px-3 py-2.5 space-y-2">
+          {/* Color palette */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Palette</p>
+            <div className="flex gap-1.5">
+              {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c) => (
+                <div key={c} className="w-7 h-7 rounded-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Type scale */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Type Scale</p>
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-3">
+                <span className="text-gray-400 text-[10px] w-10">H1</span>
+                <div className="h-3.5 rounded bg-gray-200 flex-1" />
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-gray-400 text-[10px] w-10">H2</span>
+                <div className="h-3 rounded bg-gray-200 w-3/4" />
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-gray-400 text-[10px] w-10">Body</span>
+                <div className="h-2 rounded bg-gray-100 flex-1" />
+              </div>
+            </div>
+          </div>
+
+          {/* Component list */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
+            {[
+              { label: 'Moodboard', icon: (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.5"/><rect x="9" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.35"/><rect x="1" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.25"/><rect x="9" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.15"/></svg>
+              )},
+              { label: 'UI Mockups', icon: (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="10" rx="1.5" stroke="#9ca3af" strokeWidth="1.2"/><rect x="3" y="3" width="5" height="3" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="3" y="7" width="10" height="1" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="6" y="13" width="4" height="1.5" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/></svg>
+              )},
+              { label: 'Usability Testing', icon: (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.2"/><path d="M5.5 8.5 L7 10 L10.5 6" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              )},
+              { label: 'Delivery', icon: (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 5 L8 2 L14 5 L14 11 L8 14 L2 11 Z" stroke="#9ca3af" strokeWidth="1.2" strokeLinejoin="round"/><path d="M8 2 L8 14M2 5 L14 5" stroke="#9ca3af" strokeWidth="1.2"/></svg>
+              )},
+            ].map(({ label, icon }, i) => (
+              <div key={label} className="flex items-center gap-2.5 py-1.5 border-b border-gray-100 last:border-0">
+                {icon}
+                <span className="text-xs text-gray-700">{label}</span>
+                <div className="ml-auto w-2 h-2 rounded-full" style={{ backgroundColor: i < 2 ? '#22c55e' : '#d1d5db' }} />
+              </div>
             ))}
           </div>
-        </div>
-        {/* Type scale */}
-        <div className="px-4 py-3 border-b border-white/10">
-          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Type Scale</p>
-          <div className="space-y-1">
-            <div className="flex items-baseline gap-3">
-              <span className="text-white/30 text-[10px] w-10">H1</span>
-              <div className="h-4 rounded bg-white/15 flex-1" />
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-white/30 text-[10px] w-10">H2</span>
-              <div className="h-3 rounded bg-white/10 w-3/4" />
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-white/30 text-[10px] w-10">Body</span>
-              <div className="h-2 rounded bg-white/8 flex-1" />
-            </div>
-          </div>
-        </div>
-        {/* Component list */}
-        <div className="px-4 py-3">
-          <p className="text-[10px] text-white/40 mb-2 uppercase tracking-widest">Components</p>
-          {['Moodboard', 'UI Mockups', 'Usability Testing', 'Delivery'].map((item, i) => (
-            <div key={item} className="flex items-center gap-2.5 py-1.5 border-b border-white/5 last:border-0">
-              <div className="w-4 h-4 rounded bg-[#F94500]/20 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-sm bg-[#F94500]" />
-              </div>
-              <span className="text-xs text-white/70">{item}</span>
-              <div className="ml-auto w-1.5 h-1.5 rounded-full" style={{ backgroundColor: i < 2 ? '#F94500' : 'rgba(255,255,255,0.2)' }} />
-            </div>
-          ))}
         </div>
       </div>
     </div>
