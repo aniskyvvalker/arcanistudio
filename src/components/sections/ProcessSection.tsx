@@ -267,7 +267,7 @@ function BuildIllustration() {
 function LaunchIllustration() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-72 h-52 relative">
+      <div className="w-full h-full relative">
         {/* Git graph SVG */}
         <svg viewBox="0 0 280 200" className="w-full h-full" fill="none">
           {/* Main branch line */}
