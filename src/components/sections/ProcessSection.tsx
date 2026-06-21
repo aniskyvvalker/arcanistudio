@@ -473,54 +473,98 @@ function BuildIllustration() {
 }
 
 function LaunchIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [v, setV] = useState(false)
+
+  useEffect(() => {
+    if (!rootRef.current) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setV(true) },
+      { threshold: 0.99 }
+    )
+    io.observe(rootRef.current)
+    return () => io.disconnect()
+  }, [])
+
+  const dot = (delay: number, fill: string, stroke?: string) => ({
+    initial: { opacity: 0, scale: 0 },
+    animate: { opacity: v ? 1 : 0, scale: v ? 1 : 0 },
+    transition: { duration: 0.25, delay, ease: [0.34, 1.56, 0.64, 1] },
+    style: stroke ? undefined : undefined,
+  })
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div ref={rootRef} className="w-full h-full flex items-center justify-center">
       <div className="w-full h-full relative">
-        {/* Git graph SVG */}
         <svg viewBox="22 72 233 148" className="w-full h-full" fill="none">
+
           {/* Main branch line */}
-          <line x1="40" y1="140" x2="240" y2="140" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-          {/* Feature branch up */}
-          <path d="M 100 140 Q 100 95 140 95 L 200 95" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-          {/* Feature branch down */}
-          <path d="M 140 140 Q 140 185 170 185 L 220 185" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+          <motion.line x1="40" y1="140" x2="240" y2="140"
+            stroke="rgba(255,255,255,0.75)" strokeWidth="1.5"
+            initial={{ pathLength: 0 }} animate={{ pathLength: v ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: 'easeInOut' }}
+          />
+          {/* Feature branch */}
+          <motion.path d="M 100 140 Q 100 95 140 95 L 200 95"
+            stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none"
+            initial={{ pathLength: 0 }} animate={{ pathLength: v ? 1 : 0 }}
+            transition={{ duration: 0.5, delay: 0.7, ease: 'easeInOut' }}
+          />
+          {/* Hotfix branch */}
+          <motion.path d="M 140 140 Q 140 185 170 185 L 220 185"
+            stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none"
+            initial={{ pathLength: 0 }} animate={{ pathLength: v ? 1 : 0 }}
+            transition={{ duration: 0.5, delay: 0.9, ease: 'easeInOut' }}
+          />
 
           {/* Main branch commits */}
-          <circle cx="40" cy="140" r="6" fill="#CE3000" />
-          <circle cx="100" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="140" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="200" cy="140" r="6" fill="#CE3000" />
-          <circle cx="240" cy="140" r="6" fill="#F94500" />
+          <motion.circle cx="40" cy="140" r="6" fill="#CE3000" {...dot(0.2, '#CE3000')} />
+          <motion.circle cx="100" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" {...dot(0.45, '')} />
+          <motion.circle cx="140" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" {...dot(0.6, '')} />
+          <motion.circle cx="200" cy="140" r="6" fill="#CE3000" {...dot(0.8, '#CE3000')} />
+          <motion.circle cx="240" cy="140" r="6" fill="#F94500" {...dot(0.95, '#F94500')} />
 
           {/* Feature branch commits */}
-          <circle cx="140" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="200" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <motion.circle cx="140" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" {...dot(0.85, '')} />
+          <motion.circle cx="200" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" {...dot(1.0, '')} />
 
           {/* Hotfix branch commits */}
-          <circle cx="170" cy="185" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="220" cy="185" r="5" fill="#CE3000" />
+          <motion.circle cx="170" cy="185" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" {...dot(1.0, '')} />
+          <motion.circle cx="220" cy="185" r="5" fill="#CE3000" {...dot(1.1, '#CE3000')} />
 
           {/* Version tags */}
-          <rect x="25" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="40" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
-
-          <rect x="185" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="200" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
-
-          <rect x="223" y="151" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
-          <text x="238" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
+          <motion.g initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 0.35 }}>
+            <rect x="25" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+            <text x="40" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
+          </motion.g>
+          <motion.g initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 0.85 }}>
+            <rect x="185" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+            <text x="200" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
+          </motion.g>
+          <motion.g initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 1.05 }}>
+            <rect x="223" y="151" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
+            <text x="238" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
+          </motion.g>
 
           {/* Branch labels */}
-          <text x="40" y="128" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">main</text>
-          <text x="170" y="84" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">feature</text>
-          <text x="195" y="200" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">hotfix</text>
+          <motion.text x="40" y="128" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace"
+            initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 0.2 }}>main</motion.text>
+          <motion.text x="170" y="84" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace"
+            initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 0.7 }}>feature</motion.text>
+          <motion.text x="195" y="200" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace"
+            initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 0.9 }}>hotfix</motion.text>
         </svg>
 
-        {/* Floating deploy badge */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+        {/* Deploy badge */}
+        <motion.div
+          className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: v ? 1 : 0, y: v ? 0 : -8 }}
+          transition={{ duration: 0.4, delay: 1.2 }}
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ animation: 'pulse 1.5s ease-in-out infinite' }} />
           <span className="text-[10px] text-green-400 font-mono">deployed</span>
-        </div>
+        </motion.div>
       </div>
     </div>
   )
