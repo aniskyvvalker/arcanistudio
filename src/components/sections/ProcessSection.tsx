@@ -316,9 +316,97 @@ function DesignIllustration() {
   )
 }
 
+type CodeSegment = { text: string; className?: string }
+type CodeLine = { segments: CodeSegment[]; indent?: string }
+
+const CODE_DEF: CodeLine[] = [
+  { segments: [{ text: '<script', className: 'text-pink-500' }, { text: ' setup lang', className: 'text-orange-400' }, { text: '="', className: 'text-gray-500' }, { text: 'ts', className: 'text-emerald-500' }, { text: '">', className: 'text-gray-500' }] },
+  { segments: [{ text: 'import', className: 'text-violet-500' }, { text: " { ref, computed }", className: 'text-gray-600' }, { text: ' from', className: 'text-violet-500' }, { text: " 'vue'", className: 'text-emerald-500' }] },
+  { segments: [{ text: 'import', className: 'text-violet-500' }, { text: " { useApi }", className: 'text-gray-600' }, { text: ' from', className: 'text-violet-500' }, { text: " '@/composables'", className: 'text-emerald-500' }] },
+  { segments: [{ text: '' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' projects', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' useApi', className: 'text-sky-500' }, { text: "('/projects')", className: 'text-gray-600' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' active', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' computed', className: 'text-sky-500' }, { text: '(() => {', className: 'text-gray-600' }] },
+  { indent: 'pl-4', segments: [{ text: 'return', className: 'text-violet-500' }, { text: ' projects', className: 'text-sky-500' }, { text: ".filter(p => p.status ===", className: 'text-gray-600' }, { text: " 'active'", className: 'text-emerald-500' }, { text: ')', className: 'text-gray-600' }] },
+  { segments: [{ text: '})', className: 'text-gray-600' }] },
+  { segments: [{ text: '' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' deploy', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' async', className: 'text-violet-500' }, { text: ' () => {', className: 'text-gray-600' }] },
+  { indent: 'pl-4', segments: [{ text: 'await', className: 'text-violet-500' }, { text: " $fetch('/api/deploy', {", className: 'text-gray-600' }] },
+  { indent: 'pl-8', segments: [{ text: 'method: ', className: 'text-gray-400' }, { text: "'POST'", className: 'text-emerald-500' }, { text: ',', className: 'text-gray-400' }] },
+  { indent: 'pl-8', segments: [{ text: 'body: { env: ', className: 'text-gray-400' }, { text: "'production'", className: 'text-emerald-500' }, { text: ' }', className: 'text-gray-400' }] },
+  { indent: 'pl-4', segments: [{ text: '})', className: 'text-gray-600' }] },
+]
+
+type CodeChar = { char: string; className?: string; lineIndex: number; segIndex: number }
+
+const CODE_CHARS: CodeChar[] = CODE_DEF.flatMap((line, li) =>
+  line.segments.flatMap((seg, si) =>
+    seg.text.split('').map(char => ({ char, className: seg.className, lineIndex: li, segIndex: si }))
+  )
+)
+
 function BuildIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [fullyVisible, setFullyVisible] = useState(false)
+  const [charCount, setCharCount] = useState(0)
+  const [terminalStep, setTerminalStep] = useState(0)
+  const [cmdCount, setCmdCount] = useState(0)
+  const CMD = 'arcani deploy --prod'
+
+  useEffect(() => {
+    if (!rootRef.current) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setFullyVisible(true) },
+      { threshold: 0.99 }
+    )
+    io.observe(rootRef.current)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!fullyVisible) return
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setCharCount(i)
+      if (i >= CODE_CHARS.length) clearInterval(interval)
+    }, 15)
+    return () => clearInterval(interval)
+  }, [fullyVisible])
+
+  useEffect(() => {
+    if (charCount < CODE_CHARS.length) return
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setCmdCount(i)
+      if (i >= CMD.length) clearInterval(interval)
+    }, 40)
+    return () => clearInterval(interval)
+  }, [charCount])
+
+  useEffect(() => {
+    if (cmdCount < CMD.length) return
+    const timers = [
+      setTimeout(() => setTerminalStep(1), 200),
+      setTimeout(() => setTerminalStep(2), 900),
+      setTimeout(() => setTerminalStep(3), 1700),
+      setTimeout(() => setTerminalStep(4), 2500),
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [cmdCount])
+
+  const done = charCount >= CODE_CHARS.length
+  const visibleChars = CODE_CHARS.slice(0, charCount)
+  const lastChar = visibleChars[visibleChars.length - 1]
+  const currentLineIndex = lastChar?.lineIndex ?? -1
+
+  // Group visible chars by line
+  const lineChars: CodeChar[][] = Array.from({ length: CODE_DEF.length }, () => [])
+  visibleChars.forEach(c => lineChars[c.lineIndex].push(c))
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div ref={rootRef} className="w-full h-full flex items-center justify-center">
+      <style>{`@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }`}</style>
       <div className="w-full rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
         {/* Tab bar */}
         <div className="flex border-b border-gray-100">
@@ -333,38 +421,47 @@ function BuildIllustration() {
           ))}
         </div>
 
-        {/* Code — Vue 3 component: fetches projects, filters active, deploys */}
+        {/* Code */}
         <div className="flex text-[10px] leading-5 border-b border-gray-100">
-          {/* Line numbers */}
           <div className="py-3 px-2 text-right select-none text-gray-300 border-r border-gray-100" style={{ minWidth: '28px' }}>
-            {[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(n => <div key={n}>{n}</div>)}
+            {CODE_DEF.map((_, n) => (
+              <div key={n}>{n + 1}</div>
+            ))}
           </div>
-          {/* Code lines */}
           <div className="py-3 px-3 overflow-hidden">
-            <div><span className="text-pink-500">&lt;script</span> <span className="text-orange-400">setup</span> <span className="text-orange-400">lang</span><span className="text-gray-500">="</span><span className="text-emerald-500">ts</span><span className="text-gray-500">"&gt;</span></div>
-            <div><span className="text-violet-500">import</span> <span className="text-gray-600">{'{ ref, computed }'}</span> <span className="text-violet-500">from</span> <span className="text-emerald-500">'vue'</span></div>
-            <div><span className="text-violet-500">import</span> <span className="text-gray-600">{'{ useApi }'}</span> <span className="text-violet-500">from</span> <span className="text-emerald-500">'@/composables'</span></div>
-            <div>&nbsp;</div>
-            <div><span className="text-violet-500">const</span> <span className="text-sky-500">projects</span> <span className="text-gray-400">=</span> <span className="text-sky-500">useApi</span><span className="text-gray-600">(<span className="text-emerald-500">'/projects'</span>)</span></div>
-            <div><span className="text-violet-500">const</span> <span className="text-sky-500">active</span> <span className="text-gray-400">=</span> <span className="text-sky-500">computed</span><span className="text-gray-600">{'(() => {'}</span></div>
-            <div className="pl-4"><span className="text-violet-500">return</span> <span className="text-sky-500">projects</span><span className="text-gray-600">.filter(p =&gt; p.status ===</span> <span className="text-emerald-500">'active'</span><span className="text-gray-600">)</span></div>
-            <div><span className="text-gray-600">{'})'}</span></div>
-            <div>&nbsp;</div>
-            <div><span className="text-violet-500">const</span> <span className="text-sky-500">deploy</span> <span className="text-gray-400">=</span> <span className="text-violet-500">async</span> <span className="text-gray-600">{'() => {'}</span></div>
-            <div className="pl-4"><span className="text-violet-500">await</span> <span className="text-gray-600">$fetch(<span className="text-emerald-500">'/api/deploy'</span>, {'{'}</span></div>
-            <div className="pl-8"><span className="text-gray-400">method: </span><span className="text-emerald-500">'POST'</span><span className="text-gray-400">,</span></div>
-            <div className="pl-8"><span className="text-gray-400">body: {'{ '}</span><span className="text-gray-400">env: </span><span className="text-emerald-500">'production'</span><span className="text-gray-400">{' }'}</span></div>
-            <div className="pl-4"><span className="text-gray-600">{'})'}</span></div>
+            {CODE_DEF.map((line, li) => {
+              const chars = lineChars[li]
+              if (chars.length === 0 && li > currentLineIndex) return <div key={li} style={{ visibility: 'hidden' }}>&nbsp;</div>
+              return (
+                <div key={li} className={line.indent ?? ''}>
+                  {chars.map((c, ci) => (
+                    <span key={ci} className={c.className}>{c.char}</span>
+                  ))}
+                  {li === currentLineIndex && !done && (
+                    <span className="inline-block w-[5px] h-[10px] bg-[#F94500] ml-px animate-pulse align-middle" />
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
 
         {/* Terminal */}
-        <div className="px-4 py-2.5 bg-gray-50">
-          <div className="text-[10px] text-gray-400 mb-1">$ npm run build</div>
-          <div className="text-[10px] text-emerald-500 font-medium">✓ Built in 1.2s</div>
-          <div className="flex items-center gap-1 mt-1">
+        <div className="px-4 py-2.5 bg-gray-50 space-y-0.5">
+          <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1">
+            <span>$</span>
+            {cmdCount === 0
+              ? <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
+              : <span>{CMD.slice(0, cmdCount)}{cmdCount < CMD.length && <span className="inline-block w-[5px] h-[9px] bg-[#F94500] ml-px align-middle" style={{ animation: 'blink 1s steps(1) infinite' }} />}</span>
+            }
+          </div>
+          <div className="text-[10px] text-gray-500" style={{ visibility: terminalStep >= 1 ? 'visible' : 'hidden' }}>Preparing your project...</div>
+          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>✓ Code reviewed</div>
+          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>✓ Tests passed</div>
+          <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>✓ Your app is live</div>
+          <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>
             <span className="text-gray-400 text-[10px]">$</span>
-            <div className="w-1.5 h-3 bg-[#F94500] animate-pulse" />
+            <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
           </div>
         </div>
       </div>
