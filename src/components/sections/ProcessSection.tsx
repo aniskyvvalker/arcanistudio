@@ -34,9 +34,31 @@ const steps = [
 
 const ALL_BARS = [55, 70, 100, 75, 85, 60, 90, 45]
 
-function DiscoverIllustration() {
+function CountUp({ to, active, className }: { to: number; active: boolean; className?: string }) {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!active) return
+    const duration = 2500
+    const start = performance.now()
+    const easeInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2
+    let raf: number
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1)
+      setCount(Math.round(easeInOut(t) * to))
+      if (t < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [active, to])
+
+  return <span className={className}>+{count}%</span>
+}
+
+function DiscoverIllustration({ active }: { active: boolean }) {
   const rootRef = useRef<HTMLDivElement>(null)
   const [barCount, setBarCount] = useState(6)
+  const [fullyVisible, setFullyVisible] = useState(false)
 
   useEffect(() => {
     if (!rootRef.current) return
@@ -46,6 +68,16 @@ function DiscoverIllustration() {
     })
     ro.observe(rootRef.current)
     return () => ro.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!rootRef.current) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setFullyVisible(true) },
+      { threshold: 0.99 }
+    )
+    io.observe(rootRef.current)
+    return () => io.disconnect()
   }, [])
 
   return (
@@ -71,7 +103,15 @@ function DiscoverIllustration() {
         <div className="flex">
           {/* Sidebar dots */}
           <div className="flex flex-col items-center gap-2 px-3 pt-4 border-r border-black/8 bg-palette-100">
-            <div className="w-2 h-2 rounded-full bg-[#F94500]" />
+            {/* Active dot with pulse ring */}
+            <div className="relative flex items-center justify-center">
+              <motion.div
+                className="absolute w-4 h-4 rounded-full bg-[#F94500]"
+                animate={{ scale: [1, 1.7, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <div className="w-2 h-2 rounded-full bg-[#F94500] relative z-10" />
+            </div>
             {[0,1,2,3,4].map(i => (
               <div key={i} className="w-2 h-2 rounded-full border border-gray-300" />
             ))}
@@ -86,7 +126,7 @@ function DiscoverIllustration() {
                   <p className="text-[13px] font-normal text-gray-800">Market Research</p>
                   <p className="text-[9px] text-gray-400">Compared to Last Year</p>
                 </div>
-                <span className="text-xs font-semibold text-primary-700">+24%</span>
+                <CountUp to={24} active={fullyVisible} className="text-xs font-semibold text-primary-700" />
               </div>
               <svg viewBox="0 0 200 50" className="w-full aspect-[5/1] max-h-24" fill="none">
                 <defs>
@@ -95,18 +135,35 @@ function DiscoverIllustration() {
                     <stop offset="100%" stopColor="#F94500" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <path
+                <motion.path
                   d="M0,42 C20,40 40,38 60,35 C80,32 100,28 120,24 C140,20 160,18 180,14 L200,12 L200,50 L0,50 Z"
                   fill="url(#areaGrad)"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: fullyVisible ? 1 : 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 />
-                <path
+                <motion.path
                   d="M0,42 C20,40 40,38 60,35 C80,32 100,28 120,24 C140,20 160,18 180,14 L200,12"
                   stroke="#F94500"
                   strokeWidth="1.5"
                   strokeLinecap="round"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: fullyVisible ? 1 : 0 }}
+                  transition={{ duration: 2, delay: 0.3, ease: 'easeInOut' }}
                 />
-                <circle cx="200" cy="12" r="3" fill="#F94500" />
-                <circle cx="200" cy="12" r="5" fill="#F94500" fillOpacity="0.2" />
+                <motion.circle
+                  cx="200" cy="12" r="3" fill="#F94500"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: fullyVisible ? 1 : 0, scale: fullyVisible ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: 1.2 }}
+                />
+                <motion.circle
+                  cx="200" cy="12" r="5" fill="#F94500" fillOpacity="0.2"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: fullyVisible ? 1 : 0, scale: fullyVisible ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: 1.2 }}
+                />
               </svg>
             </div>
 
@@ -116,13 +173,13 @@ function DiscoverIllustration() {
               <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
               <div className="flex items-end gap-1 h-10">
                 {ALL_BARS.slice(0, barCount).map((h, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className="flex-1 rounded-sm"
-                    style={{
-                      height: `${h}%`,
-                      backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)',
-                    }}
+                    className="flex-1 rounded-sm origin-bottom"
+                    style={{ backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)' }}
+                    initial={{ scaleY: 0, height: `${h}%` }}
+                    animate={{ scaleY: fullyVisible ? 1 : 0, height: `${h}%` }}
+                    transition={{ duration: 0.5, delay: 0.4 + i * 0.06, ease: 'easeOut' }}
                   />
                 ))}
               </div>
@@ -133,9 +190,16 @@ function DiscoverIllustration() {
               <p className="text-[13px] font-normal text-gray-800">Competitor Analysis</p>
               <p className="text-[9px] text-gray-400 mb-2">View &amp; manage your data</p>
               <div className="space-y-1.5">
-                <div className="h-1.5 rounded-full bg-gray-200 w-full" />
-                <div className="h-1.5 rounded-full bg-gray-200 w-4/5" />
-                <div className="h-1.5 rounded-full bg-gray-200 w-[88%]" />
+                {[['w-full', 0.7], ['w-4/5', 0.8], ['w-[88%]', 0.9]].map(([w, delay], i) => (
+                  <motion.div
+                    key={i}
+                    className={`h-1.5 rounded-full bg-gray-200 ${w}`}
+                    initial={{ scaleX: 0, originX: 0 }}
+                    animate={{ scaleX: fullyVisible ? 1 : 0 }}
+                    transition={{ duration: 0.5, delay: delay as number, ease: 'easeOut' }}
+                    style={{ transformOrigin: 'left' }}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -333,9 +397,9 @@ function LaunchIllustration() {
   )
 }
 
-function StepIllustration({ step }: { step: number }) {
+function StepIllustration({ step, sectionEntered }: { step: number; sectionEntered: boolean }) {
   switch (step) {
-    case 0: return <DiscoverIllustration />
+    case 0: return <DiscoverIllustration active={sectionEntered} />
     case 1: return <DesignIllustration />
     case 2: return <BuildIllustration />
     case 3: return <LaunchIllustration />
@@ -539,7 +603,7 @@ export default function ProcessSection() {
                     transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
                     className="h-full w-full"
                   >
-                    <StepIllustration step={activeStep} />
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} />
                   </motion.div>
                 </AnimatePresence>
               </div>
