@@ -103,16 +103,8 @@ function DiscoverIllustration({ active }: { active: boolean }) {
         <div className="flex">
           {/* Sidebar dots */}
           <div className="flex flex-col items-center gap-2 px-3 pt-4 border-r border-black/8 bg-palette-100">
-            <motion.div
+            <div
               className="w-2 h-2 rounded-full bg-[#F94500]"
-              animate={{
-                boxShadow: [
-                  '0 0 0px 0px rgba(249,69,0,0)',
-                  '0 0 5px 2px rgba(249,69,0,0.5)',
-                  '0 0 0px 0px rgba(249,69,0,0)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
             {[0,1,2,3,4].map(i => (
               <div key={i} className="w-2 h-2 rounded-full border border-gray-300" />
@@ -130,7 +122,7 @@ function DiscoverIllustration({ active }: { active: boolean }) {
                 </div>
                 <CountUp to={24} active={fullyVisible} className="text-xs font-semibold text-primary-700" />
               </div>
-              <svg viewBox="0 0 200 50" className="w-full aspect-[5/1] max-h-24" fill="none">
+              <svg viewBox="0 0 206 50" className="w-full aspect-[5/1] max-h-24" fill="none">
                 <defs>
                   <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#F94500" stopOpacity="0.15" />
@@ -154,17 +146,21 @@ function DiscoverIllustration({ active }: { active: boolean }) {
                   animate={{ pathLength: fullyVisible ? 1 : 0 }}
                   transition={{ duration: 2, delay: 0.3, ease: 'easeInOut' }}
                 />
+                <defs>
+                  <style>{`
+                    @keyframes dotGlow {
+                      0%, 100% { filter: drop-shadow(0 0 0px rgba(249,69,0,0)); }
+                      50% { filter: drop-shadow(0 0 3px rgba(249,69,0,0.9)) drop-shadow(0 0 6px rgba(249,69,0,0.4)); }
+                    }
+                    .chart-dot-glow { animation: dotGlow 2s ease-in-out infinite; }
+                  `}</style>
+                </defs>
                 <motion.circle
                   cx="200" cy="12" r="3" fill="#F94500"
+                  className="chart-dot-glow"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: fullyVisible ? 1 : 0, scale: fullyVisible ? 1 : 0 }}
-                  transition={{ duration: 0.3, delay: 1.2 }}
-                />
-                <motion.circle
-                  cx="200" cy="12" r="5" fill="#F94500" fillOpacity="0.2"
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: fullyVisible ? 1 : 0, scale: fullyVisible ? 1 : 0 }}
-                  transition={{ duration: 0.3, delay: 1.2 }}
+                  transition={{ duration: 0.3, delay: 2.1 }}
                 />
               </svg>
             </div>
