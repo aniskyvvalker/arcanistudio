@@ -371,6 +371,9 @@ function BuildIllustration() {
       if (i >= CODE_CHARS.length) clearInterval(interval)
     }, 15)
     return () => clearInterval(interval)
+    // NOTE: 15ms interval = ~67 state updates/sec + per-render array rebuild + 317 individual char spans.
+    // Fine for 1024px+ (laptops/desktops). If ever enabling on mobile (<1024px), switch to
+    // requestAnimationFrame + useMemo for lineChars to avoid jank on low-end devices.
   }, [fullyVisible])
 
   useEffect(() => {
