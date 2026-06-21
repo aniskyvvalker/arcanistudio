@@ -4,29 +4,29 @@ import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent }
 const steps = [
   {
     number: '01',
-    title: 'Discover',
-    verb: 'Map the territory',
+    title: 'Discovery',
+    verb: 'Understand before we build', // was: 'Map the territory'
     body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — You get a product blueprint, architecture document, and a fixed-price quote.',
     color: '#CE3000',
   },
   {
     number: '02',
     title: 'Design',
-    verb: 'Build the language',
+    verb: 'Validate the vision early',
     body: 'Every screen tested before development starts. Wireframes, flows, and interactive prototypes. You see it, you click it, you validate it — No surprises when we start building.',
     color: '#F94500',
   },
   {
     number: '03',
     title: 'Build',
-    verb: 'Ship production code',
+    verb: 'Designs become real products', // was: 'Ship production code'
     body: 'Your prototype becomes a real product. Clean code, solid architecture, transparent progress — and weekly check-ins so nothing drifts. Every feature reviewed, every detail intentional.',
     color: '#FF6207',
   },
   {
     number: '04',
     title: 'Launch',
-    verb: 'Refine in the real world',
+    verb: 'Beyond the finish line',
     body: 'Testing, polish, optimization. Once live, we stay with you — 30 days of post-launch support included, with monthly sprints available to keep your product evolving with your users. You leave with full ownership and zero technical dependency.',
     color: '#FF852F',
   },
