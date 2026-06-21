@@ -83,7 +83,7 @@ function DiscoverIllustration({ active }: { active: boolean }) {
   return (
     <div ref={rootRef} className="w-full h-full flex items-center justify-center">
       {/* Outer app window */}
-      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+      <div className="w-full rounded-tr-2xl rounded-br-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Title bar */}
         <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
           <div className="flex items-center gap-1.5">
@@ -236,7 +236,7 @@ function DesignIllustration() {
 
   return (
     <div ref={rootRef} className="w-full h-full flex items-center justify-center">
-      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+      <div className="w-full rounded-tr-2xl rounded-br-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Header */}
         <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
           <div className="flex items-center gap-1.5">
@@ -394,6 +394,7 @@ function BuildIllustration() {
       setTimeout(() => setTerminalStep(2), 900),
       setTimeout(() => setTerminalStep(3), 1700),
       setTimeout(() => setTerminalStep(4), 2500),
+      setTimeout(() => setTerminalStep(5), 2800),
     ]
     return () => timers.forEach(clearTimeout)
   }, [cmdCount])
@@ -410,7 +411,7 @@ function BuildIllustration() {
   return (
     <div ref={rootRef} className="w-full h-full flex items-center justify-center">
       <style>{`@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }`}</style>
-      <div className="w-full rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
+      <div className="w-full rounded-tr-2xl rounded-br-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
         {/* Tab bar */}
         <div className="flex border-b border-gray-100">
           {['app.tsx', 'api.ts', 'utils.ts'].map((tab, i) => (
@@ -462,7 +463,7 @@ function BuildIllustration() {
           <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>✓ Code reviewed</div>
           <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>✓ Tests passed</div>
           <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>✓ Your app is live</div>
-          <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>
+          <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 5 ? 'visible' : 'hidden' }}>
             <span className="text-gray-400 text-[10px]">$</span>
             <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
           </div>
