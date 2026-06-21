@@ -284,43 +284,43 @@ function LaunchIllustration() {
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-full h-full relative">
         {/* Git graph SVG */}
-        <svg viewBox="0 0 280 200" className="w-full h-full" fill="none">
+        <svg viewBox="22 72 233 148" className="w-full h-full" fill="none">
           {/* Main branch line */}
-          <line x1="40" y1="100" x2="240" y2="100" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+          <line x1="40" y1="140" x2="240" y2="140" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
           {/* Feature branch up */}
-          <path d="M 100 100 Q 100 55 140 55 L 200 55" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+          <path d="M 100 140 Q 100 95 140 95 L 200 95" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
           {/* Feature branch down */}
-          <path d="M 140 100 Q 140 145 170 145 L 220 145" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+          <path d="M 140 140 Q 140 185 170 185 L 220 185" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
 
           {/* Main branch commits */}
-          <circle cx="40" cy="100" r="6" fill="#CE3000" />
-          <circle cx="100" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="140" cy="100" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="200" cy="100" r="6" fill="#CE3000" />
-          <circle cx="240" cy="100" r="6" fill="#F94500" />
+          <circle cx="40" cy="140" r="6" fill="#CE3000" />
+          <circle cx="100" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="140" cy="140" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="200" cy="140" r="6" fill="#CE3000" />
+          <circle cx="240" cy="140" r="6" fill="#F94500" />
 
           {/* Feature branch commits */}
-          <circle cx="140" cy="55" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="200" cy="55" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="140" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="200" cy="95" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
 
           {/* Hotfix branch commits */}
-          <circle cx="170" cy="145" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-          <circle cx="220" cy="145" r="5" fill="#CE3000" />
+          <circle cx="170" cy="185" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="220" cy="185" r="5" fill="#CE3000" />
 
           {/* Version tags */}
-          <rect x="25" y="111" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="40" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
+          <rect x="25" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="40" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.0</text>
 
-          <rect x="185" y="111" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
-          <text x="200" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
+          <rect x="185" y="151" width="30" height="14" rx="3" fill="rgba(249,69,0,0.2)" stroke="#F94500" strokeWidth="0.5" />
+          <text x="200" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#F94500" fontFamily="monospace">v1.2</text>
 
-          <rect x="223" y="111" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
-          <text x="238" y="118" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
+          <rect x="223" y="151" width="30" height="14" rx="3" fill="rgba(206,48,0,0.25)" stroke="#CE3000" strokeWidth="0.5" />
+          <text x="238" y="158" textAnchor="middle" dominantBaseline="central" fontSize="7" fill="#FF852F" fontFamily="monospace">v2.0</text>
 
           {/* Branch labels */}
-          <text x="40" y="88" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">main</text>
-          <text x="170" y="44" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">feature</text>
-          <text x="195" y="160" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">hotfix</text>
+          <text x="40" y="128" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">main</text>
+          <text x="170" y="84" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">feature</text>
+          <text x="195" y="200" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.35)" fontFamily="monospace">hotfix</text>
         </svg>
 
         {/* Floating deploy badge */}
@@ -529,7 +529,7 @@ export default function ProcessSection() {
               </div>
 
               {/* Step illustration */}
-              <div className="hidden shrink-0 lg:block" style={{ width: activeStep === 3 ? 'clamp(400px, 32vw, 520px)' : 'clamp(280px, 26vw, 420px)', height: 'clamp(280px, 26vw, 420px)' }}>
+              <div className="hidden shrink-0 lg:block" style={{ width: 'clamp(280px, 26vw, 420px)', height: 'clamp(280px, 26vw, 420px)' }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
