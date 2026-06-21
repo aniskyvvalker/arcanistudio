@@ -32,11 +32,26 @@ const steps = [
   },
 ]
 
+const ALL_BARS = [55, 70, 100, 75, 85, 60, 90, 45]
+
 function DiscoverIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [barCount, setBarCount] = useState(6)
+
+  useEffect(() => {
+    if (!rootRef.current) return
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width
+      setBarCount(w >= 380 ? 8 : w >= 320 ? 7 : 6)
+    })
+    ro.observe(rootRef.current)
+    return () => ro.disconnect()
+  }, [])
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div ref={rootRef} className="w-full h-full flex items-center justify-center">
       {/* Outer app window */}
-      <div className="w-72 rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Title bar */}
         <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
           <div className="flex items-center gap-1.5">
@@ -73,7 +88,7 @@ function DiscoverIllustration() {
                 </div>
                 <span className="text-xs font-semibold text-primary-700">+24%</span>
               </div>
-              <svg viewBox="0 0 200 50" className="w-full h-10" fill="none">
+              <svg viewBox="0 0 200 50" className="w-full aspect-[5/1] max-h-24" fill="none">
                 <defs>
                   <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#F94500" stopOpacity="0.15" />
@@ -100,7 +115,7 @@ function DiscoverIllustration() {
               <p className="text-[13px] font-normal text-gray-800">User Segments</p>
               <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
               <div className="flex items-end gap-1 h-10">
-                {[55, 70, 100, 75, 85, 60].map((h, i) => (
+                {ALL_BARS.slice(0, barCount).map((h, i) => (
                   <div
                     key={i}
                     className="flex-1 rounded-sm"
@@ -120,7 +135,7 @@ function DiscoverIllustration() {
               <div className="space-y-1.5">
                 <div className="h-1.5 rounded-full bg-gray-200 w-full" />
                 <div className="h-1.5 rounded-full bg-gray-200 w-4/5" />
-                <div className="h-1.5 rounded-full bg-gray-200 w-full" />
+                <div className="h-1.5 rounded-full bg-gray-200 w-[88%]" />
               </div>
             </div>
           </div>
@@ -133,7 +148,7 @@ function DiscoverIllustration() {
 function DesignIllustration() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-72 rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Header */}
         <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
           <div className="flex items-center gap-1.5">
@@ -211,7 +226,7 @@ function DesignIllustration() {
 function BuildIllustration() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-72 rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
+      <div className="w-full rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
         {/* Tab bar */}
         <div className="flex border-b border-gray-100">
           {['app.tsx', 'api.ts', 'utils.ts'].map((tab, i) => (
@@ -514,7 +529,7 @@ export default function ProcessSection() {
               </div>
 
               {/* Step illustration */}
-              <div className={`hidden h-64 shrink-0 lg:block xl:h-80 ${activeStep === 3 ? 'w-96 xl:w-[28rem]' : 'w-64 xl:w-80'}`}>
+              <div className="hidden shrink-0 lg:block" style={{ width: activeStep === 3 ? 'clamp(400px, 32vw, 520px)' : 'clamp(280px, 26vw, 420px)', height: 'clamp(280px, 26vw, 420px)' }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
