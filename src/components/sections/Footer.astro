@@ -119,9 +119,51 @@ const socialLinks = [
   </div>
 
   <div class="-mx-4 pb-[2.5vw]">
-    <p class="select-none whitespace-nowrap text-center font-clash text-[16vw] leading-[1.2] font-medium text-primary-600 mt-[0.25em] -mb-[0.3em] scale-y-120 max-[450px]:text-[30vw]">
-      <span class="max-[450px]:hidden">arcaniStudio</span>
-      <span class="hidden max-[450px]:inline max-[450px]:font-semibold">arcani</span>
+    <p class="select-none whitespace-nowrap text-center font-clash text-[16vw] leading-[0.9] font-medium text-primary-600 mt-[0.25em] -mb-[0.3em] scale-y-120 max-[450px]:text-[30vw]">
+      <span class="max-[450px]:hidden">arcan<span class="relative inline-block">ı<!-- Logo dot replacement: dotless "ı" + positioned logo mark above it.
+           Outer span: absolute-positioned, centered over the ı, 0.15em square.
+           translateX(-50%) centers it. scaleY(0.833) in keyframes cancels parent scale-y-120.
+           To remove spin: delete animation:logo-spin on the svg style.
+           To remove logo entirely: revert ı back to i and delete this comment + span. -->
+        <span class="absolute left-1/2 bottom-[75%]" style="width:0.15em;height:0.15em;transform:translateX(-50%);display:block;">
+          <!-- SVG: spin animates 90deg over 1s, pauses 5s, repeats every 6s.
+               scaleY(0.833) in keyframes cancels the parent p's scale-y-120 stretch. -->
+          <svg
+            style="width:100%;height:100%;transform-origin:center center;animation:logo-spin 6s ease-in-out infinite;"
+            viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#F5F5F5"/>
+          </svg>
+        </span></span>Studio</span>
+      <!-- Mobile only (<450px): shows "arcani" instead of "arcaniStudio" -->
+      <!-- Same logo-dot trick as desktop, but logo size is 0.22em (larger, since text is 30vw) -->
+      <!-- To remove: revert ı → i and delete the inner spans -->
+      <span class="hidden max-[450px]:inline max-[450px]:font-semibold">arcan<span class="relative inline-block">ı
+        <span class="absolute left-1/2 bottom-[75%]" style="width:0.22em;height:0.22em;transform:translateX(-50%);display:block;">
+          <svg
+            style="width:100%;height:100%;transform-origin:center center;animation:logo-spin 6s ease-in-out infinite;"
+            viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#F5F5F5"/>
+          </svg>
+        </span></span></span>
     </p>
   </div>
 </footer>
+
+<style>
+/*
+  logo-spin: animates the Arcani logo replacing the dot of the "i" in arcaniStudio.
+  - Spins 90deg over ~1s (first 17% of cycle), then holds for ~5s.
+  - Total cycle: 6s, repeats infinitely.
+  - scaleY(0.833) cancels the parent <p>'s scale-y-120 so the logo stays square.
+  - To remove spin: delete the animation property from the SVG's inline style.
+  - To slow down / speed up: change the 6s value on the SVG's animation property.
+  - To change spin angle: update the 90deg value in the 17% keyframe.
+*/
+@keyframes logo-spin {
+  0%   { transform: scaleY(0.833) rotate(0deg); }   /* start: no rotation */
+  17%  { transform: scaleY(0.833) rotate(90deg); }  /* 1s in: 90deg reached */
+  100% { transform: scaleY(0.833) rotate(90deg); }  /* hold until next cycle */
+}
+</style>
