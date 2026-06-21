@@ -212,8 +212,34 @@ function DiscoverIllustration({ active }: { active: boolean }) {
 }
 
 function DesignIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [fullyVisible, setFullyVisible] = useState(false)
+
+  useEffect(() => {
+    if (!rootRef.current) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setFullyVisible(true) },
+      { threshold: 0.99 }
+    )
+    io.observe(rootRef.current)
+    return () => io.disconnect()
+  }, [])
+
+  const typeRows = [
+    { label: 'H1', h: 'h-3.5', w: 'flex-1' },
+    { label: 'H2', h: 'h-3', w: 'w-3/4' },
+    { label: 'Body', h: 'h-2', w: 'flex-1' },
+  ]
+
+  const components = [
+    { label: 'Moodboard', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.5"/><rect x="9" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.35"/><rect x="1" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.25"/><rect x="9" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.15"/></svg> },
+    { label: 'UI Mockups', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="10" rx="1.5" stroke="#9ca3af" strokeWidth="1.2"/><rect x="3" y="3" width="5" height="3" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="3" y="7" width="10" height="1" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="6" y="13" width="4" height="1.5" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/></svg> },
+    { label: 'Usability Testing', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.2"/><path d="M5.5 8.5 L7 10 L10.5 6" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    { label: 'Delivery', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 5 L8 2 L14 5 L14 11 L8 14 L2 11 Z" stroke="#9ca3af" strokeWidth="1.2" strokeLinejoin="round"/><path d="M8 2 L8 14M2 5 L14 5" stroke="#9ca3af" strokeWidth="1.2"/></svg> },
+  ]
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div ref={rootRef} className="w-full h-full flex items-center justify-center">
       <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
         {/* Header */}
         <div className="px-4 py-2.5 border-b border-black/8 bg-white flex items-center justify-between">
@@ -234,8 +260,15 @@ function DesignIllustration() {
           <div className="rounded-lg border border-gray-100 bg-white p-3">
             <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Palette</p>
             <div className="flex gap-1.5">
-              {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c) => (
-                <div key={c} className="w-7 h-7 rounded-full" style={{ backgroundColor: c }} />
+              {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c, i) => (
+                <motion.div
+                  key={c}
+                  className="w-7 h-7 rounded-full"
+                  style={{ backgroundColor: c }}
+                  initial={{ opacity: 0, filter: 'blur(8px)' }}
+                  animate={{ opacity: fullyVisible ? 1 : 0, filter: fullyVisible ? 'blur(0px)' : 'blur(8px)' }}
+                  transition={{ duration: 0.5, delay: 0.2 + i * 0.08 }}
+                />
               ))}
             </div>
           </div>
@@ -244,43 +277,41 @@ function DesignIllustration() {
           <div className="rounded-lg border border-gray-100 bg-white p-3">
             <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Type Scale</p>
             <div className="space-y-1.5">
-              <div className="flex items-center gap-3">
-                <span className="text-gray-400 text-[10px] w-10">H1</span>
-                <div className="h-3.5 rounded bg-gray-200 flex-1" />
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-gray-400 text-[10px] w-10">H2</span>
-                <div className="h-3 rounded bg-gray-200 w-3/4" />
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-gray-400 text-[10px] w-10">Body</span>
-                <div className="h-2 rounded bg-gray-100 flex-1" />
-              </div>
+              {typeRows.map(({ label, h, w }, i) => (
+                <div key={label} className="flex items-center gap-3">
+                  <span className="text-gray-400 text-[10px] w-10">{label}</span>
+                  <motion.div
+                    className={`${h} rounded bg-gray-200 ${w}`}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: fullyVisible ? 1 : 0 }}
+                    transition={{ duration: 0.5, delay: 0.55 + i * 0.1, ease: 'easeOut' }}
+                    style={{ transformOrigin: 'left' }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Component list */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
             <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
-            {[
-              { label: 'Moodboard', icon: (
-                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.5"/><rect x="9" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.35"/><rect x="1" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.25"/><rect x="9" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.15"/></svg>
-              )},
-              { label: 'UI Mockups', icon: (
-                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="10" rx="1.5" stroke="#9ca3af" strokeWidth="1.2"/><rect x="3" y="3" width="5" height="3" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="3" y="7" width="10" height="1" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="6" y="13" width="4" height="1.5" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/></svg>
-              )},
-              { label: 'Usability Testing', icon: (
-                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.2"/><path d="M5.5 8.5 L7 10 L10.5 6" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              )},
-              { label: 'Delivery', icon: (
-                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 5 L8 2 L14 5 L14 11 L8 14 L2 11 Z" stroke="#9ca3af" strokeWidth="1.2" strokeLinejoin="round"/><path d="M8 2 L8 14M2 5 L14 5" stroke="#9ca3af" strokeWidth="1.2"/></svg>
-              )},
-            ].map(({ label, icon }, i) => (
-              <div key={label} className="flex items-center gap-2.5 py-1.5 border-b border-gray-100 last:border-0">
+            {components.map(({ label, icon }, i) => (
+              <motion.div
+                key={label}
+                className="flex items-center gap-2.5 py-1.5 border-b border-gray-100 last:border-0"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: fullyVisible ? 1 : 0, y: fullyVisible ? 0 : 5 }}
+                transition={{ duration: 0.3, delay: 0.8 + i * 0.1 }}
+              >
                 {icon}
                 <span className="text-xs text-gray-700">{label}</span>
-                <div className="ml-auto w-2 h-2 rounded-full" style={{ backgroundColor: i < 2 ? '#22c55e' : '#d1d5db' }} />
-              </div>
+                <motion.div
+                  className="ml-auto w-2 h-2 rounded-full"
+                  initial={{ backgroundColor: '#d1d5db' }}
+                  animate={{ backgroundColor: fullyVisible && i < 2 ? '#22c55e' : '#d1d5db' }}
+                  transition={{ duration: 0.4, delay: i === 0 ? 2.5 : i === 1 ? 4 : 1.2 + i * 0.15 }}
+                />
+              </motion.div>
             ))}
           </div>
         </div>
