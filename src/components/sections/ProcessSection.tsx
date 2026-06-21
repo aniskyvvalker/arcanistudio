@@ -6,28 +6,28 @@ const steps = [
     number: '01',
     title: 'Discover',
     verb: 'Map the territory',
-    body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — the work that makes design decisions obvious, not arbitrary.',
+    body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — You get a product blueprint, architecture document, and a fixed-price quote.',
     color: '#CE3000',
   },
   {
     number: '02',
     title: 'Design',
     verb: 'Build the language',
-    body: 'High-fidelity interfaces and a design system built for your product, not borrowed from a template. Every decision is intentional — spacing, type, motion, color — argued and resolved.',
+    body: 'Every screen tested before development starts. Wireframes, flows, and interactive prototypes. You see it, you click it, you validate it — No surprises when we start building.',
     color: '#F94500',
   },
   {
     number: '03',
     title: 'Build',
     verb: 'Ship production code',
-    body: 'Astro, React, and whatever the stack demands. Pixel-perfect implementation, performant by default, accessible from the start. Not "developer handoff" — one team, start to finish.',
+    body: 'Your prototype becomes a real product. Clean code, solid architecture, transparent progress — and weekly check-ins so nothing drifts. Every feature reviewed, every detail intentional.',
     color: '#FF6207',
   },
   {
     number: '04',
     title: 'Launch',
     verb: 'Refine in the real world',
-    body: 'Deployment, QA, performance tuning. Then we watch real users and iterate. A site that ships is a hypothesis — we help you confirm or revise it.',
+    body: 'Testing, polish, optimization. Once live, we stay with you — 30 days of post-launch support included, with monthly sprints available to keep your product evolving with your users. You leave with full ownership and zero technical dependency.',
     color: '#FF852F',
   },
 ]
@@ -504,7 +504,7 @@ export default function ProcessSection() {
                       {steps[activeStep].title}
                     </h3>
 
-                    <p className="max-w-md text-[clamp(15px,1.1vw,17px)] leading-relaxed text-palette-400">
+                    <p className="max-w-md text-[clamp(15px,1.1vw,16px)] leading-relaxed text-palette-400">
                       {steps[activeStep].body}
                     </p>
 
