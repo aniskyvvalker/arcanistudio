@@ -103,15 +103,17 @@ function DiscoverIllustration({ active }: { active: boolean }) {
         <div className="flex">
           {/* Sidebar dots */}
           <div className="flex flex-col items-center gap-2 px-3 pt-4 border-r border-black/8 bg-palette-100">
-            {/* Active dot with pulse ring */}
-            <div className="relative flex items-center justify-center">
-              <motion.div
-                className="absolute w-4 h-4 rounded-full bg-[#F94500]"
-                animate={{ scale: [1, 1.7, 1], opacity: [0.3, 0, 0.3] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <div className="w-2 h-2 rounded-full bg-[#F94500] relative z-10" />
-            </div>
+            <motion.div
+              className="w-2 h-2 rounded-full bg-[#F94500]"
+              animate={{
+                boxShadow: [
+                  '0 0 0px 0px rgba(249,69,0,0)',
+                  '0 0 5px 2px rgba(249,69,0,0.5)',
+                  '0 0 0px 0px rgba(249,69,0,0)',
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            />
             {[0,1,2,3,4].map(i => (
               <div key={i} className="w-2 h-2 rounded-full border border-gray-300" />
             ))}
