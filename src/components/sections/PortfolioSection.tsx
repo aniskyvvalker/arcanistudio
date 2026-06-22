@@ -344,7 +344,8 @@ export default function PortfolioSection() {
             >
               Clients we built for,<br />
               <em className="font-reckless font-light not-italic text-primary-600">
-                work that held up.
+                {/* work that held up. */}
+              work we're proud of.
               </em>
             </h2>
           </motion.div>
