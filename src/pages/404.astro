@@ -14,10 +14,10 @@ import '../styles/global.css'
   <body class="overflow-hidden bg-palette-950">
     <main class="relative flex min-h-dvh items-center justify-center">
 
-      {/* Giant 404 — spread full width, bleeds off top & bottom */}
+      {/* Giant 404 — bottom on mobile, full-bleed centered on desktop */}
       <div
-        class="pointer-events-none absolute inset-0 flex items-center justify-center font-reckless leading-none text-white"
-        style="font-size: min(160vh, 65vw); font-weight: 100; -webkit-text-stroke: 20px #0A0A0A; paint-order: stroke fill;"
+        class="num404 pointer-events-none absolute inset-0 flex items-end justify-center text-[68vw] md:items-center md:text-[min(160vh,65vw)] font-reckless leading-none text-white"
+        style="font-weight: 100; paint-order: stroke fill;"
         aria-hidden="true"
       >
         <span>4</span>
@@ -26,7 +26,7 @@ import '../styles/global.css'
       </div>
 
       {/* Centered overlay content */}
-      <div class="relative z-10 flex flex-col items-center gap-4 px-5 text-center" style="transform: translateY(6vh);">
+      <div class="relative z-10 flex flex-col items-center gap-4 px-5 text-center md:translate-y-[6vh]">
         <h1 class="font-reckless text-[clamp(28px,3.2vw,40px)] text-white">
           Page Not Available
         </h1>
@@ -46,5 +46,12 @@ import '../styles/global.css'
       </div>
 
     </main>
+
+    <style>
+      .num404 { -webkit-text-stroke: 8px #0A0A0A; }
+      @media (min-width: 768px) {
+        .num404 { -webkit-text-stroke: 20px #0A0A0A; }
+      }
+    </style>
   </body>
 </html>
