@@ -11,6 +11,7 @@ import PortfolioTestimonial from '../components/sections/PortfolioTestimonial.as
 import LogoDivider from '../components/sections/LogoDivider.astro'
 import LogoDividerReverse from '../components/sections/LogoDividerReverse.astro'
 import TestimonialsSection from '../components/sections/TestimonialsSection'
+import FAQSection from '../components/sections/FAQSection.astro'
 import CTASection from '../components/sections/CTASection.astro'
 import Footer from '../components/sections/Footer.astro'
 ---
@@ -38,6 +39,7 @@ import Footer from '../components/sections/Footer.astro'
       <div id="portfolio"><PortfolioTestimonial /></div>
       <LogoDividerReverse />
       <TestimonialsSection client:visible />
+      <div id="faq"><FAQSection /></div>
       <div class="bg-palette-950 py-6 md:py-8"></div>
       <div id="contact"><CTASection /></div>
     </main>
