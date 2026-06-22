@@ -48,9 +48,13 @@ import '../styles/global.css'
     </main>
 
     <style>
-      .num404 { -webkit-text-stroke: 8px #0A0A0A; }
+      .num404 {
+        -webkit-text-stroke-color: #0A0A0A;
+        -webkit-text-stroke-width: 8px;
+      }
       @media (min-width: 768px) {
-        .num404 { -webkit-text-stroke: 20px #0A0A0A; }
+        /* grows 8px → 15px between 768px and 1920px viewport */
+        .num404 { -webkit-text-stroke-width: clamp(8px, calc(0.6vw + 3.4px), 15px); }
       }
     </style>
   </body>
