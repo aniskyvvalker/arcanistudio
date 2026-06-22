@@ -27,7 +27,7 @@ import '../styles/global.css'
 
       {/* Centered overlay content */}
       <div class="relative z-10 flex flex-col items-center gap-4 px-5 text-center md:translate-y-[6vh]">
-        <h1 class="font-reckless text-[clamp(28px,calc(2.9vw+17.7px),40px)] text-white">
+        <h1 class="err-title font-reckless text-white">
           Page Not Available
         </h1>
         <p class="text-[14px] leading-relaxed text-white">
@@ -36,7 +36,7 @@ import '../styles/global.css'
         </p>
         <a
           href="/"
-          class="group mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-medium text-palette-950 transition-colors duration-200 hover:bg-palette-100"
+          class="group mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[16px] font-light text-palette-950 transition-colors duration-200 hover:bg-palette-100"
         >
           Back home
           <svg class="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -48,6 +48,13 @@ import '../styles/global.css'
     </main>
 
     <style>
+      /* 28px @355px → 40px @767px */
+      .err-title { font-size: clamp(28px, calc(2.91vw + 17.66px), 40px); }
+      /* 25px @768px → 40px @1270px */
+      @media (min-width: 768px) {
+        .err-title { font-size: clamp(25px, calc(2.99vw + 2.05px), 40px); }
+      }
+
       .num404 {
         -webkit-text-stroke-color: #0A0A0A;
         -webkit-text-stroke-width: 8px;
