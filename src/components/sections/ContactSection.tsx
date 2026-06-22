@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { ArrowRight, ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
 
 const CHOICE_STEPS = [
@@ -29,6 +29,12 @@ export default function ContactSection() {
   const [selections, setSelections] = useState<Selections>({ project: '', budget: '', timeline: '' })
   const [contact, setContact] = useState<Contact>({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
+  const backRef = useRef<HTMLButtonElement>(null)
+  const [backWidth, setBackWidth] = useState(0)
+
+  useLayoutEffect(() => {
+    if (backRef.current) setBackWidth(backRef.current.offsetWidth)
+  }, [])
 
   const TOTAL = 4
 
@@ -132,12 +138,13 @@ export default function ContactSection() {
           <div className="mt-10 flex items-center gap-4">
             <div
               className="overflow-hidden transition-[max-width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{ maxWidth: step > 0 ? '160px' : '0px' }}
+              style={{ maxWidth: step > 0 ? `${backWidth}px` : '0px' }}
             >
               <button
+                ref={backRef}
                 onClick={() => navigate(step - 1)}
                 className="group flex items-center gap-3 rounded-full border border-palette-700 px-7 py-3.5 text-[15px] font-medium text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-[transform,border-color,color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                style={{ transform: step > 0 ? 'translateX(0)' : 'translateX(-100%)' }}
+                style={{ transform: step > 0 ? 'translateX(0)' : `translateX(-${backWidth}px)` }}
               >
                 <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
                 Back
