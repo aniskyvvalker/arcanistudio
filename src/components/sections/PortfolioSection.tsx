@@ -371,6 +371,15 @@ export default function PortfolioSection() {
             ))}
           </div>
 
+          {/* ── Tablet: "See all projects" button ── */}
+          <a
+            href="/work"
+            className="mt-6 w-full hidden sm:flex md:hidden items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
+          >
+            See all projects
+            <ArrowUpRight size={14} strokeWidth={2} />
+          </a>
+
           {/* ── Desktop: Option A — equal flex rows with expanding hover ── */}
           <div className="hidden flex-col gap-4 md:flex">
             {ROWS.map((row, rowIdx) => (
