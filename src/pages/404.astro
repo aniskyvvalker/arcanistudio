@@ -28,12 +28,15 @@ import '../styles/global.css'
       {/* Centered overlay content */}
       <div class="overlay-content relative z-10 flex flex-col items-center gap-4 px-5 text-center md:translate-y-[6vh]">
         <h1 class="err-title font-reckless text-white">
-          Page Not Available
+          <span class="fs" style="--d:0s">Page</span>
+          <span class="fs" style="--d:.1s"> Not</span>
+          <span class="fs" style="--d:.2s"> Available</span>
         </h1>
         <p class="text-[14px] leading-relaxed text-white">
-          Sorry, this page isn't available<br />
-          anymore or an error occurred.
+          <span class="fs" style="--d:.35s">Sorry, this page isn't available</span><br />
+          <span class="fs" style="--d:.45s">anymore or an error occurred.</span>
         </p>
+        <span class="fs" style="--d:.6s">
         <a
           href="/"
           class="group mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[16px] font-light text-palette-950 transition-colors duration-200 hover:bg-palette-100"
@@ -43,9 +46,8 @@ import '../styles/global.css'
             <path d="M7 17 17 7M7 7h10v10" />
           </svg>
         </a>
+        </span>
       </div>
-
-    </main>
 
     <style>
       /* 28px @355px → 40px @767px */
@@ -81,9 +83,33 @@ import '../styles/global.css'
       .digit-2 { animation-delay: 0.2s; }
       .digit-3 { animation-delay: 0.35s; }
 
-      .overlay-content {
+      .overlay-content { opacity: 1; }
+
+      /* OPTION 4 — fade stagger (liked)
+      @keyframes fadeStagger {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      } */
+
+      /* OPTION 5 — clip reveal (liked)
+      @keyframes clipReveal {
+        from { clip-path: inset(0 100% 0 0); }
+        to   { clip-path: inset(0 0% 0 0); }
+      }
+      .fs {
+        display: inline-block;
+        clip-path: inset(0 100% 0 0);
+        animation: clipReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(0.8s + var(--d)) forwards;
+      } */
+
+      @keyframes fadeBlurStagger {
+        from { opacity: 0; filter: blur(6px); }
+        to   { opacity: 1; filter: blur(0); }
+      }
+      .fs {
+        display: inline-block;
         opacity: 0;
-        animation: contentIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
+        animation: fadeBlurStagger 1.2s cubic-bezier(0.22, 1, 0.36, 1) calc(0.8s + var(--d)) forwards;
       }
     </style>
   </body>
