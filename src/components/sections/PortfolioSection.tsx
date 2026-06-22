@@ -295,6 +295,7 @@ function MobileCard({
 export default function PortfolioSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [seeAllHovered, setSeeAllHovered] = useState(false)
+  const [mobileExpanded, setMobileExpanded] = useState(false)
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
   const headerRef = useRef<HTMLDivElement>(null)
   const headerInView = useInView(headerRef, { once: true, margin: '-80px' })
@@ -401,10 +402,19 @@ export default function PortfolioSection() {
 
           {/* ── Mobile: stacked grid ── */}
           <div className="grid grid-cols-1 gap-4 sm:hidden">
-            {PROJECTS.map((project, i) => (
+            {PROJECTS.slice(0, mobileExpanded ? 6 : 3).map((project, i) => (
               <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
             ))}
           </div>
+          {!mobileExpanded && (
+            <button
+              onClick={() => setMobileExpanded(true)}
+              className="mt-6 w-full sm:hidden flex items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
+            >
+              See all projects
+              <ArrowUpRight size={14} strokeWidth={2} />
+            </button>
+          )}
 
           {/* ── See all projects ── */}
           <a
