@@ -1,0 +1,50 @@
+---
+import '../styles/global.css'
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex" />
+    <title>Page not found — arcaniStudio</title>
+  </head>
+  <body class="overflow-hidden bg-palette-950">
+    <main class="relative flex min-h-dvh items-center justify-center">
+
+      {/* Giant 404 — spread full width, bleeds off top & bottom */}
+      <div
+        class="pointer-events-none absolute inset-0 flex items-center justify-center font-reckless leading-none text-white"
+        style="font-size: min(160vh, 65vw); font-weight: 100; -webkit-text-stroke: 20px #0A0A0A; paint-order: stroke fill;"
+        aria-hidden="true"
+      >
+        <span>4</span>
+        <span class="text-primary-600" style="margin-inline: -0.12em;">0</span>
+        <span>4</span>
+      </div>
+
+      {/* Centered overlay content */}
+      <div class="relative z-10 flex flex-col items-center gap-4 px-5 text-center" style="transform: translateY(6vh);">
+        <h1 class="font-reckless text-[clamp(28px,3.2vw,40px)] text-white">
+          Page Not Available
+        </h1>
+        <p class="text-[14px] leading-relaxed text-white">
+          Sorry, this page isn't available<br />
+          anymore or an error occurred.
+        </p>
+        <a
+          href="/"
+          class="group mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-medium text-palette-950 transition-colors duration-200 hover:bg-palette-100"
+        >
+          Back home
+          <svg class="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17 17 7M7 7h10v10" />
+          </svg>
+        </a>
+      </div>
+
+    </main>
+  </body>
+</html>
