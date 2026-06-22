@@ -31,15 +31,15 @@ import Footer from '../components/sections/Footer.astro'
         <LogoList />
       </div>
       <StatsSection />
-      <ServicesSection />
+      <div id="services"><ServicesSection /></div>
       <AboutSection />
-      <HowWeWork />
+      <div id="how-we-work"><HowWeWork /></div>
       <LogoDivider />
-      <PortfolioTestimonial />
+      <div id="portfolio"><PortfolioTestimonial /></div>
       <LogoDividerReverse />
       <TestimonialsSection client:visible />
       <div class="bg-palette-950 py-6 md:py-8"></div>
-      <CTASection />
+      <div id="contact"><CTASection /></div>
     </main>
     <Footer />
   </body>
