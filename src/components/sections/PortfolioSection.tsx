@@ -410,10 +410,24 @@ export default function PortfolioSection() {
           ── */}
 
           {/* ── Mobile: stacked grid ── */}
+          {/* TODO: behavior inconsistency — mobile expands in-place while tablet links to /work.
+              Decide on one pattern: either both expand or both link. */}
           <div className="grid grid-cols-1 gap-4 sm:hidden">
-            {PROJECTS.slice(0, mobileExpanded ? 6 : 3).map((project, i) => (
+            {PROJECTS.slice(0, 3).map((project, i) => (
               <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
             ))}
+            <motion.div
+              initial={false}
+              animate={mobileExpanded ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+              transition={reduced ? { duration: 0 } : { duration: 0.5, ease: [0.25, 0, 0, 1] }}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className="grid grid-cols-1 gap-4 pt-4">
+                {PROJECTS.slice(3).map((project, i) => (
+                  <MobileCard key={project.id} project={project} index={3 + i} reduced={reduced} />
+                ))}
+              </div>
+            </motion.div>
           </div>
           {!mobileExpanded && (
             <button
