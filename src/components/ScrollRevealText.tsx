@@ -6,14 +6,29 @@ type Segment = {
   className: string
 }
 
+/* Previous segments (alt copy):
+const segments: Segment[] = [
+  { text: "A website isn't a deliverable.", className: 'font-semibold text-white' },
+  { text: " It's the first conversation your product has with the world.", className: 'font-reckless italic font-light text-white' },
+  { text: ' Every pixel either earns trust or costs it.', className: 'font-semibold text-white' },
+  { text: ' arcaniStudio', className: 'font-clash font-medium text-primary-600 text-[1.3em] mr-[0.05em]' },
+  { text: ' exists for', className: 'font-semibold text-white' },
+  { text: ' founders and product teams who refuse the generic agency look — and want their site to carry the same craft, the same precision, as the product they spent years building.', className: 'font-semibold text-white' },
+]
+*/
+
 const segments: Segment[] = [
   {
-    text: "A website isn't a deliverable.",
+    text: "A brand isn't a logo.",
     className: 'font-semibold text-white',
   },
   {
     text: " It's the first conversation your product has with the world.",
     className: 'font-reckless italic font-light text-white',
+  },
+  {
+    text: " A voice you recognize through the noise. A standard you don't renegotiate.",
+    className: 'font-semibold text-white',
   },
   {
     text: ' Every pixel either earns trust or costs it.',
@@ -24,11 +39,7 @@ const segments: Segment[] = [
     className: 'font-clash font-medium text-primary-600 text-[1.3em] mr-[0.05em]',
   },
   {
-    text: ' exists for',
-    className: 'font-semibold text-white',
-  },
-  {
-    text: ' founders and product teams who refuse the generic agency look — and want their site to carry the same craft, the same precision, as the product they spent years building.',
+    text: ' exists for founders who refuse average — and who want their digital presence to hold the same standard as their product.',
     className: 'font-semibold text-white',
   },
 ]
