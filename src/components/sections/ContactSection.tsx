@@ -20,14 +20,14 @@ const CHOICE_STEPS = [
 ]
 
 type Selections = { project: string; budget: string; timeline: string }
-type Contact = { name: string; email: string; message: string }
+type Contact = { name: string; email: string; phone: string; business: string; message: string }
 
 export default function ContactSection() {
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'fwd' | 'bwd'>('fwd')
   const [animKey, setAnimKey] = useState(0)
   const [selections, setSelections] = useState<Selections>({ project: '', budget: '', timeline: '' })
-  const [contact, setContact] = useState<Contact>({ name: '', email: '', message: '' })
+  const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '', business: '', message: '' })
   const [sent, setSent] = useState(false)
   const backRef = useRef<HTMLButtonElement>(null)
   const [backWidth, setBackWidth] = useState(0)
@@ -63,6 +63,8 @@ export default function ContactSection() {
       ``,
       `Name: ${contact.name}`,
       `Email: ${contact.email}`,
+      `Phone: ${contact.phone}`,
+      `Business: ${contact.business}`,
       ``,
       contact.message,
     ].join('\n')
@@ -128,7 +130,8 @@ export default function ContactSection() {
               contact={contact}
               onChange={handleChange}
               onSubmit={submit}
-              canSubmit={!!(contact.name && contact.email && contact.message)}
+              canSubmit={!!(contact.name && contact.email)}
+              onBack={() => navigate(2)}
             />
           )}
         </div>
@@ -244,12 +247,13 @@ function ChoiceStep({
 }
 
 function ContactStep({
-  contact, onChange, onSubmit, canSubmit,
+  contact, onChange, onSubmit, canSubmit, onBack,
 }: {
   contact: Contact
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   onSubmit: (e: React.FormEvent) => void
   canSubmit: boolean
+  onBack: () => void
 }) {
   return (
     <div>
@@ -262,10 +266,13 @@ function ContactStep({
 
       <form onSubmit={onSubmit} className="flex flex-col">
         <div className="grid sm:grid-cols-2 border-t border-palette-800/60">
-          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
           <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
         </div>
 
+        {/* Message field — hidden, uncomment to restore
         <div className="border-t border-palette-800/60 py-6">
           <label className="block text-[11px] font-medium text-palette-600 mb-4 tracking-widest uppercase">
             Tell us about the project
@@ -274,29 +281,39 @@ function ContactStep({
             name="message"
             value={contact.message}
             onChange={onChange}
-            required
             rows={5}
             placeholder="Goals, timeline, context — anything that helps us understand what you need."
             className="w-full bg-transparent text-white text-[15px] font-light leading-relaxed placeholder:text-palette-700 focus:outline-none resize-none"
           />
         </div>
+        */}
 
         <div className="border-t border-palette-800/60 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <p className="text-[12px] text-palette-600 max-w-xs leading-relaxed">
             Opens your email client with details prefilled. We reply within 24 hours.
           </p>
-          <button
-            type="submit"
-            disabled={!canSubmit}
-            className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 px-7 text-[15px] font-medium transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
-            style={{ backgroundColor: '#F94500', color: '#fff' }}
-          >
-            Send message
-            <span className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-white/15">
-              <ArrowUpRight size={14} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-5 group-hover:-translate-y-5" />
-              <ArrowUpRight size={14} strokeWidth={1.5} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
-            </span>
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={onBack}
+              className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 px-7 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-colors duration-200"
+            >
+              <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+              Back
+            </button>
+            <button
+              type="submit"
+              disabled={!canSubmit}
+              className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 px-7 text-[16px] font-normal transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+              style={{ backgroundColor: '#F94500', color: '#fff' }}
+            >
+              Send message
+              <span className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-white/15">
+                <ArrowUpRight size={20} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-5 group-hover:-translate-y-5" />
+                <ArrowUpRight size={20} strokeWidth={1.5} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
+              </span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
