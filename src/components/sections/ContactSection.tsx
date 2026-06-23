@@ -87,7 +87,7 @@ export default function ContactSection() {
     <section id="contact" className="bg-palette-950 overflow-x-clip">
 
       {/* Progress bar + step counter */}
-      <div className="px-6 pt-16 md:px-12">
+      <div className="px-6 pt-32 md:px-12">
         <div className="mx-auto max-w-[900px]">
           <div className="flex items-center gap-4 mb-3">
             <span className="text-[11px] font-medium text-palette-600 tabular-nums tracking-widest uppercase shrink-0">
@@ -113,7 +113,7 @@ export default function ContactSection() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[900px] px-6 py-12 md:px-12 md:py-16">
+      <div className="mx-auto max-w-[900px] px-6 py-16 md:px-12 md:py-24">
 
         {/* Animated step content only */}
         <div key={animKey} className={dir === 'fwd' ? 'step-enter-fwd' : 'step-enter-bwd'}>
@@ -143,7 +143,7 @@ export default function ContactSection() {
               <button
                 ref={backRef}
                 onClick={() => navigate(step - 1)}
-                className="group flex items-center gap-3 rounded-full border border-palette-700 px-7 py-3.5 text-[15px] font-medium text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-[transform,border-color,color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 px-7 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-[transform,border-color,color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 style={{ transform: step > 0 ? 'translateX(0)' : `translateX(-${backWidth}px)` }}
               >
                 <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
@@ -153,11 +153,11 @@ export default function ContactSection() {
             <button
               onClick={() => navigate(step + 1)}
               disabled={!selections[CHOICE_STEPS[step].field]}
-              className="group flex items-center gap-3 rounded-full px-7 py-3.5 text-[15px] font-medium transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
+              className="group flex items-center gap-3 rounded-full h-12 px-7 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
               style={{ backgroundColor: selections[CHOICE_STEPS[step].field] ? '#F94500' : '#262626', color: '#fff' }}
             >
               Continue
-              <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
           </div>
         )}
@@ -288,7 +288,7 @@ function ContactStep({
           <button
             type="submit"
             disabled={!canSubmit}
-            className="group inline-flex shrink-0 items-center gap-3 rounded-full px-7 py-3.5 text-[15px] font-medium transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+            className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 px-7 text-[15px] font-medium transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
             style={{ backgroundColor: '#F94500', color: '#fff' }}
           >
             Send message
