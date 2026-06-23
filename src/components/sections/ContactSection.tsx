@@ -174,15 +174,16 @@ export default function ContactSection() {
       return
     }
 
-    // TODO(funnel): instead of (or before) the success screen, redirect the
-    // qualified lead straight to cal.com Event 2 to book a slot, e.g.:
-    //   const cal = import.meta.env.PUBLIC_CALCOM_URL
-    //   if (cal) {
-    //     const q = new URLSearchParams({ name: contact.name, email: contact.email })
-    //     window.location.href = `${cal}?${q}`
-    //     return
-    //   }
-    // Left out until the cal.com account + Event 2 link exist. See file header.
+    // Redirect the qualified lead straight to cal.com to book a slot, prefilling
+    // name + email so they don't retype. The lead already reached us via the
+    // action above (Telegram/email), so booking is the only thing left. If the
+    // URL isn't configured, fall back to the success screen.
+    const cal = import.meta.env.PUBLIC_CALCOM_URL
+    if (cal) {
+      const q = new URLSearchParams({ name: contact.name, email: contact.email })
+      window.location.href = `${cal}?${q}`
+      return
+    }
     setSent(true)
   }
 
