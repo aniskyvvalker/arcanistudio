@@ -9,25 +9,30 @@ const CHOICE_STEPS = [
     options: ['Business website / Landing page', 'Online store', 'Management software', 'Web / mobile app', 'Something else'],
   },
   {
-    question: "What's your budget?",
-    field: 'budget' as const,
-    options: ['Under $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000 and above'],
-  },
-  {
     question: "When do you need it?",
     field: 'timeline' as const,
     options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'No rush, flexible'],
   },
+  {
+    question: "How big is your team?",
+    field: 'company' as const,
+    options: ['Solo / Micro (1–5)', 'Small team (6–20)', 'Mid-size (21–50)', 'Large (50+)'],
+  },
+  {
+    question: "What's your budget?",
+    field: 'budget' as const,
+    options: ['Under $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000 and above'],
+  },
 ]
 
-type Selections = { project: string; budget: string; timeline: string }
+type Selections = { project: string; company: string; budget: string; timeline: string }
 type Contact = { name: string; email: string; phone: string; business: string; message: string }
 
 export default function ContactSection() {
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'fwd' | 'bwd'>('fwd')
   const [animKey, setAnimKey] = useState(0)
-  const [selections, setSelections] = useState<Selections>({ project: '', budget: '', timeline: '' })
+  const [selections, setSelections] = useState<Selections>({ project: '', company: '', budget: '', timeline: '' })
   const [otherText, setOtherText] = useState('')
   const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '', business: '', message: '' })
   const [sent, setSent] = useState(false)
@@ -38,7 +43,7 @@ export default function ContactSection() {
     if (backRef.current) setBackWidth(backRef.current.offsetWidth)
   }, [])
 
-  const TOTAL = 4
+  const TOTAL = 5
 
   function navigate(next: number) {
     setDir(next > step ? 'fwd' : 'bwd')
@@ -60,6 +65,7 @@ export default function ContactSection() {
     e.preventDefault()
     const body = [
       `Project: ${selections.project === 'Something else' ? otherText : selections.project}`,
+      `Team size: ${selections.company}`,
       `Budget: ${selections.budget}`,
       `Timeline: ${selections.timeline}`,
       ``,
@@ -121,7 +127,7 @@ export default function ContactSection() {
 
         {/* Animated step content only */}
         <div key={animKey} className={dir === 'fwd' ? 'step-enter-fwd' : 'step-enter-bwd'}>
-          {step < 3 ? (
+          {step < 4 ? (
             <ChoiceStep
               config={CHOICE_STEPS[step]}
               selected={selections[CHOICE_STEPS[step].field]}
@@ -135,13 +141,13 @@ export default function ContactSection() {
               onChange={handleChange}
               onSubmit={submit}
               canSubmit={!!(contact.name && contact.email)}
-              onBack={() => navigate(2)}
+              onBack={() => navigate(3)}
             />
           )}
         </div>
 
         {/* Navigation buttons — outside animated wrapper so they don't re-animate */}
-        {step < 3 && (
+        {step < 4 && (
           <div className="mt-10 flex items-center gap-4">
             <div
               className="overflow-hidden transition-[max-width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
