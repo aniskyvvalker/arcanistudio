@@ -1,5 +1,46 @@
 import { useState, useRef, useLayoutEffect } from 'react'
 import { ArrowRight, ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
+import { actions } from 'astro:actions'
+
+/* ============================================================================
+ * CONTACT SECTION  —  multi-step lead form (React island, client:load)
+ * ============================================================================
+ *
+ * A 5-step wizard that qualifies a lead, then submits it to the server.
+ *
+ *   Steps 0–3  ChoiceStep  — single-select questions, driven by CHOICE_STEPS:
+ *                0 project (step 0 also has the "Something else" free-text input)
+ *                1 timeline
+ *                2 company / team size
+ *                3 budget
+ *   Step 4     ContactStep — name / email / phone / business + submit.
+ *
+ * SUBMIT  → actions.submitLead(...)  (see src/actions/index.ts)
+ *   On success: shows the "We'll be in touch" screen (the `sent` branch).
+ *   On failure: inline error message in ContactStep, form stays put.
+ *
+ * STATE OWNERSHIP: this parent owns ALL state. ChoiceStep / ContactStep are
+ * presentational and receive values + callbacks. Keep it that way — it's why
+ * the step animation (animKey) can re-trigger without losing answers.
+ *
+ *
+ * WHERE THIS FITS THE BIGGER FUNNEL (full plan: src/actions/index.ts header)
+ * -------------------------------------------------------------------------
+ * Goal = book a 30-min call. Algeria-focused → phone/WhatsApp over email.
+ *
+ * WHAT'S MISSING HERE  🚧  (future session, look for the `TODO(funnel)` marks)
+ *   [ ] On success, REDIRECT to cal.com "Event 2" (qualified, no-questions,
+ *       prefilled name+email) instead of just showing the static screen.
+ *       The link will come from import.meta.env.PUBLIC_CALCOM_URL. See the
+ *       TODO(funnel) marker in submit() below for exactly where to add it.
+ *   [ ] WhatsApp follow-up for people who don't self-book — currently manual
+ *       (we read the phone from the email/Telegram notification). A bot to
+ *       automate this is planned.
+ *
+ * GOTCHA: leads only actually reach us if the server env vars are set
+ * (Resend and/or Telegram). Without them the form still "succeeds" but the
+ * lead goes nowhere. See .env.example.
+ * ========================================================================== */
 
 const CHOICE_STEPS = [
   {
@@ -35,7 +76,10 @@ export default function ContactSection() {
   const [selections, setSelections] = useState<Selections>({ project: '', company: '', budget: '', timeline: '' })
   const [otherText, setOtherText] = useState('')
   const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '', business: '', message: '' })
+  const [honeypot, setHoneypot] = useState('')
   const [sent, setSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
   const backRef = useRef<HTMLButtonElement>(null)
   const [backWidth, setBackWidth] = useState(0)
 
@@ -58,28 +102,92 @@ export default function ContactSection() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
-    setContact(c => ({ ...c, [name]: value }))
+    let next = value
+    // Light input filtering as the user types:
+    //  - name: strip digits (letters, spaces, -, ' still allowed).
+    //  - phone: strip letters (digits, +, spaces, -, () still allowed for formats).
+    if (name === 'name') next = next.replace(/[0-9]/g, '')
+    if (name === 'phone') next = next.replace(/[A-Za-z]/g, '')
+    setContact(c => ({ ...c, [name]: next }))
   }
 
-  function submit(e: React.FormEvent) {
+  // Returns a friendly error string covering ALL invalid fields at once, or ''
+  // if the contact details look valid. Mirrors (loosely) the server's leadSchema
+  // so the user gets clean feedback before we ever submit. Kept intentionally
+  // lenient — the server is the real gate.
+  function validateContact(c: Contact): string {
+    const errs: string[] = []
+    if (c.name.trim().length < 3) errs.push('your name')
+    const email = c.email.trim()
+    if (email.length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.push('a valid email address')
+    if (c.phone.trim().length < 8) errs.push('a valid phone number')
+    if (errs.length === 0) return ''
+    // "a valid email address and a valid phone number" / "..., ... and ..."
+    const list =
+      errs.length === 1 ? errs[0] : `${errs.slice(0, -1).join(', ')} and ${errs[errs.length - 1]}`
+    return `Please enter ${list}.`
+  }
+
+  async function submit(e: React.FormEvent) {
     e.preventDefault()
-    const body = [
-      `Project: ${selections.project === 'Something else' ? otherText : selections.project}`,
-      `Team size: ${selections.company}`,
-      `Budget: ${selections.budget}`,
-      `Timeline: ${selections.timeline}`,
-      ``,
-      `Name: ${contact.name}`,
-      `Email: ${contact.email}`,
-      `Phone: ${contact.phone}`,
-      `Business: ${contact.business}`,
-      ``,
-      contact.message,
-    ].join('\n')
-    window.location.href = `mailto:hello@arcanistudio.com?subject=New project inquiry&body=${encodeURIComponent(body)}`
+    if (submitting) return // guard against double-submit / rapid Enter
+
+    // Client-side validation first → friendly message, and we never even hit the
+    // server with bad data. The server still re-validates (security), but its raw
+    // Zod errors must NEVER reach the user — see the fallback below.
+    const friendly = validateContact(contact)
+    if (friendly) {
+      setError(friendly)
+      return
+    }
+
+    setSubmitting(true)
+    setError('')
+
+    // Field names here MUST match leadSchema in src/actions/index.ts.
+    // For "Something else", we send the free-text (otherText) as the project.
+    const { data, error } = await actions.submitLead({
+      project: selections.project === 'Something else' ? otherText : selections.project,
+      timeline: selections.timeline,
+      company: selections.company,
+      budget: selections.budget,
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+      business: contact.business,
+      message: contact.message,
+      company_website: honeypot, // honeypot — real users leave this empty
+    })
+
+    setSubmitting(false)
+    if (error || !data?.ok) {
+      // Rate-limit / delivery errors carry a user-safe message we wrote in the
+      // action. But Astro's INPUT validation error dumps raw Zod JSON in
+      // `error.message` — never show that. Only trust our own ActionError codes;
+      // anything else gets a generic line.
+      const safe =
+        error && 'code' in error &&
+        (error.code === 'TOO_MANY_REQUESTS' || error.code === 'INTERNAL_SERVER_ERROR')
+          ? error.message
+          : 'Please check your details and try again.'
+      setError(safe)
+      return
+    }
+
+    // TODO(funnel): instead of (or before) the success screen, redirect the
+    // qualified lead straight to cal.com Event 2 to book a slot, e.g.:
+    //   const cal = import.meta.env.PUBLIC_CALCOM_URL
+    //   if (cal) {
+    //     const q = new URLSearchParams({ name: contact.name, email: contact.email })
+    //     window.location.href = `${cal}?${q}`
+    //     return
+    //   }
+    // Left out until the cal.com account + Event 2 link exist. See file header.
     setSent(true)
   }
 
+  // Success screen. TODO(funnel): once cal.com exists this may be replaced by a
+  // redirect (see submit()), or kept as a fallback when PUBLIC_CALCOM_URL is unset.
   if (sent) {
     return (
       <section id="contact" className="bg-palette-950 flex min-h-[60vh] items-center justify-center px-6">
@@ -140,7 +248,11 @@ export default function ContactSection() {
               contact={contact}
               onChange={handleChange}
               onSubmit={submit}
-              canSubmit={!!(contact.name && contact.email)}
+              canSubmit={!!(contact.name && contact.email && contact.phone)}
+              submitting={submitting}
+              error={error}
+              honeypot={honeypot}
+              onHoneypotChange={setHoneypot}
               onBack={() => navigate(3)}
             />
           )}
@@ -238,6 +350,7 @@ function ChoiceStep({
                     value={otherText ?? ''}
                     onChange={e => onOtherChange(e.target.value)}
                     onClick={e => e.stopPropagation()}
+                    maxLength={200}
                     placeholder="Tell us briefly what you need"
                     className="flex-1 bg-transparent text-white font-light placeholder:text-palette-700 focus:outline-none"
                     style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}
@@ -273,12 +386,16 @@ function ChoiceStep({
 }
 
 function ContactStep({
-  contact, onChange, onSubmit, canSubmit, onBack,
+  contact, onChange, onSubmit, canSubmit, submitting, error, honeypot, onHoneypotChange, onBack,
 }: {
   contact: Contact
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   onSubmit: (e: React.FormEvent) => void
   canSubmit: boolean
+  submitting: boolean
+  error: string
+  honeypot: string
+  onHoneypotChange: (val: string) => void
   onBack: () => void
 }) {
   return (
@@ -291,11 +408,29 @@ function ContactStep({
       </h2>
 
       <form onSubmit={onSubmit} className="flex flex-col">
+        {/* Honeypot — hidden from humans, bots tend to fill it. Server rejects if non-empty. */}
+        <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+          <label>
+            Company website
+            <input
+              type="text"
+              name="company_website"
+              tabIndex={-1}
+              autoComplete="off"
+              maxLength={200}
+              value={honeypot}
+              onChange={(e) => onHoneypotChange(e.target.value)}
+            />
+          </label>
+        </div>
+
         <div className="grid sm:grid-cols-2 border-t border-palette-800/60">
-          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required className="border-b border-palette-800/60 pl-0 sm:pl-8" />
-          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          {/* maxLength = UX caps (tighter than the server's leadSchema in
+              src/actions/index.ts, which stays the security backstop). */}
+          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required maxLength={50} className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required maxLength={50} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} required maxLength={40} className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} maxLength={200} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
         </div>
 
         {/* Message field — hidden, uncomment to restore
@@ -315,8 +450,10 @@ function ContactStep({
         */}
 
         <div className="border-t border-palette-800/60 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-          <p className="text-[12px] text-palette-600 max-w-xs leading-relaxed">
-            Opens your email client with details prefilled. We reply within 24 hours.
+          <p className="text-[12px] max-w-xs leading-relaxed" style={{ color: error ? '#F94500' : undefined }}>
+            {error ? error : (
+              <span className="text-palette-600">We'll reach out within 24 hours to book your call.</span>
+            )}
           </p>
           <div className="flex items-center gap-4">
             <button
@@ -329,11 +466,11 @@ function ContactStep({
             </button>
             <button
               type="submit"
-              disabled={!canSubmit}
+              disabled={!canSubmit || submitting}
               className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 pl-5 pr-[13px] text-[16px] font-normal transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#F94500', color: '#fff' }}
             >
-              Send message
+              {submitting ? 'Sending…' : 'Send message'}
               <span className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-white/15">
                 <ArrowUpRight size={20} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-5 group-hover:-translate-y-5" />
                 <ArrowUpRight size={20} strokeWidth={1.5} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
@@ -347,11 +484,11 @@ function ContactStep({
 }
 
 function InputField({
-  label, name, type, value, onChange, required, className = '',
+  label, name, type, value, onChange, required, maxLength, className = '',
 }: {
   label: string; name: string; type: string; value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  required?: boolean; className?: string
+  required?: boolean; maxLength?: number; className?: string
 }) {
   return (
     <div className={`py-6 ${className}`}>
@@ -360,6 +497,7 @@ function InputField({
       </label>
       <input
         type={type} name={name} value={value} onChange={onChange} required={required}
+        maxLength={maxLength}
         placeholder={label}
         className="w-full bg-transparent text-white text-[15px] font-light placeholder:text-palette-700 focus:outline-none"
       />
