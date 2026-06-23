@@ -5,7 +5,8 @@ const CHOICE_STEPS = [
   {
     question: "What are you building?",
     field: 'project' as const,
-    options: ['Web Design & Development', 'Brand Identity', 'UI / UX Design', 'Something else'],
+    // FR: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion', 'Application web / mobile', 'Autre']
+    options: ['Business website / Landing page', 'Online store', 'Management software', 'Web / mobile app', 'Something else'],
   },
   {
     question: "What's your budget?",
