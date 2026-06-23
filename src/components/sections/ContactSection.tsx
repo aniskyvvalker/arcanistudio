@@ -146,7 +146,7 @@ export default function ContactSection() {
               <button
                 ref={backRef}
                 onClick={() => navigate(step - 1)}
-                className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 px-7 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-[transform,border-color,color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 pl-5 pr-6 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-[transform,border-color,color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 style={{ transform: step > 0 ? 'translateX(0)' : `translateX(-${backWidth}px)` }}
               >
                 <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
@@ -156,7 +156,7 @@ export default function ContactSection() {
             <button
               onClick={() => navigate(step + 1)}
               disabled={!selections[CHOICE_STEPS[step].field]}
-              className="group flex items-center gap-3 rounded-full h-12 px-7 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
+              className="group flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
               style={{ backgroundColor: selections[CHOICE_STEPS[step].field] ? '#F94500' : '#262626', color: '#fff' }}
             >
               Continue
@@ -296,7 +296,7 @@ function ContactStep({
             <button
               type="button"
               onClick={onBack}
-              className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 px-7 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-colors duration-200"
+              className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 pl-5 pr-6 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-colors duration-200"
             >
               <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
               Back
@@ -304,7 +304,7 @@ function ContactStep({
             <button
               type="submit"
               disabled={!canSubmit}
-              className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 px-7 text-[16px] font-normal transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+              className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 pl-5 pr-[13px] text-[16px] font-normal transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#F94500', color: '#fff' }}
             >
               Send message
