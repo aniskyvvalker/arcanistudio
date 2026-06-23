@@ -84,7 +84,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="bg-palette-950">
+    <section id="contact" className="bg-palette-950 overflow-x-clip">
 
       {/* Progress bar + step counter */}
       <div className="px-6 pt-16 md:px-12">
@@ -172,6 +172,7 @@ export default function ContactSection() {
           from { opacity: 0; transform: translateX(-40px); }
           to   { opacity: 1; transform: translateX(0); }
         }
+        .step-enter-fwd, .step-enter-bwd { will-change: transform, opacity; backface-visibility: hidden; transform: translateZ(0); }
         .step-enter-fwd { animation: stepInFwd 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
         .step-enter-bwd { animation: stepInBwd 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
         @media (prefers-reduced-motion: reduce) {
