@@ -28,6 +28,7 @@ export default function ContactSection() {
   const [dir, setDir] = useState<'fwd' | 'bwd'>('fwd')
   const [animKey, setAnimKey] = useState(0)
   const [selections, setSelections] = useState<Selections>({ project: '', budget: '', timeline: '' })
+  const [otherText, setOtherText] = useState('')
   const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '', business: '', message: '' })
   const [sent, setSent] = useState(false)
   const backRef = useRef<HTMLButtonElement>(null)
@@ -47,7 +48,7 @@ export default function ContactSection() {
 
   function pick(field: keyof Selections, value: string) {
     setSelections(s => ({ ...s, [field]: value }))
-    setTimeout(() => navigate(step + 1), 150)
+    if (value !== 'Something else') setTimeout(() => navigate(step + 1), 150)
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -58,7 +59,7 @@ export default function ContactSection() {
   function submit(e: React.FormEvent) {
     e.preventDefault()
     const body = [
-      `Project: ${selections.project}`,
+      `Project: ${selections.project === 'Something else' ? otherText : selections.project}`,
       `Budget: ${selections.budget}`,
       `Timeline: ${selections.timeline}`,
       ``,
@@ -125,6 +126,8 @@ export default function ContactSection() {
               config={CHOICE_STEPS[step]}
               selected={selections[CHOICE_STEPS[step].field]}
               onPick={(val) => pick(CHOICE_STEPS[step].field, val)}
+              otherText={step === 0 ? otherText : undefined}
+              onOtherChange={step === 0 ? setOtherText : undefined}
             />
           ) : (
             <ContactStep
@@ -156,7 +159,7 @@ export default function ContactSection() {
             </div>
             <button
               onClick={() => navigate(step + 1)}
-              disabled={!selections[CHOICE_STEPS[step].field]}
+              disabled={!selections[CHOICE_STEPS[step].field] || (selections[CHOICE_STEPS[step].field] === 'Something else' && !otherText.trim())}
               className="group flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
               style={{ backgroundColor: selections[CHOICE_STEPS[step].field] ? '#F94500' : '#262626', color: '#fff' }}
             >
@@ -188,11 +191,13 @@ export default function ContactSection() {
 }
 
 function ChoiceStep({
-  config, selected, onPick,
+  config, selected, onPick, otherText, onOtherChange,
 }: {
   config: typeof CHOICE_STEPS[number]
   selected: string
   onPick: (val: string) => void
+  otherText?: string
+  onOtherChange?: (val: string) => void
 }) {
   return (
     <div>
@@ -206,12 +211,13 @@ function ChoiceStep({
       <ol className="divide-y divide-palette-800/60" role="list">
         {config.options.map((option, i) => {
           const isActive = selected === option
+          const isSomethingElse = option === 'Something else'
+          const showInput = isSomethingElse && isActive && onOtherChange !== undefined
           return (
             <li key={option}>
-              <button
-                onClick={() => onPick(option)}
-                className="group w-full flex items-center gap-6 py-5 text-left transition-colors duration-150"
-                aria-pressed={isActive}
+              <div
+                className="group w-full flex items-center gap-6 py-5 cursor-pointer"
+                onClick={() => !showInput && onPick(option)}
               >
                 <span
                   className="tabular-nums text-[13px] w-6 shrink-0 transition-colors duration-150"
@@ -219,15 +225,28 @@ function ChoiceStep({
                 >
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <span
-                  className="flex-1 font-light transition-colors duration-150"
-                  style={{
-                    fontSize: 'clamp(18px, 2.5vw, 24px)',
-                    color: isActive ? '#ffffff' : '#A1A1A1',
-                  }}
-                >
-                  {option}
-                </span>
+                {showInput ? (
+                  <input
+                    autoFocus
+                    type="text"
+                    value={otherText ?? ''}
+                    onChange={e => onOtherChange(e.target.value)}
+                    onClick={e => e.stopPropagation()}
+                    placeholder="Tell us briefly what you need"
+                    className="flex-1 bg-transparent text-white font-light placeholder:text-palette-700 focus:outline-none"
+                    style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}
+                  />
+                ) : (
+                  <span
+                    className="flex-1 font-light transition-colors duration-150"
+                    style={{
+                      fontSize: 'clamp(18px, 2.5vw, 24px)',
+                      color: isActive ? '#ffffff' : '#A1A1A1',
+                    }}
+                  >
+                    {option}
+                  </span>
+                )}
                 <span
                   className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200"
                   style={{
@@ -237,7 +256,7 @@ function ChoiceStep({
                 >
                   {isActive && <Check size={11} strokeWidth={2.5} color="#fff" />}
                 </span>
-              </button>
+              </div>
             </li>
           )
         })}
