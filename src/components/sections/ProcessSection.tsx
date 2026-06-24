@@ -571,7 +571,346 @@ function LaunchIllustration() {
   )
 }
 
-function StepIllustration({ step, sectionEntered }: { step: number; sectionEntered: boolean }) {
+// ---- Tablet (768–1023px) wide variants ----
+// Card-stack illustrations re-laid into horizontal columns so they read
+// wide-and-short under the step text instead of tall-and-narrow.
+
+function useEnteredOnce(threshold = 0.45) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [entered, setEntered] = useState(false)
+  useEffect(() => {
+    if (!ref.current) return
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setEntered(true) },
+      { threshold }
+    )
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [threshold])
+  return { ref, entered }
+}
+
+function DiscoverWide({ active }: { active: boolean }) {
+  const { ref, entered } = useEnteredOnce()
+  const v = active || entered
+  return (
+    <div ref={ref} className="w-full h-full flex items-center">
+      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+        {/* Title bar */}
+        <div className="px-4 py-2 border-b border-black/8 bg-white flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
+            </svg>
+            <span className="text-[13px] font-semibold text-gray-700">Insights</span>
+          </div>
+          <div className="flex gap-1.5">
+            <div className="w-6 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-5 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-7 h-1.5 rounded-full bg-gray-200" />
+          </div>
+        </div>
+        {/* 3 columns */}
+        <div className="grid grid-cols-3 gap-2 p-2">
+          {/* Market Research */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <div className="flex items-start justify-between mb-1">
+              <div>
+                <p className="text-[12px] font-normal text-gray-800">Market Research</p>
+                <p className="text-[9px] text-gray-400">vs Last Year</p>
+              </div>
+              <CountUp to={24} active={v} className="text-[11px] font-semibold text-primary-700" />
+            </div>
+            <svg viewBox="0 0 206 60" className="w-full" fill="none">
+              <defs>
+                <linearGradient id="areaGradWide" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#F94500" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#F94500" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <motion.path
+                d="M0,50 C30,47 50,44 80,38 C110,32 140,26 170,18 L200,12 L200,60 L0,60 Z"
+                fill="url(#areaGradWide)"
+                initial={{ opacity: 0 }} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.6, delay: 0.5 }}
+              />
+              <motion.path
+                d="M0,50 C30,47 50,44 80,38 C110,32 140,26 170,18 L200,12"
+                stroke="#F94500" strokeWidth="1.5" strokeLinecap="round" fill="none"
+                initial={{ pathLength: 0 }} animate={{ pathLength: v ? 1 : 0 }} transition={{ duration: 1.6, delay: 0.3, ease: 'easeInOut' }}
+              />
+              <motion.circle cx="200" cy="12" r="3" fill="#F94500"
+                initial={{ opacity: 0, scale: 0 }} animate={{ opacity: v ? 1 : 0, scale: v ? 1 : 0 }} transition={{ duration: 0.3, delay: 1.6 }}
+              />
+            </svg>
+          </div>
+          {/* User Segments */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[12px] font-normal text-gray-800">User Segments</p>
+            <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
+            <div className="flex items-end gap-1 h-[60px]">
+              {ALL_BARS.slice(0, 6).map((h, i) => (
+                <motion.div
+                  key={i}
+                  className="flex-1 rounded-sm origin-bottom"
+                  style={{ backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)' }}
+                  initial={{ scaleY: 0, height: `${h}%` }}
+                  animate={{ scaleY: v ? 1 : 0, height: `${h}%` }}
+                  transition={{ duration: 0.5, delay: 0.4 + i * 0.06, ease: 'easeOut' }}
+                />
+              ))}
+            </div>
+          </div>
+          {/* Competitor Analysis */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[12px] font-normal text-gray-800">Competitor Analysis</p>
+            <p className="text-[9px] text-gray-400 mb-3">Manage data</p>
+            <div className="space-y-2">
+              {[['w-full', 0.7], ['w-4/5', 0.8], ['w-[88%]', 0.9], ['w-3/5', 1.0]].map(([w, delay], i) => (
+                <motion.div
+                  key={i}
+                  className={`h-1.5 rounded-full bg-gray-200 ${w}`}
+                  initial={{ scaleX: 0 }} animate={{ scaleX: v ? 1 : 0 }}
+                  transition={{ duration: 0.5, delay: delay as number, ease: 'easeOut' }}
+                  style={{ transformOrigin: 'left' }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DesignWide() {
+  const { ref, entered: v } = useEnteredOnce()
+  const typeRows = [
+    { label: 'H1', h: 'h-3', w: 'w-full' },
+    { label: 'H2', h: 'h-2.5', w: 'w-3/4' },
+    { label: 'Body', h: 'h-2', w: 'w-full' },
+  ]
+  const comps = [
+    { label: 'Moodboard', on: true },
+    { label: 'UI Mockups', on: true },
+    { label: 'Usability', on: false },
+    { label: 'Delivery', on: false },
+  ]
+  return (
+    <div ref={ref} className="w-full h-full flex items-center">
+      <div className="w-full rounded-2xl border border-black/10 bg-[#f4f4f5] overflow-hidden shadow-xl">
+        {/* Header */}
+        <div className="px-4 py-2 border-b border-black/8 bg-white flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
+            </svg>
+            <span className="text-[13px] font-semibold text-gray-700">Design System</span>
+          </div>
+          <div className="flex gap-1.5">
+            <div className="w-6 h-1.5 rounded-full bg-gray-200" />
+            <div className="w-5 h-1.5 rounded-full bg-gray-200" />
+          </div>
+        </div>
+        {/* 3 columns */}
+        <div className="grid grid-cols-3 gap-2 p-2">
+          {/* Palette */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Palette</p>
+            <div className="grid grid-cols-3 gap-1.5">
+              {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c, i) => (
+                <motion.div
+                  key={c}
+                  className="aspect-square rounded-full"
+                  style={{ backgroundColor: c }}
+                  initial={{ opacity: 0, filter: 'blur(8px)' }}
+                  animate={{ opacity: v ? 1 : 0, filter: v ? 'blur(0px)' : 'blur(8px)' }}
+                  transition={{ duration: 0.5, delay: 0.2 + i * 0.08 }}
+                />
+              ))}
+            </div>
+          </div>
+          {/* Type scale */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Type Scale</p>
+            <div className="space-y-2.5">
+              {typeRows.map(({ label, h, w }, i) => (
+                <div key={label} className="flex items-center gap-2">
+                  <span className="text-gray-400 text-[9px] w-7">{label}</span>
+                  <motion.div
+                    className={`${h} rounded bg-gray-200 ${w}`}
+                    initial={{ scaleX: 0 }} animate={{ scaleX: v ? 1 : 0 }}
+                    transition={{ duration: 0.5, delay: 0.55 + i * 0.1, ease: 'easeOut' }}
+                    style={{ transformOrigin: 'left' }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Components */}
+          <div className="rounded-lg border border-gray-100 bg-white p-3">
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
+            {comps.map(({ label, on }, i) => (
+              <motion.div
+                key={label}
+                className="flex items-center gap-2 py-1 border-b border-gray-100 last:border-0"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: v ? 1 : 0, y: v ? 0 : 5 }}
+                transition={{ duration: 0.3, delay: 0.8 + i * 0.1 }}
+              >
+                <span className="text-[11px] text-gray-700">{label}</span>
+                <motion.div
+                  className="ml-auto w-2 h-2 rounded-full"
+                  initial={{ backgroundColor: '#d1d5db' }}
+                  animate={{ backgroundColor: v && on ? '#22c55e' : '#d1d5db' }}
+                  transition={{ duration: 0.4, delay: 1.4 + i * 0.3 }}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const CODE_DEF_WIDE: CodeLine[] = [
+  { segments: [{ text: '<script', className: 'text-pink-500' }, { text: ' setup lang', className: 'text-orange-400' }, { text: '="', className: 'text-gray-500' }, { text: 'ts', className: 'text-emerald-500' }, { text: '">', className: 'text-gray-500' }] },
+  { segments: [{ text: 'import', className: 'text-violet-500' }, { text: " { ref, computed }", className: 'text-gray-600' }, { text: ' from', className: 'text-violet-500' }, { text: " 'vue'", className: 'text-emerald-500' }] },
+  { segments: [{ text: '' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' projects', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' useApi', className: 'text-sky-500' }, { text: "('/projects')", className: 'text-gray-600' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' active', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' computed', className: 'text-sky-500' }, { text: '(() =>', className: 'text-gray-600' }] },
+  { indent: 'pl-4', segments: [{ text: 'projects', className: 'text-sky-500' }, { text: ".filter(p => p.active)", className: 'text-gray-600' }] },
+  { segments: [{ text: ')', className: 'text-gray-600' }] },
+]
+
+const CODE_CHARS_WIDE: CodeChar[] = CODE_DEF_WIDE.flatMap((line, li) =>
+  line.segments.flatMap((seg, si) =>
+    seg.text.split('').map(char => ({ char, className: seg.className, lineIndex: li, segIndex: si }))
+  )
+)
+
+function BuildWide() {
+  const { ref, entered: fullyVisible } = useEnteredOnce()
+  const [charCount, setCharCount] = useState(0)
+  const [terminalStep, setTerminalStep] = useState(0)
+  const [cmdCount, setCmdCount] = useState(0)
+  const CMD = 'arcani deploy --prod'
+
+  useEffect(() => {
+    if (!fullyVisible) return
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setCharCount(i)
+      if (i >= CODE_CHARS_WIDE.length) clearInterval(interval)
+    }, 18)
+    return () => clearInterval(interval)
+  }, [fullyVisible])
+
+  useEffect(() => {
+    if (charCount < CODE_CHARS_WIDE.length) return
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setCmdCount(i)
+      if (i >= CMD.length) clearInterval(interval)
+    }, 40)
+    return () => clearInterval(interval)
+  }, [charCount])
+
+  useEffect(() => {
+    if (cmdCount < CMD.length) return
+    const timers = [
+      setTimeout(() => setTerminalStep(1), 200),
+      setTimeout(() => setTerminalStep(2), 900),
+      setTimeout(() => setTerminalStep(3), 1700),
+      setTimeout(() => setTerminalStep(4), 2400),
+      setTimeout(() => setTerminalStep(5), 2700),
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [cmdCount])
+
+  const done = charCount >= CODE_CHARS_WIDE.length
+  const visibleChars = CODE_CHARS_WIDE.slice(0, charCount)
+  const lastChar = visibleChars[visibleChars.length - 1]
+  const currentLineIndex = lastChar?.lineIndex ?? -1
+  const lineChars: CodeChar[][] = Array.from({ length: CODE_DEF_WIDE.length }, () => [])
+  visibleChars.forEach(c => lineChars[c.lineIndex].push(c))
+
+  return (
+    <div ref={ref} className="w-full h-full flex items-center">
+      <style>{`@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }`}</style>
+      <div className="w-full rounded-2xl border border-black/10 bg-white overflow-hidden shadow-xl font-mono">
+        {/* Tab bar */}
+        <div className="flex border-b border-gray-100">
+          {['app.tsx', 'api.ts', 'utils.ts'].map((tab, i) => (
+            <div
+              key={tab}
+              className="px-3 py-2 text-[10px] border-r border-gray-100"
+              style={{ color: i === 0 ? '#F94500' : '#9ca3af', borderBottom: i === 0 ? '2px solid #F94500' : 'none' }}
+            >
+              {i === 0 ? '• ' : ''}{tab}
+            </div>
+          ))}
+        </div>
+        {/* Code | Terminal */}
+        <div className="grid grid-cols-[1.4fr_1fr]">
+          <div className="flex text-[10px] leading-5 border-r border-gray-100">
+            <div className="py-3 px-2 text-right select-none text-gray-300 border-r border-gray-100" style={{ minWidth: '24px' }}>
+              {CODE_DEF_WIDE.map((_, n) => (
+                <div key={n}>{n + 1}</div>
+              ))}
+            </div>
+            <div className="py-3 px-3 overflow-hidden">
+              {CODE_DEF_WIDE.map((line, li) => {
+                const chars = lineChars[li]
+                if (chars.length === 0 && li > currentLineIndex) return <div key={li} style={{ visibility: 'hidden' }}>&nbsp;</div>
+                return (
+                  <div key={li} className={line.indent ?? ''}>
+                    {chars.map((c, ci) => (
+                      <span key={ci} className={c.className}>{c.char}</span>
+                    ))}
+                    {li === currentLineIndex && !done && (
+                      <span className="inline-block w-[5px] h-[10px] bg-[#F94500] ml-px animate-pulse align-middle" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <div className="px-3 py-3 bg-gray-50 space-y-0.5">
+            <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1">
+              <span>$</span>
+              {cmdCount === 0
+                ? <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
+                : <span>{CMD.slice(0, cmdCount)}{cmdCount < CMD.length && <span className="inline-block w-[5px] h-[9px] bg-[#F94500] ml-px align-middle" style={{ animation: 'blink 1s steps(1) infinite' }} />}</span>
+              }
+            </div>
+            <div className="text-[10px] text-gray-500" style={{ visibility: terminalStep >= 1 ? 'visible' : 'hidden' }}>Preparing...</div>
+            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>✓ Code reviewed</div>
+            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>✓ Tests passed</div>
+            <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>✓ Your app is live</div>
+            <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 5 ? 'visible' : 'hidden' }}>
+              <span className="text-gray-400 text-[10px]">$</span>
+              <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function StepIllustration({ step, sectionEntered, wide }: { step: number; sectionEntered: boolean; wide?: boolean }) {
+  if (wide) {
+    switch (step) {
+      case 0: return <DiscoverWide active={sectionEntered} />
+      case 1: return <DesignWide />
+      case 2: return <BuildWide />
+      case 3: return <LaunchIllustration />
+      default: return null
+    }
+  }
   switch (step) {
     case 0: return <DiscoverIllustration active={sectionEntered} />
     case 1: return <DesignIllustration />
@@ -701,7 +1040,9 @@ export default function ProcessSection() {
             </div>
 
             {/* Main content area */}
-            <div className="flex flex-1 flex-col justify-center gap-0 md:flex-row md:items-center md:gap-12">
+            <div className="flex flex-1 flex-col justify-center gap-0 md:gap-14 lg:flex-row lg:items-center lg:gap-12">
+              {/* Number + text — own row on tablet; lg:contents dissolves wrapper so all 3 sit in one row at ≥1024 */}
+              <div className="flex flex-col md:flex-row md:items-center md:gap-12 lg:contents">
               {/* Step number — large typographic anchor */}
               <div className="relative w-full shrink-0 md:w-64">
                 <span
@@ -765,8 +1106,25 @@ export default function ProcessSection() {
                   ))}
                 </motion.div>
               </div>
+              </div>
 
-              {/* Step illustration */}
+              {/* Step illustration — wide variant on tablet (768–1023) */}
+              <div className="hidden w-full max-w-[750px] shrink-0 md:block lg:hidden" style={{ height: 'clamp(230px, 30vw, 300px)' }}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeStep}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
+                    className="h-full w-full"
+                  >
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} wide />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Step illustration — square variant on desktop (≥1024) */}
               <div className="hidden shrink-0 lg:block" style={{ width: 'clamp(280px, 26vw, 420px)', height: 'clamp(280px, 26vw, 420px)' }}>
                 <AnimatePresence mode="wait">
                   <motion.div
