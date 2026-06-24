@@ -643,7 +643,7 @@ export default function ProcessSection() {
             <br />
             <em className="font-reckless font-light not-italic text-primary-600">actually</em> <span className="font-switzer italic text-white">work?</span>
           </h2>
-          <p className="max-w-lg text-[17px] leading-relaxed text-palette-300 indent-8" style={{ textAlign: 'justify' }}>
+          <p className="max-w-lg text-[17px] leading-relaxed text-palette-300 indent-8 min-[550px]:max-md:ml-auto" style={{ textAlign: 'justify' }}>
             Every project is built with intention. From strategy to launch, we move quickly, communicate clearly, with a focused process designed to eliminate friction and keep projects moving. We build digital products that not only look great, but drive real results.
           </p>
         </div>
