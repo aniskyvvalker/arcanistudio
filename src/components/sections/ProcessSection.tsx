@@ -32,8 +32,6 @@ const steps = [
   },
 ]
 
-const ALL_BARS = [55, 70, 100, 75, 85, 60, 90, 45]
-
 function CountUp({ to, active, className }: { to: number; active: boolean; className?: string }) {
   const [count, setCount] = useState(0)
 
@@ -55,20 +53,9 @@ function CountUp({ to, active, className }: { to: number; active: boolean; class
   return <span className={className}>+{count}%</span>
 }
 
-function DiscoverIllustration({ active }: { active: boolean }) {
+function DiscoverIllustration({ active, compact }: { active: boolean; compact?: boolean }) {
   const rootRef = useRef<HTMLDivElement>(null)
-  const [barCount, setBarCount] = useState(6)
   const [fullyVisible, setFullyVisible] = useState(false)
-
-  useEffect(() => {
-    if (!rootRef.current) return
-    const ro = new ResizeObserver(([entry]) => {
-      const w = entry.contentRect.width
-      setBarCount(w >= 380 ? 8 : w >= 320 ? 7 : 6)
-    })
-    ro.observe(rootRef.current)
-    return () => ro.disconnect()
-  }, [])
 
   useEffect(() => {
     if (!rootRef.current) return
@@ -165,23 +152,25 @@ function DiscoverIllustration({ active }: { active: boolean }) {
               </svg>
             </div>
 
-            {/* User Segments card */}
-            <div className="mx-2 mt-1.5 rounded-lg border border-gray-100 bg-white p-3">
-              <p className="text-[13px] font-normal text-gray-800">User Segments</p>
-              <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
-              <div className="flex items-end gap-1 h-10">
-                {ALL_BARS.slice(0, barCount).map((h, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex-1 rounded-sm origin-bottom"
-                    style={{ backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)' }}
-                    initial={{ scaleY: 0, height: `${h}%` }}
-                    animate={{ scaleY: fullyVisible ? 1 : 0, height: `${h}%` }}
-                    transition={{ duration: 0.5, delay: 0.4 + i * 0.06, ease: 'easeOut' }}
-                  />
-                ))}
+            {/* User Segments card — hidden on mobile (≤767) */}
+            {!compact && (
+              <div className="mx-2 mt-1.5 rounded-lg border border-gray-100 bg-white p-3">
+                <p className="text-[13px] font-normal text-gray-800">User Segments</p>
+                <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
+                <div className="flex items-end gap-1 h-10">
+                  {[55, 70, 100, 75, 85, 60, 90, 45].map((h, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex-1 rounded-sm origin-bottom"
+                      style={{ backgroundColor: i === 2 ? '#F94500' : 'rgba(249,69,0,0.3)' }}
+                      initial={{ scaleY: 0, height: `${h}%` }}
+                      animate={{ scaleY: fullyVisible ? 1 : 0, height: `${h}%` }}
+                      transition={{ duration: 0.5, delay: 0.4 + i * 0.06, ease: 'easeOut' }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Competitor Analysis card */}
             <div className="mx-2 mt-1.5 mb-2 rounded-lg border border-gray-100 bg-white p-3">
@@ -207,7 +196,7 @@ function DiscoverIllustration({ active }: { active: boolean }) {
   )
 }
 
-function DesignIllustration() {
+function DesignIllustration({ compact }: { compact?: boolean } = {}) {
   const rootRef = useRef<HTMLDivElement>(null)
   const [fullyVisible, setFullyVisible] = useState(false)
 
@@ -288,7 +277,8 @@ function DesignIllustration() {
             </div>
           </div>
 
-          {/* Component list */}
+          {/* Component list — hidden on mobile (≤767) */}
+          {!compact && (
           <div className="rounded-lg border border-gray-100 bg-white p-3">
             <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
             {components.map(({ label, icon }, i) => (
@@ -310,6 +300,7 @@ function DesignIllustration() {
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       </div>
     </div>
@@ -344,7 +335,7 @@ const CODE_CHARS: CodeChar[] = CODE_DEF.flatMap((line, li) =>
   )
 )
 
-function BuildIllustration() {
+function BuildIllustration({ codeDef = CODE_DEF, codeChars = CODE_CHARS }: { codeDef?: CodeLine[]; codeChars?: CodeChar[] } = {}) {
   const rootRef = useRef<HTMLDivElement>(null)
   const [fullyVisible, setFullyVisible] = useState(false)
   const [charCount, setCharCount] = useState(0)
@@ -368,7 +359,7 @@ function BuildIllustration() {
     const interval = setInterval(() => {
       i++
       setCharCount(i)
-      if (i >= CODE_CHARS.length) clearInterval(interval)
+      if (i >= codeChars.length) clearInterval(interval)
     }, 15)
     return () => clearInterval(interval)
     // NOTE: 15ms interval = ~67 state updates/sec + per-render array rebuild + 317 individual char spans.
@@ -377,7 +368,7 @@ function BuildIllustration() {
   }, [fullyVisible])
 
   useEffect(() => {
-    if (charCount < CODE_CHARS.length) return
+    if (charCount < codeChars.length) return
     let i = 0
     const interval = setInterval(() => {
       i++
@@ -399,13 +390,13 @@ function BuildIllustration() {
     return () => timers.forEach(clearTimeout)
   }, [cmdCount])
 
-  const done = charCount >= CODE_CHARS.length
-  const visibleChars = CODE_CHARS.slice(0, charCount)
+  const done = charCount >= codeChars.length
+  const visibleChars = codeChars.slice(0, charCount)
   const lastChar = visibleChars[visibleChars.length - 1]
   const currentLineIndex = lastChar?.lineIndex ?? -1
 
   // Group visible chars by line
-  const lineChars: CodeChar[][] = Array.from({ length: CODE_DEF.length }, () => [])
+  const lineChars: CodeChar[][] = Array.from({ length: codeDef.length }, () => [])
   visibleChars.forEach(c => lineChars[c.lineIndex].push(c))
 
   return (
@@ -428,16 +419,16 @@ function BuildIllustration() {
         {/* Code */}
         <div className="flex text-[10px] leading-5 border-b border-gray-100">
           <div className="py-3 px-2 text-right select-none text-gray-300 border-r border-gray-100" style={{ minWidth: '28px' }}>
-            {CODE_DEF.map((_, n) => (
+            {codeDef.map((_, n) => (
               <div key={n}>{n + 1}</div>
             ))}
           </div>
           <div className="py-3 px-3 overflow-hidden">
-            {CODE_DEF.map((line, li) => {
+            {codeDef.map((line, li) => {
               const chars = lineChars[li]
               if (chars.length === 0 && li > currentLineIndex) return <div key={li} style={{ visibility: 'hidden' }}>&nbsp;</div>
               return (
-                <div key={li} className={line.indent ?? ''}>
+                <div key={li} className={`min-h-5 whitespace-nowrap ${line.indent ?? ''}`}>
                   {chars.map((c, ci) => (
                     <span key={ci} className={c.className}>{c.char}</span>
                   ))}
@@ -558,7 +549,7 @@ function LaunchIllustration() {
 
         {/* Deploy badge */}
         <motion.div
-          className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1"
+          className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: v ? 1 : 0, y: v ? 0 : -8 }}
           transition={{ duration: 0.4, delay: 1.2 }}
@@ -648,7 +639,7 @@ function DiscoverWide({ active }: { active: boolean }) {
             <p className="text-[12px] font-normal text-gray-800">User Segments</p>
             <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
             <div className="flex items-end gap-1 h-[60px]">
-              {ALL_BARS.slice(0, 6).map((h, i) => (
+              {[55, 70, 100, 75, 85, 60].map((h, i) => (
                 <motion.div
                   key={i}
                   className="flex-1 rounded-sm origin-bottom"
@@ -789,6 +780,20 @@ const CODE_CHARS_WIDE: CodeChar[] = CODE_DEF_WIDE.flatMap((line, li) =>
   )
 )
 
+// Shortest code set — mobile only
+const CODE_DEF_MINI: CodeLine[] = [
+  { segments: [{ text: '<script', className: 'text-pink-500' }, { text: ' setup lang', className: 'text-orange-400' }, { text: '="', className: 'text-gray-500' }, { text: 'ts', className: 'text-emerald-500' }, { text: '">', className: 'text-gray-500' }] },
+  { segments: [{ text: 'import', className: 'text-violet-500' }, { text: " { computed }", className: 'text-gray-600' }, { text: ' from', className: 'text-violet-500' }, { text: " 'vue'", className: 'text-emerald-500' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' projects', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' useApi', className: 'text-sky-500' }, { text: "('/projects')", className: 'text-gray-600' }] },
+  { segments: [{ text: 'const', className: 'text-violet-500' }, { text: ' active', className: 'text-sky-500' }, { text: ' =', className: 'text-gray-400' }, { text: ' computed', className: 'text-sky-500' }, { text: "(p => p.active)", className: 'text-gray-600' }] },
+]
+
+const CODE_CHARS_MINI: CodeChar[] = CODE_DEF_MINI.flatMap((line, li) =>
+  line.segments.flatMap((seg, si) =>
+    seg.text.split('').map(char => ({ char, className: seg.className, lineIndex: li, segIndex: si }))
+  )
+)
+
 function BuildWide() {
   const { ref, entered: fullyVisible } = useEnteredOnce()
   const [charCount, setCharCount] = useState(0)
@@ -866,7 +871,7 @@ function BuildWide() {
                 const chars = lineChars[li]
                 if (chars.length === 0 && li > currentLineIndex) return <div key={li} style={{ visibility: 'hidden' }}>&nbsp;</div>
                 return (
-                  <div key={li} className={line.indent ?? ''}>
+                  <div key={li} className={`min-h-5 whitespace-nowrap ${line.indent ?? ''}`}>
                     {chars.map((c, ci) => (
                       <span key={ci} className={c.className}>{c.char}</span>
                     ))}
@@ -901,13 +906,23 @@ function BuildWide() {
   )
 }
 
-function StepIllustration({ step, sectionEntered, wide }: { step: number; sectionEntered: boolean; wide?: boolean }) {
+function StepIllustration({ step, sectionEntered, wide, mobile }: { step: number; sectionEntered: boolean; wide?: boolean; mobile?: boolean }) {
   if (wide) {
     switch (step) {
       case 0: return <DiscoverWide active={sectionEntered} />
       case 1: return <DesignWide />
       case 2: return <BuildWide />
       case 3: return <LaunchIllustration />
+      default: return null
+    }
+  }
+  if (mobile) {
+    // Vertical originals, capped narrower; Launch is pure SVG (h-full) so it needs an aspect box
+    switch (step) {
+      case 0: return <div className="mx-auto w-full max-w-[260px]"><DiscoverIllustration active={sectionEntered} compact /></div>
+      case 1: return <div className="mx-auto w-full max-w-[260px]"><DesignIllustration compact /></div>
+      case 2: return <div className="mx-auto w-full max-w-[260px]"><BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} /></div>
+      case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
       default: return null
     }
   }
@@ -1040,7 +1055,7 @@ export default function ProcessSection() {
             </div>
 
             {/* Main content area */}
-            <div className="flex flex-1 flex-col justify-center gap-0 md:gap-14 lg:flex-row lg:items-center lg:gap-12">
+            <div className="flex flex-1 flex-col justify-center gap-12 md:gap-14 lg:flex-row lg:items-center lg:gap-12">
               {/* Number + text — own row on tablet; lg:contents dissolves wrapper so all 3 sit in one row at ≥1024 */}
               <div className="flex flex-col md:flex-row md:items-center md:gap-12 lg:contents">
               {/* Step number — large typographic anchor */}
@@ -1055,7 +1070,7 @@ export default function ProcessSection() {
 
               {/* Step text */}
               <div className="flex flex-1 flex-col justify-center">
-                <div className="h-[280px] flex flex-col justify-end overflow-hidden">
+                <div className="h-auto md:h-[280px] flex flex-col justify-end overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
@@ -1108,8 +1123,24 @@ export default function ProcessSection() {
               </div>
               </div>
 
-              {/* Step illustration — wide variant on tablet (768–1023) */}
-              <div className="hidden w-full max-w-[750px] shrink-0 md:block lg:hidden" style={{ height: 'clamp(230px, 30vw, 300px)' }}>
+              {/* Step illustration — vertical variant: width 350–650px AND height ≥790px */}
+              <div className="mx-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:650px)_and_(min-height:790px)]:block">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeStep}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
+                    className="h-full w-full"
+                  >
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} mobile />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Step illustration — wide variant on tablet (651–1023) */}
+              <div className="hidden w-full max-w-[750px] shrink-0 min-[651px]:block lg:hidden" style={{ height: 'clamp(230px, 30vw, 300px)' }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
