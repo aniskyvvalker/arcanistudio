@@ -1123,8 +1123,8 @@ export default function ProcessSection() {
               </div>
               </div>
 
-              {/* Step illustration — vertical variant: width 350–650px AND height ≥790px */}
-              <div className="mx-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:650px)_and_(min-height:790px)]:block">
+              {/* Step illustration — vertical variant: width 350–599px AND height ≥790px */}
+              <div className="mx-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:599px)_and_(min-height:790px)]:block">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
@@ -1139,8 +1139,8 @@ export default function ProcessSection() {
                 </AnimatePresence>
               </div>
 
-              {/* Step illustration — wide variant on tablet (651–1023) */}
-              <div className="hidden w-full max-w-[750px] shrink-0 min-[651px]:block lg:hidden" style={{ height: 'clamp(230px, 30vw, 300px)' }}>
+              {/* Step illustration — wide variant on tablet (600–1023) */}
+              <div className="hidden w-full max-w-[750px] shrink-0 min-[600px]:block lg:hidden" style={{ height: 'clamp(230px, 30vw, 300px)' }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
