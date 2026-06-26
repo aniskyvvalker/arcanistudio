@@ -917,11 +917,11 @@ function StepIllustration({ step, sectionEntered, wide, mobile }: { step: number
     }
   }
   if (mobile) {
-    // Vertical originals, capped narrower; Launch is pure SVG (h-full) so it needs an aspect box
+    // Vertical originals fill the container; Launch is pure SVG (h-full) so it needs an aspect box
     switch (step) {
-      case 0: return <div className="mx-auto w-full max-w-[260px]"><DiscoverIllustration active={sectionEntered} compact /></div>
-      case 1: return <div className="mx-auto w-full max-w-[260px]"><DesignIllustration compact /></div>
-      case 2: return <div className="mx-auto w-full max-w-[260px]"><BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} /></div>
+      case 0: return <DiscoverIllustration active={sectionEntered} compact />
+      case 1: return <DesignIllustration compact />
+      case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} />
       case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
       default: return null
     }
@@ -1124,7 +1124,7 @@ export default function ProcessSection() {
               </div>
 
               {/* Step illustration — vertical variant: width 350–549px AND height ≥790px */}
-              <div className="mx-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:549px)_and_(min-height:790px)]:block">
+              <div className="mr-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:549px)_and_(min-height:790px)]:block">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
