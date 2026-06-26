@@ -6,28 +6,38 @@ import { Plus, Minus } from 'lucide-react'
 
 const faqs = [
   {
-    q: 'How much does a project cost?',
-    a: "Every project is scoped to what it actually needs — most engagements start around $4,000 and scale with complexity. Tell us what you're building and we'll send a clear, fixed quote before any work begins. No surprise invoices.",
-  },
-  {
-    q: 'How long does a typical project take?',
-    a: 'A focused brand site runs 4–6 weeks. Larger builds with custom functionality land closer to 8–12. We give you a real timeline up front and hold to it.',
+    q: 'What types of applications do you build?',
+    a: 'We build web applications, mobile apps (iOS and Android), AI-integrated management systems (CRM, ERP), custom dashboards, and SaaS platforms. Every solution is tailored to your needs.',
   },
   {
     q: 'What does the process look like?',
-    a: "Three phases: Discover (we map your users, goals, and constraints), Design (high-fidelity interfaces built for your product, not a template), and Build (production code, fast and accessible by default). One team, start to finish — no handoff gaps.",
+    a: 'It starts with a free 30-minute discovery call. From there, we move through five clear stages: strategy & goals, copywriting, UX/UI design, development, and delivery with onboarding. You review and approve each phase before we move to the next.',
+  },
+  {
+    q: 'How long does a project take?',
+    a: 'Timelines depend on scope. A landing page ships in 7–10 business days, a full website in 3–5 weeks, and complex systems like CRMs or ERPs run 3–6 months. After the discovery call, you get a precise schedule — and we hold to it.',
+  },
+  {
+    q: 'How does payment work?',
+    a: 'Most projects are split into milestones: 40% upfront to kick off, 30% at mid-project, and 30% final payment on delivery.',
   },
   {
     q: 'Do I own the designs and the code?',
-    a: 'Yes — completely. On final payment, every file, design asset, and line of code is yours. No license traps, no hostage situations.',
+    a: 'Yes — completely. On final payment, the code, the designs, and the data are all yours. No license traps, no hostage situations.',
   },
+
   {
-    q: 'What happens after launch?',
-    a: "We don't disappear. You get a window of post-launch support to iron out anything, and for teams that want ongoing work, we offer monthly retainers for design and development.",
+    q: 'Will my site rank well on Google (SEO)?',
+    // FR: 'Oui — le SEO est intégré à chaque projet : structure sémantique propre, balises meta, temps de chargement rapides, design responsive et sitemap... Tout ce qui compte pour un bon positionnement sur Google. C\'est un avantage technique concret dès le lancement.',
+    a: 'Yes — SEO is built into every project: clean semantic structure, meta tags, fast load times, responsive design, and a sitemap... Everything that matters for ranking well on Google. A concrete technical edge, not an afterthought.',
   },
+  // {
+  //   q: 'Do you work with international clients?',
+  //   a: "Yes. We work remotely with teams across North America and Europe, adapt to your timezone for calls, and keep everything async and documented in between.",
+  // },
   {
-    q: 'Do you work with clients outside Algeria?',
-    a: "Most of our clients are. We work remotely with teams across North America and Europe, adapt to your timezone for calls, and keep everything async and documented in between.",
+    q: 'Do you provide ongoing support and maintenance?',
+    a: "Yes. For ongoing needs, an optional monthly plan covers maintenance, updates, and technical check-ins that keep your site secure and up to date — a practical way to have a dedicated developer on call, without hiring one.",
   },
 ]
 
