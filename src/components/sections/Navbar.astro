@@ -13,35 +13,37 @@ const navLinks = [
 <header class="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
   <nav
     id="main-nav"
-    class="navbar-glass flex h-12 w-full max-w-4xl items-center justify-between gap-6 rounded-full pl-4 pr-2"
+    class="navbar-glass grid h-12 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-full pl-4 pr-2"
   >
-    <a href="/" class="flex items-center gap-2">
+    <a href="/" class="flex items-center gap-2 justify-self-start">
       <span
-        class="h-5 w-5 bg-palette-100 [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
+        class="h-[18px] w-[18px] shrink-0 bg-palette-100 [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
         role="img"
         aria-label="Arcani Studio"
       ></span>
-      <span class="font-clash text-h5 leading-tight font-semibold text-white whitespace-nowrap">Arcani<span class="hidden lg:inline"> Studio</span></span>
+      <span class="hidden text-tooltip-l font-medium leading-tight text-palette-200 whitespace-nowrap lg:inline">Digital Solutions With Purpose</span>
     </a>
 
-    <ul class="hidden items-center gap-1 text-p-regular font-medium md:flex">
-      {navLinks.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            class="nav-link px-3 py-1.5"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <span class="font-clash text-[24px] leading-tight font-medium text-white whitespace-nowrap justify-self-center">ArcaniStudio</span>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center justify-end gap-2 justify-self-end">
+      <ul class="hidden items-center gap-0 text-p-regular font-normal md:flex">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="nav-link px-2 py-1.5"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
       <a
         id="cta-btn"
         href="#contact"
-        class="overflow-hidden rounded-full bg-primary-600 px-4 py-2 text-tooltip-l font-medium text-white transition-colors duration-700 hover:bg-white hover:text-black"
+        class="shrink-0 overflow-hidden whitespace-nowrap rounded-full bg-primary-600 px-4 py-2 text-tooltip-l font-medium text-white transition-colors duration-700 hover:bg-white hover:text-black"
       >
         <span id="cta-inner" class="flex items-center gap-3">
           <span id="cta-chevron" style="display:inline-flex;flex-shrink:0;transition:transform 0.7s cubic-bezier(0.22,1,0.36,1)"><svg width="6" height="11" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -129,7 +131,7 @@ const navLinks = [
 
   .nav-link {
     position: relative;
-    padding: 0.375rem 0.75rem;
+    padding: 0.375rem 0.5rem;
     color: white;
     text-decoration: none;
     transition: color 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -147,8 +149,8 @@ const navLinks = [
     content: '';
     position: absolute;
     bottom: 2px;
-    left: 0.75rem;
-    right: 0.75rem;
+    left: 0.5rem;
+    right: 0.5rem;
     height: 1.5px;
     background: #ffffff;
     transform: scaleX(0);
