@@ -13,20 +13,21 @@ const navLinks = [
 <header class="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
   <nav
     id="main-nav"
-    class="navbar-glass grid h-12 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-full pl-4 pr-2"
+    class="navbar-glass grid h-12 w-full max-w-7xl grid-cols-[auto_auto_1fr] items-center gap-4 rounded-full pl-4 pr-2 min-[1200px]:grid-cols-[1fr_auto_1fr]"
   >
-    <a href="/" class="flex items-center gap-2 justify-self-start">
+    <a href="/" class="col-start-1 flex items-center gap-2 justify-self-start">
       <span
         class="h-[18px] w-[18px] shrink-0 bg-palette-100 [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
         role="img"
         aria-label="Arcani Studio"
       ></span>
-      <span class="hidden text-tooltip-l font-medium leading-tight text-palette-200 whitespace-nowrap lg:inline">Digital Solutions With Purpose</span>
+      <span class="hidden text-tooltip-l font-medium leading-tight text-palette-200 whitespace-nowrap min-[1200px]:inline">Digital Solutions With Purpose</span>
+      <span class="font-clash text-[24px] leading-tight font-medium text-white whitespace-nowrap min-[1200px]:hidden">ArcaniStudio</span>
     </a>
 
-    <span class="font-clash text-[24px] leading-tight font-medium text-white whitespace-nowrap justify-self-center">ArcaniStudio</span>
+    <span class="col-start-2 hidden font-clash text-[24px] leading-tight font-medium text-white whitespace-nowrap justify-self-center min-[1200px]:block">ArcaniStudio</span>
 
-    <div class="flex items-center justify-end gap-2 justify-self-end">
+    <div class="col-start-3 flex items-center justify-end gap-2 justify-self-end">
       <ul class="hidden items-center gap-0 text-p-regular font-normal md:flex">
         {navLinks.map((link) => (
           <li>
