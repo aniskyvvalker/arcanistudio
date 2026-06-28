@@ -232,7 +232,7 @@ export default function ContactSection() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[900px] px-6 py-16 md:px-12 md:py-24">
+      <div className="mx-auto max-w-[900px] px-6 pt-16 md:px-12" style={{ paddingBottom: 'clamp(64px, calc(43.49px + 5.128vw), 96px)' }}>
 
         {/* Animated step content only */}
         <div key={animKey} className={dir === 'fwd' ? 'step-enter-fwd' : 'step-enter-bwd'}>
