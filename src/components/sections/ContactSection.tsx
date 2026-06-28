@@ -46,13 +46,14 @@ const CHOICE_STEPS = [
   {
     question: "What are you building?",
     field: 'project' as const,
-    // FR: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion', 'Application web / mobile', 'Autre']
-    options: ['Business website / Landing page', 'Online store', 'Management software', 'Web / mobile app', 'Something else'],
+    // FR: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre']
+    options: ['Business website / Landing page', 'Online store', 'Custom management software (ERP / CRM)', 'Web / mobile app', 'Something else'],
   },
   {
     question: "When do you need it?",
     field: 'timeline' as const,
-    options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'No rush, flexible'],
+    // FR: ['Le plus tôt possible', '1 – 3 mois', '3 – 6 mois', "Je m'informe pour l'instant"]
+    options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'Just exploring options'],
   },
   {
     // DEFAULT for this step. Overridden at render to BUSINESS_SIZE_STEP when the
@@ -81,7 +82,7 @@ const CHOICE_STEPS = [
 const BUDGET_BY_PROJECT: Record<string, string[]> = {
   'Business website / Landing page': ['Under 50,000 DZD', '50,000 – 120,000 DZD', '120,000 – 250,000 DZD', '250,000 DZD and above'],
   'Online store': ['Under 100,000 DZD', '100,000 – 250,000 DZD', '250,000 – 600,000 DZD', '600,000 DZD and above'],
-  'Management software': ['Under 300,000 DZD', '300,000 – 600,000 DZD', '600,000 – 1,100,000 DZD', '1,100,000 DZD and above'],
+  'Custom management software (ERP / CRM)': ['Under 300,000 DZD', '300,000 – 600,000 DZD', '600,000 – 1,100,000 DZD', '1,100,000 DZD and above'],
   'Web / mobile app': ['Under 600,000 DZD', '600,000 – 1,500,000 DZD', '1,500,000 – 3,000,000 DZD', '3,000,000 DZD and above'],
 }
 
@@ -277,7 +278,7 @@ export default function ContactSection() {
               config={
                 CHOICE_STEPS[step].field === 'budget'
                   ? { ...CHOICE_STEPS[step], options: BUDGET_BY_PROJECT[selections.project] ?? CHOICE_STEPS[step].options }
-                  : CHOICE_STEPS[step].field === 'company' && selections.project === 'Management software'
+                  : CHOICE_STEPS[step].field === 'company' && selections.project === 'Custom management software (ERP / CRM)'
                     ? BUSINESS_SIZE_STEP
                     : CHOICE_STEPS[step]
               }
@@ -351,6 +352,20 @@ export default function ContactSection() {
   )
 }
 
+// Renders an option label, keeping any trailing "(...)" group unbreakable: it
+// wraps to the next line as a whole rather than splitting (e.g. never "(ERP /"
+// on one line and "CRM)" on the next). Data string stays clean — display only.
+function renderOptionLabel(option: string) {
+  const idx = option.indexOf(' (')
+  if (idx === -1) return option
+  return (
+    <>
+      {option.slice(0, idx)}{' '}
+      <span className="whitespace-nowrap">{option.slice(idx + 1)}</span>
+    </>
+  )
+}
+
 function ChoiceStep({
   config, selected, onPick, otherText, onOtherChange,
 }: {
@@ -406,7 +421,7 @@ function ChoiceStep({
                       color: isActive ? '#ffffff' : '#A1A1A1',
                     }}
                   >
-                    {option}
+                    {renderOptionLabel(option)}
                   </span>
                 )}
                 <span

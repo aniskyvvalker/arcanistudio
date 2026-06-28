@@ -137,7 +137,7 @@ function formatLines(lead: Lead): string[] {
     `Timeline: ${lead.timeline || '—'}`,
     // The `company` field is reused by the form: it holds business size for
     // "Management software" leads, otherwise the main goal. Label accordingly.
-    `${lead.project === 'Management software' ? 'Business size' : 'Goal'}: ${lead.company || '—'}`,
+    `${lead.project === 'Custom management software (ERP / CRM)' ? 'Business size' : 'Goal'}: ${lead.company || '—'}`,
     `Budget: ${lead.budget || '—'}`,
     '',
     `Name: ${lead.name}`,
