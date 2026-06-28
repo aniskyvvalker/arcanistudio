@@ -508,9 +508,9 @@ function ContactStep({
         */}
 
         <div className="border-t border-palette-800/60 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-          <p className="text-[12px] max-w-xs leading-relaxed" style={{ color: error ? '#F94500' : undefined }}>
+          <p className="text-[14px] max-w-xs leading-relaxed" style={{ color: error ? '#F94500' : undefined }}>
             {error ? error : (
-              <span className="text-palette-600">We'll reach out within 24 hours to book your call.</span>
+              <span className="text-palette-500">We'll reach out within 24 hours to book your call.</span>
             )}
           </p>
           <div className="flex items-center gap-4">
@@ -550,14 +550,14 @@ function InputField({
 }) {
   return (
     <div className={`py-6 ${className}`}>
-      <label className="block text-[11px] font-medium text-palette-500 mb-3 tracking-widest uppercase">
+      <label className="block text-[13px] font-medium text-palette-400 mb-3 tracking-widest uppercase">
         {label}
       </label>
       <input
         type={type} name={name} value={value} onChange={onChange} required={required}
         maxLength={maxLength}
         placeholder={placeholder ?? label}
-        className="w-full bg-transparent text-white text-[15px] font-light placeholder:text-palette-700 focus:outline-none"
+        className="w-full bg-transparent text-white text-[15px] font-light placeholder:text-palette-600 focus:outline-none"
       />
     </div>
   )
