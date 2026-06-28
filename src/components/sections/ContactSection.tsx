@@ -55,16 +55,44 @@ const CHOICE_STEPS = [
     options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'No rush, flexible'],
   },
   {
-    question: "How big is your team?",
+    // DEFAULT for this step. Overridden at render to BUSINESS_SIZE_STEP when the
+    // project is "Management software" (headcount drives the quote there — users,
+    // seats, roles; for everyone else the goal is the more useful signal). Both
+    // reuse the 'company' slot/server field.
+    question: "What's your main goal?",
     field: 'company' as const,
-    options: ['Solo / Micro (1–5)', 'Small team (6–20)', 'Mid-size (21–50)', 'Large (50+)'],
+    // FR: ['Avoir plus de clients', 'Vendre en ligne', 'Paraître professionnel et crédible', 'Remplacer un site existant']
+    options: ['Get more customers', 'Sell online', 'Look professional & credible', 'Replace something old'],
   },
   {
     question: "What's your budget?",
     field: 'budget' as const,
-    options: ['Under $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000 and above'],
+    // Options are OVERRIDDEN at render time per the project chosen in step 0
+    // (see BUDGET_BY_PROJECT below). These are the fallback (used for
+    // "Something else" / unknown project).
+    options: ['Under 100,000 DZD', '100,000 – 300,000 DZD', '300,000 – 800,000 DZD', '800,000 DZD and above'],
   },
 ]
+
+// Budget brackets in DZD, tailored to each project type from step 0. A landing
+// page and a custom app are not the same money — showing one set for all either
+// scares small buyers or under-quotes big ones. Key = exact project option label
+// from CHOICE_STEPS[0]. Fallback = the budget step's own `options` above.
+const BUDGET_BY_PROJECT: Record<string, string[]> = {
+  'Business website / Landing page': ['Under 50,000 DZD', '50,000 – 120,000 DZD', '120,000 – 250,000 DZD', '250,000 DZD and above'],
+  'Online store': ['Under 100,000 DZD', '100,000 – 250,000 DZD', '250,000 – 600,000 DZD', '600,000 DZD and above'],
+  'Management software': ['Under 300,000 DZD', '300,000 – 600,000 DZD', '600,000 – 1,100,000 DZD', '1,100,000 DZD and above'],
+  'Web / mobile app': ['Under 600,000 DZD', '600,000 – 1,500,000 DZD', '1,500,000 – 3,000,000 DZD', '3,000,000 DZD and above'],
+}
+
+// Shown in place of the goal question ONLY for "Management software" leads —
+// team/company size drives the quote there (users, seats, roles). Same 'company' field.
+const BUSINESS_SIZE_STEP = {
+  question: "How big is your business?",
+  field: 'company' as const,
+  // FR: ['Solo / Micro (1–5)', 'Petite (6–20)', 'Moyenne (21–50)', 'Grande (50+)']
+  options: ['Solo / Micro (1–5)', 'Small (6–20)', 'Mid-size (21–50)', 'Large (50+)'],
+}
 
 type Selections = { project: string; company: string; budget: string; timeline: string }
 type Contact = { name: string; email: string; phone: string; business: string; message: string }
@@ -96,7 +124,15 @@ export default function ContactSection() {
   }
 
   function pick(field: keyof Selections, value: string) {
-    setSelections(s => ({ ...s, [field]: value }))
+    // The budget step (BUDGET_BY_PROJECT) AND the company step (goal vs
+    // business-size, see BUSINESS_SIZE_STEP) both depend on the chosen project.
+    // If the project changes, any previously-picked budget/company answer belongs
+    // to the old variant — clear both so a stale value can't be carried/submitted.
+    setSelections(s => ({
+      ...s,
+      [field]: value,
+      ...(field === 'project' && value !== s.project ? { budget: '', company: '' } : {}),
+    }))
     if (value !== 'Something else') setTimeout(() => navigate(step + 1), 150)
   }
 
@@ -238,7 +274,13 @@ export default function ContactSection() {
         <div key={animKey} className={dir === 'fwd' ? 'step-enter-fwd' : 'step-enter-bwd'}>
           {step < 4 ? (
             <ChoiceStep
-              config={CHOICE_STEPS[step]}
+              config={
+                CHOICE_STEPS[step].field === 'budget'
+                  ? { ...CHOICE_STEPS[step], options: BUDGET_BY_PROJECT[selections.project] ?? CHOICE_STEPS[step].options }
+                  : CHOICE_STEPS[step].field === 'company' && selections.project === 'Management software'
+                    ? BUSINESS_SIZE_STEP
+                    : CHOICE_STEPS[step]
+              }
               selected={selections[CHOICE_STEPS[step].field]}
               onPick={(val) => pick(CHOICE_STEPS[step].field, val)}
               otherText={step === 0 ? otherText : undefined}
@@ -428,10 +470,10 @@ function ContactStep({
         <div className="grid sm:grid-cols-2 border-t border-palette-800/60">
           {/* maxLength = UX caps (tighter than the server's leadSchema in
               src/actions/index.ts, which stays the security backstop). */}
-          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required maxLength={50} className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required maxLength={50} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
-          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} required maxLength={40} className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} maxLength={200} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required maxLength={50} placeholder="Full name" className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required maxLength={50} placeholder="you@company.com" className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} required maxLength={40} placeholder="+213 ..." className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} maxLength={200} placeholder="Company or brand" className="border-b border-palette-800/60 pl-0 sm:pl-8" />
         </div>
 
         {/* Message field — hidden, uncomment to restore
@@ -485,11 +527,11 @@ function ContactStep({
 }
 
 function InputField({
-  label, name, type, value, onChange, required, maxLength, className = '',
+  label, name, type, value, onChange, required, maxLength, placeholder, className = '',
 }: {
   label: string; name: string; type: string; value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  required?: boolean; maxLength?: number; className?: string
+  required?: boolean; maxLength?: number; placeholder?: string; className?: string
 }) {
   return (
     <div className={`py-6 ${className}`}>
@@ -499,7 +541,7 @@ function InputField({
       <input
         type={type} name={name} value={value} onChange={onChange} required={required}
         maxLength={maxLength}
-        placeholder={label}
+        placeholder={placeholder ?? label}
         className="w-full bg-transparent text-white text-[15px] font-light placeholder:text-palette-700 focus:outline-none"
       />
     </div>
