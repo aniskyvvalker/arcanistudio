@@ -1,13 +1,53 @@
 ---
-import { Atom, Hexagon, Layers, Sparkle, Zap } from 'lucide-react'
+import { Image } from 'astro:assets'
+// import { Atom, Hexagon, Layers, Sparkle, Zap } from 'lucide-react'
 import { ScrollGlow } from '../ScrollGlow'
 
+import dentalCareSeattle from '../../assets/logos/dental-care-seattle-gray.webp'
+import dentalCareSeattleMark from '../../assets/logos/dental-care-seattle-favicon-gray.webp'
+import cafeBuade from '../../assets/logos/cafe-buade-gray.webp'
+import popPop from '../../assets/logos/pop-pop-gray.webp'
+import skyDental from '../../assets/logos/sky-dental.svg'
+import sevenHills from '../../assets/logos/sevenhills-gray.webp'
+import syncBrokerage from '../../assets/logos/sync-brokerage-gray.webp'
+import capleCo from '../../assets/logos/caple-co-gray.webp'
+import suntria from '../../assets/logos/suntria.svg'
+import arthurYeh from '../../assets/logos/arthur-yeh-mark-gray.webp'
+import axels from '../../assets/logos/axels-mark-gray.webp'
+import orvosh from '../../assets/logos/orvosh-gray.webp'
+import mamac from '../../assets/logos/mamac-gray.webp'
+import jj from '../../assets/logos/jj-gray.webp'
+import sherGroup from '../../assets/logos/sher-group-gray.webp'
+import sherGroupWhite from '../../assets/logos/sher-group-white-gray.webp'
+import bLogo from '../../assets/logos/b-logo-gray.webp'
+
 const logos = [
-  { label: 'Nordica', icon: Atom },
-  { label: 'Acme Co', icon: Sparkle },
-  { label: 'Lumen', icon: Zap },
-  { label: 'Vertex', icon: Layers },
-  { label: 'Sphere', icon: Hexagon },
+  // ── Original lucide icon placeholders (disabled) ──────────────────────────
+  // Replaced by the real client logos below. To restore them, uncomment these
+  // lines AND re-enable the lucide import at the top of this file.
+  // The `icon` render branch further down is still in place to support them.
+  // { label: 'Nordica', icon: Atom },
+  // { label: 'Acme Co', icon: Sparkle },
+  // { label: 'Lumen', icon: Zap },
+  // { label: 'Vertex', icon: Layers },
+  // { label: 'Sphere', icon: Hexagon },
+  // ── Real client logos (grayscale, transparent bg) ─────────────────────────
+  { label: 'Dental Care Seattle', src: dentalCareSeattle, mark: dentalCareSeattleMark },
+  { label: 'Café Buade', src: cafeBuade, imgClass: 'h-9' },
+  { label: 'POP POP', src: popPop, imgClass: 'h-8' },
+  { label: 'Sky Dental', src: skyDental, imgClass: 'h-9' },
+  { label: 'Seven Hills', src: sevenHills, imgClass: 'h-8' },
+  { label: 'Sync Brokerage', src: syncBrokerage, imgClass: 'h-9' },
+  { label: 'The Sher Group (filled)', src: sherGroup, imgClass: 'h-10' },
+  { label: 'B', src: bLogo, imgClass: 'h-8' },
+  { label: 'Caple & Co', src: capleCo, imgClass: 'h-9' },
+  { label: 'Suntria', src: suntria, imgClass: 'h-6' },
+  { label: 'Dr. Arthur Yeh & Associates', src: arthurYeh, imgClass: 'h-8', opacity: 0.85 },
+  { label: "Axel's Landscaping Design", src: axels, imgClass: 'h-9' },
+  { label: 'Orvosh', src: orvosh, imgClass: 'h-8' },
+  { label: 'Mama C Cafe', src: mamac, imgClass: 'h-8' },
+  { label: 'J&J', src: jj, imgClass: 'h-6' },
+  { label: 'The Sher Group (white)', src: sherGroupWhite, imgClass: 'h-10' },
 ]
 ---
 
@@ -19,10 +59,19 @@ const logos = [
   <div class="mx-auto max-w-5xl px-4">
     <div class="ticker-mask relative overflow-hidden">
       <div class="ticker-track flex w-max items-center">
-        {[...logos, ...logos, ...logos, ...logos].map(({ label, icon: Icon }) => (
-          <div class="flex shrink-0 items-center gap-2 px-8 text-palette-800">
-            <Icon size={20} />
-            <span class="text-h5 font-semibold whitespace-nowrap">{label}</span>
+        {[...logos, ...logos, ...logos, ...logos].map(({ label, icon: Icon, src, mark, imgClass = 'h-6', opacity }) => (
+          <div class="flex shrink-0 items-center gap-2 px-8">
+            {src ? (
+              <>
+                {mark && <Image src={mark} alt="" class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading="eager" decoding="async" />}
+                <Image src={src} alt={label} class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading="eager" decoding="async" />
+              </>
+            ) : (
+              <div class="flex items-center gap-2 text-palette-800">
+                <Icon size={20} />
+                <span class="text-h5 font-semibold whitespace-nowrap">{label}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -52,14 +101,20 @@ const logos = [
 
   .ticker-track {
     animation: ticker-scroll 15s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .logo-img {
+    opacity: 0.7;
   }
 
   @keyframes ticker-scroll {
     from {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     to {
-      transform: translateX(-25%);
+      transform: translate3d(-25%, 0, 0);
     }
   }
 </style>
