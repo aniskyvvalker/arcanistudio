@@ -493,7 +493,7 @@ function InputField({
 }) {
   return (
     <div className={`py-6 ${className}`}>
-      <label className="block text-[11px] font-medium text-palette-600 mb-3 tracking-widest uppercase">
+      <label className="block text-[11px] font-medium text-palette-500 mb-3 tracking-widest uppercase">
         {label}
       </label>
       <input
