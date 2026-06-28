@@ -5,8 +5,14 @@ type ScrollGlowProps = {
   className?: string
   /** collapsed height in rem */
   minHeight?: number
-  /** expanded height in rem */
+  /** expanded glow height in rem (how tall the glow can visually grow) */
   maxHeight?: number
+  /**
+   * Layout space reserved below the content in rem. Defaults to maxHeight so
+   * the box never shifts. Set this SMALLER than maxHeight to let the glow grow
+   * taller (overflowing upward behind the content) without adding extra gap.
+   */
+  reserveHeight?: number
 }
 
 /**
@@ -14,22 +20,25 @@ type ScrollGlowProps = {
  * Height interpolates from minHeight -> maxHeight as the element scrolls
  * into view, mimicking the Framer ScrollGradient asset.
  */
-export function ScrollGlow({ className, minHeight = 2, maxHeight = 14 }: ScrollGlowProps) {
+export function ScrollGlow({ className, minHeight = 2, maxHeight = 14, reserveHeight }: ScrollGlowProps) {
+  const boxHeight = reserveHeight ?? maxHeight
   const container = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: container,
-    // animate while the element travels through the lower half of the viewport
-    offset: ['start end', 'end 60%'],
+    // start growing when the box top is 5% up from the bottom of the viewport
+    // (just appearing), reach max when its bottom is 45% down the viewport
+    offset: ['start 95%', 'end 45%'],
   })
 
   const height = useTransform(scrollYProgress, [0, 1], [`${minHeight}rem`, `${maxHeight}rem`])
 
   return (
-    // Reserve maxHeight up front so the box above (logo ticker) never
+    // Reserve `boxHeight` up front so the box above (logo ticker) never
     // shifts as the inner glow grows — the glow is pinned to the bottom
-    // of this fixed-size box and grows upward into it.
-    <div ref={container} className={className} style={{ width: '100%', height: `${maxHeight}rem`, position: 'relative' }}>
+    // of this box and grows upward. When boxHeight < maxHeight the glow
+    // overflows above the box (behind the content) without adding gap.
+    <div ref={container} className={className} style={{ width: '100%', height: `${boxHeight}rem`, position: 'relative' }}>
       <motion.div
         aria-hidden="true"
         style={{
