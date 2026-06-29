@@ -1,6 +1,16 @@
-import { useState, useRef, useLayoutEffect } from 'react'
+import { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
 import { actions } from 'astro:actions'
+import Cal, { getCalApi } from '@calcom/embed-react'
+
+// cal.com embed wants the path only ("arcani/book"), but PUBLIC_CALCOM_URL holds
+// the full URL ("https://cal.com/arcani/book"). Strip to the path. Empty = no
+// cal configured → we fall back to the static success screen.
+const CAL_LINK = (() => {
+  const url = import.meta.env.PUBLIC_CALCOM_URL
+  if (!url) return ''
+  try { return new URL(url).pathname.replace(/^\/+|\/+$/g, '') } catch { return '' }
+})()
 
 /* ============================================================================
  * CONTACT SECTION  —  multi-step lead form (React island, client:load)
@@ -107,6 +117,7 @@ export default function ContactSection() {
   const [contact, setContact] = useState<Contact>({ name: '', email: '', phone: '', business: '', message: '' })
   const [honeypot, setHoneypot] = useState('')
   const [sent, setSent] = useState(false)
+  const [showCal, setShowCal] = useState(false) // gates the cal.com embed behind a click on the success screen
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const backRef = useRef<HTMLButtonElement>(null)
@@ -211,29 +222,54 @@ export default function ContactSection() {
       return
     }
 
-    // Redirect the qualified lead straight to cal.com to book a slot, prefilling
-    // name + email so they don't retype. The lead already reached us via the
-    // action above (Telegram/email), so booking is the only thing left. If the
-    // URL isn't configured, fall back to the success screen.
-    const cal = import.meta.env.PUBLIC_CALCOM_URL
-    if (cal) {
-      const q = new URLSearchParams({ name: contact.name, email: contact.email })
-      window.location.href = `${cal}?${q}`
-      return
-    }
+    // Lead already reached us (Telegram/email) via the action above. Booking is
+    // all that's left — show it IN-PAGE: the sent branch renders an inline
+    // cal.com embed (prefilled), so the user never leaves the site. Falls back to
+    // the static success screen when PUBLIC_CALCOM_URL is unset (CAL_LINK empty).
     setSent(true)
   }
 
-  // Success screen. TODO(funnel): once cal.com exists this may be replaced by a
-  // redirect (see submit()), or kept as a fallback when PUBLIC_CALCOM_URL is unset.
+  // Success state. CALLBACK IS PRIMARY (matches the audience: low digital
+  // awareness, WhatsApp/phone converts best) — we lead with the reassurance that
+  // we'll reach out. Self-service cal.com booking is demoted to an OPTIONAL
+  // express lane below, for the eager few who want to lock a slot now. Booking is
+  // never a gate: the lead already reached us via the action before this screen.
   if (sent) {
     return (
-      <section id="contact" className="bg-palette-950 flex min-h-[60vh] items-center justify-center px-6">
-        <div className="text-center">
-          <p className="font-reckless text-[clamp(40px,6vw,72px)] font-light italic text-white leading-[1.05]">
+      <section id="contact" className="bg-palette-950 px-6 pt-32 pb-24 md:px-12">
+        <div className="mx-auto max-w-[1000px]">
+          <h2 className="font-reckless font-light italic text-white leading-[1.05]" style={{ fontSize: 'clamp(40px, 6vw, 72px)' }}>
             We'll be in touch<span style={{ color: '#F94500' }}>.</span>
+          </h2>
+          <p className="mt-5 text-palette-300 text-[15px] max-w-md leading-relaxed">
+            Got it — your request is in. We'll reach out by WhatsApp or phone within 24 hours to find a time that works.
           </p>
-          <p className="mt-5 text-palette-400 text-[15px]">We reply within 24 hours.</p>
+
+          {/* Optional express lane — only when cal.com is configured */}
+          {CAL_LINK && (
+            <div className="mt-16 border-t border-palette-800/60 pt-12">
+              <p className="text-[13px] font-medium text-palette-400 tracking-widest uppercase">
+                Prefer to lock a time now?
+              </p>
+              <p className="mt-3 text-palette-300 text-[15px] max-w-md leading-relaxed">
+                Skip the wait and grab a slot — your name and email are already filled in.
+              </p>
+              {showCal ? (
+                <div className="mt-8">
+                  <CalEmbed name={contact.name} email={contact.email} />
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowCal(true)}
+                  className="group mt-7 inline-flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal text-white transition-[background-color] duration-200"
+                  style={{ backgroundColor: '#F94500' }}
+                >
+                  Book a time now
+                  <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </section>
     )
@@ -349,6 +385,34 @@ export default function ContactSection() {
         }
       `}</style>
     </section>
+  )
+}
+
+// Inline cal.com booking calendar — rendered in the success state so the user
+// books without leaving the site. Dark-themed to match, brand color on accents,
+// name+email prefilled from the form so they don't retype.
+function CalEmbed({ name, email }: { name: string; email: string }) {
+  useEffect(() => {
+    let active = true
+    ;(async () => {
+      const cal = await getCalApi()
+      if (!active) return
+      cal('ui', {
+        theme: 'dark',
+        cssVarsPerTheme: { dark: { 'cal-brand': '#F94500' } },
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+    })()
+    return () => { active = false }
+  }, [])
+
+  return (
+    <Cal
+      calLink={CAL_LINK}
+      style={{ width: '100%', height: '100%', minHeight: '640px', overflow: 'scroll' }}
+      config={{ name, email, theme: 'dark', layout: 'month_view' }}
+    />
   )
 }
 
