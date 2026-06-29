@@ -6,82 +6,82 @@ import { useReducedMotion } from 'framer-motion'
 const TESTIMONIALS = [
   {
     quote:
-      "They spent two weeks understanding why our funnel was broken before touching a single screen. What came out of it was something we couldn't have arrived at alone.",
+      "Honestly I was skeptical at first because our last redesign went nowhere. But they actually dug into why people were dropping off at checkout instead of just making it look nicer.",
     author: 'Sofia R.',
   },
   {
     quote:
-      'The site they built for us books more appointments in a week than our old one did in a month. It just works.',
+      "Our old site barely got us a booking a week. The new one does a few a day now. I don't fully understand what they changed but it worked.",
     author: 'James M.',
   },
   {
     quote:
-      "We've worked with agencies that hand you a design and disappear. arcaniStudio stayed in it, QA, launch, the first round of real-user feedback. That's rare.",
+      "We changed direction halfway through and I braced for the usual fight about scope. They just reworked the plan and moved on. No drama, no surprise invoice.",
     author: 'Camille T.',
   },
   {
     quote:
-      "arcaniStudio pushed back on our brief because they'd spotted something we missed. That one conversation changed the direction of the whole product.",
+      "They pushed back on half my brief, which annoyed me at the time. They were right about most of it though.",
     author: 'Marcus O.',
   },
   {
     quote:
-      "Notre plateforme a été livrée en avance, sans bugs au lancement. Leur rigueur fait vraiment la différence.",
+      "Ce que j'ai apprécié c'est qu'ils répondaient vite, même aux questions un peu bêtes. On ne s'est jamais sentis laissés de côté.",
     author: 'Rayan B.',
   },
   {
     quote:
-      "They didn't just execute — they questioned every assumption we had. The final product was three times better than what we originally asked for.",
+      "We came in with a pretty fixed idea of what we wanted. They asked a lot of annoying questions and we ended up building something different. Glad they did.",
     author: 'Lena W.',
   },
   {
     quote:
-      "Working with arcaniStudio felt like having a co-founder with design superpowers. They cared about the outcome as much as we did.",
+      "Felt less like hiring an agency and more like having someone on the team who actually cared about the outcome as much as we did.",
     author: 'Mehdi K.',
   },
   {
     quote:
-      "Our conversion rate jumped 40% after the redesign. I didn't expect numbers like that from a visual overhaul.",
+      "Engagement went up after the redesign. Not going to throw a specific number at you but enough that my co-founder noticed before I told him.",
     author: 'Priya S.',
   },
   {
     quote:
-      "They rebuilt our dashboard from scratch in six weeks. It went from something our team dreaded to something they actually enjoy using.",
+      "Our internal dashboard used to be the thing nobody wanted to open. The team uses it without complaining now, which is honestly the highest praise I can give.",
     author: 'Yasmine A.',
   },
   {
     quote:
-      "Every decision was explained. Every tradeoff was laid out. I always knew exactly where we stood and why.",
+      "Whenever they made a call I didn't get, I could just ask and they'd explain the reasoning. Never felt like I was being managed.",
     author: 'Daniel F.',
   },
   {
     quote:
-      "We had a tight budget and they never made us feel it. The quality was the same as projects ten times our size.",
+      "We weren't a big budget client and I kept expecting to feel like one. Never did.",
     author: 'Amine D.',
   },
   {
     quote:
-      "I've launched five products. arcaniStudio is the only studio I've worked with where the handoff actually felt complete.",
+      "I've shipped a handful of products with different agencies. This is the only studio I've worked with where the handoff actually felt complete.",
     author: 'Nora J.',
   },
   {
     quote:
-      "They understood our market without us having to explain it twice. That saved us weeks of back-and-forth.",
+      "They understood our market quickly. We didn't have to keep re-explaining what our customers actually do, which saved a ton of meetings.",
     author: 'Sofiane M.',
   },
   {
     quote:
-      "The attention to mobile was something we didn't even ask for explicitly. They just built it right from the start.",
+      "Mobile was solid out of the box. Usually that's where everything falls apart for us but we barely had to flag anything.",
     author: 'Bilal H.',
   },
   {
     quote:
-      "Our investors commented on the product design before we even got to the deck. That's never happened to us before.",
+      "An investor brought up how good the product looked before we'd even pitched it. First time that's happened.",
     author: 'Emma C.',
   },
   {
     quote:
-      "Ils ont su traduire une idée floue en quelque chose de précis et utilisable. C'est exactement ce dont on avait besoin.",
+      "On avait une idée encore floue et ils en ont fait quelque chose de concret sans la dénaturer. C'est plus rare qu'on ne le croit.",
     author: 'Lydia O.',
   },
 ]
