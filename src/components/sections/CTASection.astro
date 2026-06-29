@@ -1,37 +1,19 @@
 ---
-import { ChevronRight, Sparkles } from 'lucide-react'
-/**
- * OPTION 1 — WebGL Shader Gradient (commented)
- * Best visual, highest GPU cost, may cause scroll jank.
- * To activate: uncomment line below + <ShaderGradientBackground> in HTML.
- * Comment out OPTION 2 or 3 CSS + HTML when switching.
- *
- */
-// import { ShaderGradientBackground } from '../ShaderGradientBackground'
+import { ChevronRight } from 'lucide-react'
+
+// Social-proof avatars: initials pulled from real testimonial authors.
+const proof = [
+  { initials: 'SR', tone: 'bg-white/20' },
+  { initials: 'JM', tone: 'bg-white/25' },
+  { initials: 'CT', tone: 'bg-white/30' },
+  { initials: 'RB', tone: 'bg-white/25' },
+  { initials: 'YA', tone: 'bg-white/20' },
+]
 ---
 
 <style>
-  /* ═══════════════════════════════════════════════════════════════════════════
-     OPTION 2 — Animated CSS gradient (ACTIVE)
-     Zero WebGL. background-position animation. May cause minor repaint jank.
-     To switch away: comment the @keyframes + .cta-gradient block below.
-     ═══════════════════════════════════════════════════════════════════════════ */
-  /*
-  @keyframes gradient-shift {
-    0%   { background-position: 0% 50%; }
-    25%  { background-position: 100% 0%; }
-    50%  { background-position: 100% 100%; }
-    75%  { background-position: 0% 100%; }
-    100% { background-position: 0% 50%; }
-  }
-  .cta-gradient {
-    background: linear-gradient(135deg, #73bfc4, #ff810a, #8da0ce, #ff810a, #73bfc4);
-    background-size: 400% 400%;
-    animation: gradient-shift 10s ease infinite;
-  }
-  */
-
-  /* cycle: hold white 3s → 0.5s transition to orange → hold orange 3s → 0.5s back */
+  /* PULSE ANIMATION — disabled for now, may restore later.
+     cycle: hold white 3s → 0.5s transition to orange → hold orange 3s → 0.5s back
   @keyframes cta-btn-pulse {
     0%     { background-color: #ffffff; color: #0A0A0A; }
     7.14%  { background-color: #F94500; color: #ffffff; }
@@ -52,11 +34,9 @@ import { ChevronRight, Sparkles } from 'lucide-react'
   .cta-btn-circle {
     animation: cta-circle-pulse 7s ease-in-out infinite;
   }
+  */
 
-  /* ═══════════════════════════════════════════════════════════════════════════
-     OPTION 3 — Static gradient + SVG grain (ACTIVE)
-     Zero animation, zero jank.
-     ═══════════════════════════════════════════════════════════════════════════ */
+  /* Static gradient + SVG grain. Zero animation, zero scroll jank. */
   .cta-gradient {
     background: linear-gradient(135deg, #73bfc4 0%, #ff810a 50%, #8da0ce 100%);
   }
@@ -74,11 +54,6 @@ import { ChevronRight, Sparkles } from 'lucide-react'
 <section
   class="cta-gradient relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden rounded-2xl text-center"
 >
-  <!-- OPTION 1: WebGL shader — uncomment to activate
-  <ShaderGradientBackground client:only="react" />
-  -->
-
-  <!-- OPTION 3: SVG grain (ACTIVE) -->
   <svg class="cta-grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;border-radius:inherit">
     <filter id="cta-noise">
       <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" />
@@ -89,36 +64,49 @@ import { ChevronRight, Sparkles } from 'lucide-react'
   <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12)_0%,transparent_55%)]"></div>
 
   <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">
-    <div class="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-tooltip-l text-white">
-      <span class="flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-tooltip-s font-semibold uppercase text-primary-600">
-        <Sparkles size={10} />
-        Let's talk
-      </span>
-      <span>Now booking projects for next quarter</span>
+    <!-- Social proof: avatar stack + count -->
+    <div class="flex flex-col items-center gap-2">
+      <div class="flex -space-x-2">
+        {proof.map((p) => (
+          <span class={`flex h-9 w-9 items-center justify-center rounded-full border border-white/40 ${p.tone} text-tooltip-s font-semibold text-white backdrop-blur-sm`}>
+            {p.initials}
+          </span>
+        ))}
+      </div>
+      <span class="text-tooltip-l text-white/80">Join 20+ founders who launched with ArcaniStudio</span>
     </div>
 
     <h2 class="text-[clamp(40px,11.27vw,96px)] font-semibold leading-[1.05] text-white">
-      Ready to build<br /><span class="font-reckless">something great?</span>
+      Your product is<br /><span class="font-reckless">one conversation away.</span>
     </h2>
 
-    <p class="max-w-xl text-h6 text-white/80">
-      Tell us about your project and let's turn your idea into a product people love.
+    <p class="max-w-xl text-[19px] min-[450px]:text-[20px] text-white/80">
+      Book a 30-minute call. No pitch decks, no commitment — just the fastest path from idea to launch.
     </p>
 
-    <a
-      href="#contact"
-      class="cta-btn group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
-    >
-      <span class="relative h-[1.2em] overflow-hidden">
-        <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Start Your Project</span>
-        <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Start Your Project</span>
-      </span>
-      <span class="cta-btn-circle relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
-        <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
-        <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
-      </span>
-    </a>
+    <div class="mt-2 flex flex-col items-center gap-3 sm:flex-row">
+      <a
+        href="#contact"
+        class="cta-btn group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
+      >
+        <span class="relative h-[1.2em] overflow-hidden">
+          <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Book My Discovery Call</span>
+          <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Book My Discovery Call</span>
+        </span>
+        <span class="cta-btn-circle relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
+          <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
+          <ChevronRight size={24} strokeWidth={1.5} className="absolute -translate-x-8 transition-transform duration-500 group-hover:translate-x-0" />
+        </span>
+      </a>
+
+      <!-- Secondary CTA -->
+      <a
+        href="#services"
+        class="flex h-12 items-center rounded-full border border-white/40 px-6 text-[16px] font-light text-white transition-colors duration-300 hover:bg-white/10"
+      >
+        See Our Services
+      </a>
+    </div>
   </div>
 </section>
 </div>
-
