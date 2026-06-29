@@ -63,7 +63,22 @@ const proof = [
 
   <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12)_0%,transparent_55%)]"></div>
 
-  <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">
+  <!--
+    Content stack (avatars → headline → copy → buttons), flex column, vertically
+    centered by the parent <section>'s min-h-screen + justify-center.
+
+    Spacing note — `gap` controls the vertical space BETWEEN the stacked items.
+    Original was a single `gap-6` (24px) at every width:
+      <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-4">
+    On mobile that felt cramped. Padding (py-*) does nothing here because the
+    section is taller than the content, so flexbox already centers it with empty
+    room above/below — extra padding just gets absorbed by that slack.
+    Fix: widen the gap on mobile only.
+      - gap-10 (40px) below 640px  → breathing room on phones
+      - sm:gap-6 (24px) at ≥640px  → desktop unchanged from the original
+    Hard breakpoint switch at 640px (Tailwind `sm`), not a smooth scale.
+  -->
+  <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-10 px-4 sm:gap-6">
     <!-- Social proof: avatar stack + count -->
     <div class="flex flex-col items-center gap-2">
       <div class="flex -space-x-2">
