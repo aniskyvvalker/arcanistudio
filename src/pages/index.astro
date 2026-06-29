@@ -31,6 +31,20 @@ import Footer from '../components/sections/Footer.astro'
       <div class="hero-gradient relative isolate overflow-hidden bg-background-light">
         <HeroHeader />
         <LogoList />
+        {/*
+          lg+ vignette: fades the wormhole's outer rim into the page bg, leaving
+          the center (content + funnel) clear. Spans the whole hero+ticker wrapper
+          so the fade reaches down to the glow separator.
+
+          The two gradient stops control the fade band (as % of the ellipse radius):
+            - `transparent X%` = clear center; below this, no fade.
+            - `#F8F6F1 Y%`     = fully page-color; beyond this, lines are erased.
+          Lower X/Y = band pulled inward = stronger, more lines erased.
+
+          ACTIVE (medium):  transparent 45% / cream 77%
+          ALT (stronger):   transparent 40% / cream 70%  — swap the class below to use it.
+        */}
+        <div class="pointer-events-none absolute inset-0 z-20 hidden lg:block bg-[radial-gradient(ellipse_75%_90%_at_50%_60%,transparent_0%,transparent_45%,#F8F6F1_77%)]"></div>
         <div class="pointer-events-none absolute inset-x-0 bottom-0 z-20 block h-60 bg-[radial-gradient(circle_250px_at_bottom_left,#F8F6F1_0%,transparent_60%),radial-gradient(circle_250px_at_bottom_right,#F8F6F1_0%,transparent_60%),linear-gradient(to_top,#F8F6F1_0%,transparent_55%)]"></div>
       </div>
       <StatsSection />
