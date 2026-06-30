@@ -86,11 +86,22 @@ export const ui = {
       intro:
         'Every project is built with intention. From strategy to launch, we move quickly, communicate clearly, with a focused process designed to eliminate friction and keep projects moving. We build digital products that not only look great, but drive real results.',
       steps: [
-        { number: '01', title: 'Discovery', verb: 'Understand before we build', body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — You get a product blueprint, architecture document, and a fixed-price quote.' },
+        { number: '01', title: 'Discovery', verb: 'Understand before we build', body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — You get a product blueprint, architecture document, and a clear quote.' },
         { number: '02', title: 'Design', verb: 'Validate the vision early', body: 'Every screen tested before development starts. Wireframes, flows, and interactive prototypes. You see it, you click it, you validate it — No surprises when we start building.' },
         { number: '03', title: 'Build', verb: 'Designs become real products', body: 'Your prototype becomes a real product. Clean code, solid architecture, transparent progress — and weekly check-ins so nothing drifts. Every feature reviewed, every detail intentional.' },
         { number: '04', title: 'Launch', verb: 'Beyond the finish line', body: 'Testing, polish, optimization. Once live, we stay with you — 30 days of post-launch support included, with monthly sprints available to keep your product evolving with your users. You leave with full ownership and zero technical dependency.' },
       ],
+      dashboard: {
+        insights: 'Insights',
+        marketResearch: 'Market Research',
+        comparedToLastYear: 'Compared to Last Year',
+        vsLastYear: 'vs Last Year',
+        userSegments: 'User Segments',
+        activeCohorts: 'Active Cohorts',
+        competitorAnalysis: 'Competitor Analysis',
+        manageData: 'Manage data',
+        viewManageData: 'View & manage your data',
+      },
     },
     portfolio: {
       eyebrow: 'Selected work',
@@ -292,11 +303,22 @@ export const ui = {
       intro:
         "Chaque projet est mené avec intention. De la stratégie au lancement, on avance vite et on communique clairement, avec un processus précis pensé pour éliminer les frictions et garder le projet en mouvement. On conçoit des produits digitaux qui combinent design soigné et résultats concrets.",
       steps: [
-        { number: '01', title: 'Découverte', verb: 'Comprendre avant de construire', body: "On creuse vos utilisateurs, vos concurrents et vos contraintes avant de toucher au moindre pixel. Entretiens, audits de parcours, cadrage technique — vous repartez avec un plan produit, un document d'architecture et un devis à prix fixe." },
+        { number: '01', title: 'Découverte', verb: 'Comprendre avant de construire', body: "On étudie votre marché, vos concurrents et vos contraintes avant de démarrer quoi que ce soit. Appels découverte, audit de l'expérience utilisateur, cadrage technique — vous repartez avec un plan produit, un schéma technique et un devis clair." },
         { number: '02', title: 'Design', verb: 'Valider la vision tôt', body: "Chaque écran testé avant le début du développement. Wireframes, parcours et prototypes interactifs. Vous le voyez, vous cliquez, vous validez — aucune surprise quand on passe à la construction." },
         { number: '03', title: 'Construction', verb: 'Le design devient un vrai produit', body: "Votre prototype devient un vrai produit. Code propre, architecture solide, avancement transparent — et des points hebdomadaires pour que rien ne dérive. Chaque fonctionnalité relue, chaque détail voulu." },
         { number: '04', title: 'Lancement', verb: "Au-delà de la ligne d'arrivée", body: "Tests, finitions, optimisation. Une fois en ligne, on reste à vos côtés — 30 jours de support post-lancement inclus, avec des sprints mensuels en option pour faire évoluer votre produit avec vos utilisateurs. Vous repartez pleinement propriétaire, sans aucune dépendance technique." },
       ],
+      dashboard: {
+        insights: 'Analyses',
+        marketResearch: 'Étude de marché',
+        comparedToLastYear: "Comparé à l'année dernière",
+        vsLastYear: "vs l'année dernière",
+        userSegments: "Segments d'utilisateurs",
+        activeCohorts: 'Cohortes actives',
+        competitorAnalysis: 'Analyse concurrentielle',
+        manageData: 'Gérer les données',
+        viewManageData: 'Gérer vos données',
+      },
     },
     portfolio: {
       eyebrow: 'Réalisations',

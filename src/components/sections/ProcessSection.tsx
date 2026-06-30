@@ -23,7 +23,8 @@ function CountUp({ to, active, className }: { to: number; active: boolean; class
   return <span className={className}>+{count}%</span>
 }
 
-function DiscoverIllustration({ active, compact }: { active: boolean; compact?: boolean }) {
+function DiscoverIllustration({ active, compact, lang = defaultLang }: { active: boolean; compact?: boolean; lang?: Lang }) {
+  const d = ui[lang].process.dashboard
   const rootRef = useRef<HTMLDivElement>(null)
   const [fullyVisible, setFullyVisible] = useState(false)
 
@@ -47,7 +48,7 @@ function DiscoverIllustration({ active, compact }: { active: boolean; compact?: 
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
             </svg>
-            <span className="text-[13px] font-semibold text-gray-700">Insights</span>
+            <span className="text-[13px] font-semibold text-gray-700">{d.insights}</span>
           </div>
           <div className="flex gap-1.5">
             <div className="w-6 h-1.5 rounded-full bg-gray-200" />
@@ -74,8 +75,8 @@ function DiscoverIllustration({ active, compact }: { active: boolean; compact?: 
             <div className="mx-2 mt-2 rounded-lg border border-gray-100 bg-white p-3">
               <div className="flex items-start justify-between mb-1">
                 <div>
-                  <p className="text-[13px] font-normal text-gray-800">Market Research</p>
-                  <p className="text-[9px] text-gray-400">Compared to Last Year</p>
+                  <p className="text-[13px] font-normal text-gray-800">{d.marketResearch}</p>
+                  <p className="text-[9px] text-gray-400">{d.comparedToLastYear}</p>
                 </div>
                 <CountUp to={24} active={fullyVisible} className="text-xs font-semibold text-primary-700" />
               </div>
@@ -125,8 +126,8 @@ function DiscoverIllustration({ active, compact }: { active: boolean; compact?: 
             {/* User Segments card — hidden on mobile (≤767) */}
             {!compact && (
               <div className="mx-2 mt-1.5 rounded-lg border border-gray-100 bg-white p-3">
-                <p className="text-[13px] font-normal text-gray-800">User Segments</p>
-                <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
+                <p className="text-[13px] font-normal text-gray-800">{d.userSegments}</p>
+                <p className="text-[9px] text-gray-400 mb-2">{d.activeCohorts}</p>
                 <div className="flex items-end gap-1 h-10">
                   {[55, 70, 100, 75, 85, 60, 90, 45].map((h, i) => (
                     <motion.div
@@ -144,8 +145,8 @@ function DiscoverIllustration({ active, compact }: { active: boolean; compact?: 
 
             {/* Competitor Analysis card */}
             <div className="mx-2 mt-1.5 mb-2 rounded-lg border border-gray-100 bg-white p-3">
-              <p className="text-[13px] font-normal text-gray-800">Competitor Analysis</p>
-              <p className="text-[9px] text-gray-400 mb-2">View &amp; manage your data</p>
+              <p className="text-[13px] font-normal text-gray-800">{d.competitorAnalysis}</p>
+              <p className="text-[9px] text-gray-400 mb-2">{d.viewManageData}</p>
               <div className="space-y-1.5">
                 {[['w-full', 0.7], ['w-4/5', 0.8], ['w-[88%]', 0.9]].map(([w, delay], i) => (
                   <motion.div
@@ -551,7 +552,8 @@ function useEnteredOnce(threshold = 0.45) {
   return { ref, entered }
 }
 
-function DiscoverWide({ active }: { active: boolean }) {
+function DiscoverWide({ active, lang = defaultLang }: { active: boolean; lang?: Lang }) {
+  const d = ui[lang].process.dashboard
   const { ref, entered } = useEnteredOnce()
   const v = active || entered
   return (
@@ -563,7 +565,7 @@ function DiscoverWide({ active }: { active: boolean }) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
             </svg>
-            <span className="text-[13px] font-semibold text-gray-700">Insights</span>
+            <span className="text-[13px] font-semibold text-gray-700">{d.insights}</span>
           </div>
           <div className="flex gap-1.5">
             <div className="w-6 h-1.5 rounded-full bg-gray-200" />
@@ -577,8 +579,8 @@ function DiscoverWide({ active }: { active: boolean }) {
           <div className="rounded-lg border border-gray-100 bg-white p-3">
             <div className="flex items-start justify-between mb-1">
               <div>
-                <p className="text-[12px] font-normal text-gray-800">Market Research</p>
-                <p className="text-[9px] text-gray-400">vs Last Year</p>
+                <p className="text-[12px] font-normal text-gray-800">{d.marketResearch}</p>
+                <p className="text-[9px] text-gray-400">{d.vsLastYear}</p>
               </div>
               <CountUp to={24} active={v} className="text-[11px] font-semibold text-primary-700" />
             </div>
@@ -606,8 +608,8 @@ function DiscoverWide({ active }: { active: boolean }) {
           </div>
           {/* User Segments */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[12px] font-normal text-gray-800">User Segments</p>
-            <p className="text-[9px] text-gray-400 mb-2">Active Cohorts</p>
+            <p className="text-[12px] font-normal text-gray-800">{d.userSegments}</p>
+            <p className="text-[9px] text-gray-400 mb-2">{d.activeCohorts}</p>
             <div className="flex items-end gap-1 h-[60px]">
               {[55, 70, 100, 75, 85, 60].map((h, i) => (
                 <motion.div
@@ -623,8 +625,8 @@ function DiscoverWide({ active }: { active: boolean }) {
           </div>
           {/* Competitor Analysis */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[12px] font-normal text-gray-800">Competitor Analysis</p>
-            <p className="text-[9px] text-gray-400 mb-3">Manage data</p>
+            <p className="text-[12px] font-normal text-gray-800">{d.competitorAnalysis}</p>
+            <p className="text-[9px] text-gray-400 mb-3">{d.manageData}</p>
             <div className="space-y-2">
               {[['w-full', 0.7], ['w-4/5', 0.8], ['w-[88%]', 0.9], ['w-3/5', 1.0]].map(([w, delay], i) => (
                 <motion.div
@@ -876,10 +878,10 @@ function BuildWide() {
   )
 }
 
-function StepIllustration({ step, sectionEntered, wide, mobile }: { step: number; sectionEntered: boolean; wide?: boolean; mobile?: boolean }) {
+function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLang }: { step: number; sectionEntered: boolean; wide?: boolean; mobile?: boolean; lang?: Lang }) {
   if (wide) {
     switch (step) {
-      case 0: return <DiscoverWide active={sectionEntered} />
+      case 0: return <DiscoverWide active={sectionEntered} lang={lang} />
       case 1: return <DesignWide />
       case 2: return <BuildWide />
       case 3: return <LaunchIllustration />
@@ -889,7 +891,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile }: { step: number
   if (mobile) {
     // Vertical originals fill the container; Launch is pure SVG (h-full) so it needs an aspect box
     switch (step) {
-      case 0: return <DiscoverIllustration active={sectionEntered} compact />
+      case 0: return <DiscoverIllustration active={sectionEntered} compact lang={lang} />
       case 1: return <DesignIllustration compact />
       case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} />
       case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
@@ -897,7 +899,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile }: { step: number
     }
   }
   switch (step) {
-    case 0: return <DiscoverIllustration active={sectionEntered} />
+    case 0: return <DiscoverIllustration active={sectionEntered} lang={lang} />
     case 1: return <DesignIllustration />
     case 2: return <BuildIllustration />
     case 3: return <LaunchIllustration />
@@ -1106,7 +1108,7 @@ export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) 
                     transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
                     className="h-full w-full"
                   >
-                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} mobile />
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} mobile lang={lang} />
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -1122,7 +1124,7 @@ export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) 
                     transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
                     className="h-full w-full"
                   >
-                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} wide />
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} wide lang={lang} />
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -1138,7 +1140,7 @@ export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) 
                     transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
                     className="h-full w-full"
                   >
-                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} />
+                    <StepIllustration step={activeStep} sectionEntered={sectionEntered} lang={lang} />
                   </motion.div>
                 </AnimatePresence>
               </div>
