@@ -22,7 +22,7 @@ const t = useTranslations(lang).faq
           {t.headingLine1}<br />
           <em class="font-reckless font-light not-italic text-primary-600">{t.headingEm}</em>
         </h2>
-        <p class="mt-5 max-w-xs text-[15px] leading-relaxed text-palette-400">
+        <p class:list={['mt-5 text-[15px] leading-relaxed text-palette-400', lang === 'fr' ? 'max-w-[340px]' : 'max-w-xs']}>
           {t.intro}
         </p>
       </div>
