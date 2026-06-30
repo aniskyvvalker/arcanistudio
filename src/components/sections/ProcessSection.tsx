@@ -1049,7 +1049,7 @@ export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) 
 
               {/* Step text */}
               <div className="flex flex-1 flex-col justify-center">
-                <div className="h-auto md:h-[280px] flex flex-col justify-end overflow-hidden">
+                <div className="h-auto md:min-h-[280px] flex flex-col justify-end overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
