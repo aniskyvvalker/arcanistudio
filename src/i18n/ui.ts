@@ -393,12 +393,13 @@ export const ui = {
       intro: "Une question sans réponse ? Contactez-nous directement, on revient vers vous sous 24 heures.",
       items: [
         { q: 'Quels types d\'applications développez-vous ?', a: "On développe des applications web, des apps mobiles (iOS et Android), des logiciels de gestion intégrant l'IA (CRM, ERP), des tableaux de bord sur mesure et des plateformes SaaS. Chaque solution est adaptée à vos besoins." },
-        { q: 'À quoi ressemble le processus ?', a: "Tout commence par un appel découverte gratuit de 30 minutes. Ensuite, on avance en cinq étapes claires : stratégie & objectifs, rédaction, design UX/UI, développement, puis livraison avec prise en main. Vous relisez et validez chaque phase avant de passer à la suivante." },
-        { q: 'Combien de temps prend un projet ?', a: "Les délais dépendent du périmètre. Une landing page est livrée en 7 à 10 jours ouvrés, un site complet en 3 à 5 semaines, et les systèmes complexes comme les CRM ou ERP en 3 à 6 mois. Après l'appel découverte, vous recevez un planning précis — et on s'y tient." },
-        { q: 'Comment se passe le paiement ?', a: "La plupart des projets sont découpés en jalons : 40 % au démarrage, 30 % à mi-parcours, et 30 % au solde à la livraison." },
+        { q: 'À quoi ressemble le processus ?', a: "Tout commence par un appel découverte gratuit de 30 minutes. Ensuite, on avance en cinq étapes claires : stratégie & objectifs, rédaction, design UX/UI, développement, puis livraison avec prise en main. Vous validez chaque phase avant qu'on passe à la suivante." },
+        { q: 'Combien de temps prend un projet ?', a: "Les délais dépendent de la complexité. Une landing page est livrée en 7 à 10 jours ouvrés, un site complet en 3 à 5 semaines, et les systèmes complexes comme les CRM ou ERP en 3 à 6 mois. Après l'appel découverte, vous recevez un planning précis — et on s'y tient." },
+        { q: 'Comment se passe le paiement ?', a: "On propose un paiement en 2 ou 3 fois : 40 % au démarrage, 30 % à mi-parcours, et 30 % à la livraison." },
         { q: 'Suis-je propriétaire des designs et du code ?', a: "Oui — entièrement. Au solde final, le code, les designs et les données vous appartiennent. Aucun piège de licence, aucune prise en otage." },
         { q: 'Mon site sera-t-il bien classé sur Google (SEO) ?', a: "Oui — le SEO est intégré à chaque projet : structure sémantique propre, balises meta, temps de chargement rapides, design responsive et sitemap... Tout ce qui compte pour un bon positionnement sur Google. C'est un avantage technique concret dès le lancement." },
-        { q: 'Proposez-vous du support et de la maintenance dans la durée ?', a: "Oui. Pour les besoins récurrents, un forfait mensuel optionnel couvre la maintenance, les mises à jour et les points techniques qui gardent votre site sécurisé et à jour — une façon simple d'avoir un développeur dédié sous la main, sans avoir à en embaucher un." },
+        // q was: 'Proposez-vous du support et de la maintenance dans la durée ?'
+        { q: 'Proposez-vous du support et de la maintenance sur le long terme ?', a: "Oui. Pour les besoins récurrents, un forfait mensuel optionnel couvre la maintenance, les mises à jour et les points techniques qui gardent votre site sécurisé et à jour — une façon simple d'avoir un développeur dédié sous la main, sans avoir à en embaucher un." },
       ],
     },
     cta: {
@@ -410,7 +411,7 @@ export const ui = {
       secondary: 'Voir nos services',
     },
     footer: {
-      buildSomething: 'Construisons Ensemble',
+      buildSomething: 'Parlons de Votre Projet',
       dropEmail: "Laissez votre e-mail et on vous recontacte pour parler de votre projet.",
       emailPlaceholder: 'Votre e-mail',
       emailSubject: 'Nouvelle demande de projet',
