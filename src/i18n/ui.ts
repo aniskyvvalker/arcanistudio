@@ -436,7 +436,7 @@ export const ui = {
       step: 'Étape',
       of: 'sur',
       choiceSteps: [
-        { question: 'Que construisez-vous ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre'] },
+        { question: 'Que construisez-vous ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre chose'] },
         { question: 'Pour quand en avez-vous besoin ?', options: ['Le plus tôt possible', '1 – 3 mois', '3 – 6 mois', "Je m'informe pour l'instant"] },
         { question: 'Quel est votre objectif principal ?', options: ['Avoir plus de clients', 'Vendre en ligne', 'Paraître professionnel et crédible', 'Remplacer un site existant'] },
         { question: 'Quel est votre budget ?', options: ['Moins de 100 000 DZD', '100 000 – 300 000 DZD', '300 000 – 800 000 DZD', '800 000 DZD et plus'] },
@@ -448,7 +448,7 @@ export const ui = {
         'Logiciel de gestion sur mesure (ERP / CRM)': ['Moins de 300 000 DZD', '300 000 – 600 000 DZD', '600 000 – 1 100 000 DZD', '1 100 000 DZD et plus'],
         'Application web / mobile': ['Moins de 600 000 DZD', '600 000 – 1 500 000 DZD', '1 500 000 – 3 000 000 DZD', '3 000 000 DZD et plus'],
       } as Record<string, string[]>,
-      somethingElse: 'Autre',
+      somethingElse: 'Autre chose',
       managementKey: 'Logiciel de gestion sur mesure (ERP / CRM)',
       otherPlaceholder: "Dites-nous brièvement ce qu'il vous faut",
       almostThere: 'Presque\nfini.',

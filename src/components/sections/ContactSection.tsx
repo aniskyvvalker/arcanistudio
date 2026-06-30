@@ -297,6 +297,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
               onHoneypotChange={setHoneypot}
               onBack={() => navigate(3)}
               tc={tc}
+              lang={lang}
             />
           )}
         </div>
@@ -473,7 +474,7 @@ function ChoiceStep({
 }
 
 function ContactStep({
-  contact, onChange, onSubmit, canSubmit, submitting, error, honeypot, onHoneypotChange, onBack, tc,
+  contact, onChange, onSubmit, canSubmit, submitting, error, honeypot, onHoneypotChange, onBack, tc, lang,
 }: {
   contact: Contact
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
@@ -485,6 +486,7 @@ function ContactStep({
   onHoneypotChange: (val: string) => void
   onBack: () => void
   tc: ContactCopy
+  lang: Lang
 }) {
   return (
     <div>
@@ -538,7 +540,7 @@ function ContactStep({
         */}
 
         <div className="border-t border-palette-800/60 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-          <p className="text-[14px] max-w-xs leading-relaxed" style={{ color: error ? '#F94500' : undefined }}>
+          <p className={`text-[14px] leading-relaxed ${lang === 'fr' ? 'max-w-[365px]' : 'max-w-xs'}`} style={{ color: error ? '#F94500' : undefined }}>
             {error ? error : (
               <span className="text-palette-500">{tc.reassure}</span>
             )}
