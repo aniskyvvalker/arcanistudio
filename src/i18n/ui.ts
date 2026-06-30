@@ -350,6 +350,7 @@ export const ui = {
     },
     portfolio: {
       eyebrow: 'Réalisations',
+      // Alt option: heading: 'Pour qui on a bâti,', headingEm: 'ce dont on est fiers.'
       heading: 'Des clients pour qui on a bâti,',
       headingEm: "un travail dont on est fiers.",
       seeAll: 'Voir tous les projets',
