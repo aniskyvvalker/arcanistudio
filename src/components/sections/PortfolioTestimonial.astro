@@ -1,5 +1,8 @@
 ---
 import PortfolioSection from './PortfolioSection'
+import { getLangFromUrl } from '../../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
 ---
 
-<PortfolioSection client:visible />
+<PortfolioSection client:visible lang={lang} />

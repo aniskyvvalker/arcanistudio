@@ -1,24 +1,10 @@
 ---
 import { ArrowRight } from 'lucide-react'
 import { AnimatedCounter } from '../AnimatedCounter'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
 
-const stats = [
-  {
-    value: '20+',
-    label: 'Projects launched',
-    description: 'For founders and brands who take their digital presence seriously.',
-  },
-  {
-    value: '38%',
-    label: 'Average conversion lift',
-    description: 'Typical improvement clients see within six months',
-  },
-  {
-    value: '4.9',
-    label: 'Average client rating',
-    description: "Because you don't just meet expectations; you exceed them",
-  },
-]
+const t = useTranslations(getLangFromUrl(Astro.url)).stats
+const stats = t.items
 ---
 
 <section class="bg-palette-950 pb-24 rounded-b-2xl" style="padding-top: clamp(70px, 56.5px + 3.857vw, 96px);">
@@ -31,23 +17,23 @@ const stats = [
             fill="#F94500"
           />
         </svg>
-        <p class="text-tooltip-l font-regular uppercase text-primary-600">Proof</p>
+        <p class="text-tooltip-l font-regular uppercase text-primary-600">{t.eyebrow}</p>
       </div>
-      <h2 class="text-h2 font-semibold text-white">Numbers that speak for themselves</h2>
-      <p class="text-subtitle text-palette-400">We lead digital projects built for measurable results.<!-- FR: On pilote des projets digitaux conçus pour des résultats mesurables. --></p>
+      <h2 class="text-h2 font-semibold text-white">{t.heading}</h2>
+      <p class="text-subtitle text-palette-400">{t.subtitle}</p>
 
       <div class="mt-4 flex items-center gap-4">
         <a
           href="#contact"
           class="rounded-full border border-palette-700 px-6 py-3 text-p-bold font-semibold text-white transition-colors hover:bg-palette-800"
         >
-          Quote
+          {t.quote}
         </a>
         <a
           href="#work"
           class="flex items-center gap-1 text-p-bold font-semibold text-white transition-colors hover:text-primary-500"
         >
-          Discover
+          {t.discover}
           <ArrowRight size={16} />
         </a>
       </div>

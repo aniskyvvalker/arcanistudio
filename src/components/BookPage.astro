@@ -1,0 +1,56 @@
+---
+import '../styles/global.css'
+import Navbar from './sections/Navbar.astro'
+import Footer from './sections/Footer.astro'
+import { getLangFromUrl, useTranslations } from '../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
+/*
+ * ── /book — Booking page (TO BUILD) ───────────────────────────
+ *
+ * Decision (replaces homepage contact form):
+ *   Cold homepage traffic won't fill a long contact form. A booking
+ *   widget converts better for an agency, but DON'T embed it raw on
+ *   the homepage (heavy iframe kills the polish; "book a call" under
+ *   the CTA feels presumptuous before the visitor decided to talk).
+ *
+ * Pattern:
+ *   - Homepage CTA button links here (/book).
+ *   - This page = focused conversion moment: scheduler + trust signals.
+ *   - The scheduler IS the form — use intake questions (name, email,
+ *     project type, budget) so there's no duplicate contact form.
+ *   - Keep one low-friction fallback: mailto:hello@arcanistudio.com
+ *     small link for people not ready to commit to a slot.
+ *
+ * Tool: Cal.com (not Calendly).
+ *   - Free, open-source, themeable → match dark bg + orange brand.
+ *   - Calendly iframe is instantly recognizable / generic-looking.
+ *
+ * To build:
+ *   1. Wire homepage CTA → /book
+ *   2. Embed branded Cal.com (dark theme, primary #F94500)
+ *   3. Add intake questions in Cal.com event type
+ *   4. Add trust copy: what happens on the call, who they meet
+ *   5. mailto fallback link
+ * ──────────────────────────────────────────────────────────────
+ */
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{t.meta.bookTitle}</title>
+  </head>
+  <body>
+    <Navbar />
+    <main>
+      {/* TODO: build booking page — see comment in frontmatter */}
+    </main>
+    <Footer />
+  </body>
+</html>

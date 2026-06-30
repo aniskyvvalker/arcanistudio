@@ -1,5 +1,9 @@
 ---
 import ServicesList from './ServicesList'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang).services
 ---
 
 <section class="pt-28 pb-20">
@@ -8,7 +12,7 @@ import ServicesList from './ServicesList'
     <div class="ticker-track flex w-max items-start whitespace-nowrap text-[38px] font-normal text-palette-950 sm:text-5xl md:text-5xl lg:text-6xl">
       {[1, 2, 3, 4].map(() => (
         <div class="flex shrink-0 items-start">
-          <span class="mx-2">OUR SERVICES</span>
+          <span class="mx-2">{t.ticker}</span>
           <span class="mx-2 -mt-2 text-[3.5rem] font-light text-primary-600 sm:text-6xl md:text-7xl lg:text-8xl">*</span>
         </div>
       ))}
@@ -17,7 +21,7 @@ import ServicesList from './ServicesList'
 
   <div class="mx-auto max-w-6xl px-5">
     <!-- Services list -->
-    <ServicesList client:visible />
+    <ServicesList client:visible lang={lang} />
   </div>
 </section>
 

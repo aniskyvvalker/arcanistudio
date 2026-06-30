@@ -1,36 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion'
-
-const steps = [
-  {
-    number: '01',
-    title: 'Discovery',
-    verb: 'Understand before we build', // was: 'Map the territory'
-    body: 'We dig into your users, competitors, and constraints before touching a pixel. Interviews, flow audits, technical scoping — You get a product blueprint, architecture document, and a fixed-price quote.',
-    color: '#CE3000',
-  },
-  {
-    number: '02',
-    title: 'Design',
-    verb: 'Validate the vision early',
-    body: 'Every screen tested before development starts. Wireframes, flows, and interactive prototypes. You see it, you click it, you validate it — No surprises when we start building.',
-    color: '#F94500',
-  },
-  {
-    number: '03',
-    title: 'Build',
-    verb: 'Designs become real products', // was: 'Ship production code'
-    body: 'Your prototype becomes a real product. Clean code, solid architecture, transparent progress — and weekly check-ins so nothing drifts. Every feature reviewed, every detail intentional.',
-    color: '#FF6207',
-  },
-  {
-    number: '04',
-    title: 'Launch',
-    verb: 'Beyond the finish line',
-    body: 'Testing, polish, optimization. Once live, we stay with you — 30 days of post-launch support included, with monthly sprints available to keep your product evolving with your users. You leave with full ownership and zero technical dependency.',
-    color: '#FF852F',
-  },
-]
+import { ui, defaultLang, type Lang } from '../../i18n/ui'
 
 function CountUp({ to, active, className }: { to: number; active: boolean; className?: string }) {
   const [count, setCount] = useState(0)
@@ -947,7 +917,9 @@ function useReducedMotion() {
   return reduced
 }
 
-export default function ProcessSection() {
+export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) {
+  const t = ui[lang].process
+  const steps = t.steps
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [sectionEntered, setSectionEntered] = useState(false)
@@ -986,19 +958,19 @@ export default function ProcessSection() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
           </svg>
-          <p className="text-tooltip-l font-regular uppercase text-primary-600">Our process</p>
+          <p className="text-tooltip-l font-regular uppercase text-primary-600">{t.eyebrow}</p>
         </div>
         <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:gap-8">
           <h2
             className="font-switzer text-[clamp(48px,7vw,88px)] font-semibold leading-none text-white"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
-            <span className="italic">How we</span>
+            <span className="italic">{t.heading.line1}</span>
             <br />
-            <em className="font-reckless font-light not-italic text-primary-600">actually</em> <span className="font-switzer italic text-white">work?</span>
+            <em className="font-reckless font-light not-italic text-primary-600">{t.heading.emphasis}</em> <span className="font-switzer italic text-white">{t.heading.line2}</span>
           </h2>
           <p className="max-w-lg text-[17px] leading-relaxed text-palette-300 indent-8 min-[550px]:max-md:ml-auto" style={{ textAlign: 'justify' }}>
-            Every project is built with intention. From strategy to launch, we move quickly, communicate clearly, with a focused process designed to eliminate friction and keep projects moving. We build digital products that not only look great, but drive real results.
+            {t.intro}
           </p>
         </div>
       </div>

@@ -3,62 +3,18 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { ui, defaultLang, type Lang } from '../../i18n/ui'
 
 // ── Data ──────────────────────────────────────────────────────
+// Copy (names, categories, descriptions) lives in src/i18n/ui.ts.
 
-const PROJECTS = [
-  {
-    id: 'violette-mode',
-    name: 'Violette Mode',
-    category: 'Fashion boutique',
-    description:
-      'Full brand identity and e-commerce build for an independent Quebec fashion boutique — considered, editorial, built to last.',
-    image: '/images/portfolio/violette-mode.webp',
-  },
-  {
-    id: 'pop-pop',
-    name: 'POP POP Café',
-    category: 'Café & boutique',
-    description:
-      'Bilingual brand site for a rotating café-boutique concept in Quebec. Playful, local, and never the same twice.',
-    image: '/images/portfolio/pop-pop.webp',
-  },
-  {
-    id: 'cafe-buade',
-    name: 'Café Buade',
-    category: 'Fine dining',
-    description:
-      "Heritage restaurant in Quebec City's old quarter — tradition meets modern web. Reservation-first, image-led.",
-    image: '/images/portfolio/cafe-buade.webp',
-  },
-  {
-    id: 'maeve-june',
-    name: 'Maeve in June',
-    category: 'Hair salon',
-    description:
-      'Rebrand and booking site for a fashion-forward Montreal salon. Black, white, and unapologetically bold.',
-    image: '/images/portfolio/maeve-june.webp',
-  },
-  {
-    id: 'upcycli',
-    name: 'Upcycli',
-    category: 'Sustainable fashion',
-    description:
-      'Quebec designers marketplace — 30+ independent brands, curated, conscious, and easy to shop.',
-    image: '/images/portfolio/upcycli.webp',
-  },
-  {
-    id: 'copal-studio',
-    name: 'Copal Studio',
-    category: 'Design assets',
-    description:
-      'Product marketplace for designers. 200+ mockups, clean checkout, built for creative professionals in 12 countries.',
-    image: '/images/portfolio/copal-studio.webp',
-  },
-]
-
-const ROWS = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)]
-const TABLET_ROWS = [PROJECTS.slice(0, 2), PROJECTS.slice(2, 4), PROJECTS.slice(4, 6)]
+type Project = {
+  id: string
+  name: string
+  category: string
+  description: string
+  image: string
+}
 
 // ── LAYOUT OPTION A: Equal Flex Rows (currently active) ───────
 // Two rows of 3 cards each. Cards expand on hover via flex
@@ -74,7 +30,7 @@ function DesktopCard({
   onLeave,
   reduced,
 }: {
-  project: (typeof PROJECTS)[number]
+  project: Project
   index: number
   isHovered: boolean
   anyHovered: boolean
@@ -246,7 +202,7 @@ function MobileCard({
   index,
   reduced,
 }: {
-  project: (typeof PROJECTS)[number]
+  project: Project
   index: number
   reduced: boolean | null
 }) {
@@ -292,7 +248,12 @@ function MobileCard({
 
 // ── Section ───────────────────────────────────────────────────
 
-export default function PortfolioSection() {
+export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }) {
+  const t = ui[lang].portfolio
+  const PROJECTS = t.projects as Project[]
+  const ROWS = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)]
+  const TABLET_ROWS = [PROJECTS.slice(0, 2), PROJECTS.slice(2, 4), PROJECTS.slice(4, 6)]
+
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [seeAllHovered, setSeeAllHovered] = useState(false)
   const [mobileExpanded, setMobileExpanded] = useState(false)
@@ -337,16 +298,15 @@ export default function PortfolioSection() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
               </svg>
-              <p className="text-tooltip-l font-regular uppercase text-primary-600">Selected work</p>
+              <p className="text-tooltip-l font-regular uppercase text-primary-600">{t.eyebrow}</p>
             </div>
             <h2
               className="font-sans text-[clamp(36px,5.5vw,72px)] font-medium leading-[1.08] text-palette-950"
               style={{ textWrap: 'balance' } as React.CSSProperties}
             >
-              Clients we built for,<br />
+              {t.heading}<br />
               <em className="font-reckless font-light not-italic text-primary-600">
-                {/* work that held up. */}
-              work we're proud of.
+              {t.headingEm}
               </em>
             </h2>
           </motion.div>
@@ -376,7 +336,7 @@ export default function PortfolioSection() {
             href="/work"
             className="mt-6 w-full hidden sm:flex md:hidden items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
           >
-            See all projects
+            {t.seeAll}
             <ArrowUpRight size={14} strokeWidth={2} />
           </a>
 
@@ -434,7 +394,7 @@ export default function PortfolioSection() {
               onClick={() => setMobileExpanded(true)}
               className="mt-6 w-full sm:hidden flex items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
             >
-              See all projects
+              {t.seeAll}
               <ArrowUpRight size={14} strokeWidth={2} />
             </button>
           )}
@@ -448,7 +408,7 @@ export default function PortfolioSection() {
           >
             <div className="inline-flex flex-col">
               <span className="font-sans text-[clamp(40px,8vw,120px)] font-medium leading-tight text-palette-950">
-                See all projects
+                {t.seeAll}
               </span>
               <div className="relative mt-2 h-[8px] w-full bg-palette-950/20">
                 <span className="absolute inset-0 origin-left scale-x-0 bg-palette-950 transition-transform duration-500 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-x-100" />

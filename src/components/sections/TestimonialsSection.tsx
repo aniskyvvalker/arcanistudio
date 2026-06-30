@@ -2,89 +2,9 @@
 
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
+import { ui, defaultLang, type Lang } from '../../i18n/ui'
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "Honestly I was skeptical at first because our last redesign went nowhere. But they actually dug into why people were dropping off at checkout instead of just making it look nicer.",
-    author: 'Sofia R.',
-  },
-  {
-    quote:
-      "Our old site barely got us a booking a week. The new one does a few a day now. I don't fully understand what they changed but it worked.",
-    author: 'James M.',
-  },
-  {
-    quote:
-      "We changed direction halfway through and I braced for the usual fight about scope. They just reworked the plan and moved on. No drama, no surprise invoice.",
-    author: 'Camille T.',
-  },
-  {
-    quote:
-      "They pushed back on half my brief, which annoyed me at the time. They were right about most of it though.",
-    author: 'Marcus O.',
-  },
-  {
-    quote:
-      "Ce que j'ai apprécié c'est qu'ils répondaient vite, même aux questions un peu bêtes. On ne s'est jamais sentis laissés de côté.",
-    author: 'Rayan B.',
-  },
-  {
-    quote:
-      "We came in with a pretty fixed idea of what we wanted. They asked a lot of annoying questions and we ended up building something different. Glad they did.",
-    author: 'Lena W.',
-  },
-  {
-    quote:
-      "Felt less like hiring an agency and more like having someone on the team who actually cared about the outcome as much as we did.",
-    author: 'Mehdi K.',
-  },
-  {
-    quote:
-      "Engagement went up after the redesign. Not going to throw a specific number at you but enough that my co-founder noticed before I told him.",
-    author: 'Priya S.',
-  },
-  {
-    quote:
-      "Our internal dashboard used to be the thing nobody wanted to open. The team uses it without complaining now, which is honestly the highest praise I can give.",
-    author: 'Yasmine A.',
-  },
-  {
-    quote:
-      "Whenever they made a call I didn't get, I could just ask and they'd explain the reasoning. Never felt like I was being managed.",
-    author: 'Daniel F.',
-  },
-  {
-    quote:
-      "We weren't a big budget client and I kept expecting to feel like one. Never did.",
-    author: 'Amine D.',
-  },
-  {
-    quote:
-      "I've shipped a handful of products with different agencies. This is the only studio I've worked with where the handoff actually felt complete.",
-    author: 'Nora J.',
-  },
-  {
-    quote:
-      "They understood our market quickly. We didn't have to keep re-explaining what our customers actually do, which saved a ton of meetings.",
-    author: 'Sofiane M.',
-  },
-  {
-    quote:
-      "Mobile was solid out of the box. Usually that's where everything falls apart for us but we barely had to flag anything.",
-    author: 'Bilal H.',
-  },
-  {
-    quote:
-      "An investor brought up how good the product looked before we'd even pitched it. First time that's happened.",
-    author: 'Emma C.',
-  },
-  {
-    quote:
-      "On avait une idée encore floue et ils en ont fait quelque chose de concret sans la dénaturer. C'est plus rare qu'on ne le croit.",
-    author: 'Lydia O.',
-  },
-]
+type Testimonial = { quote: string; author: string }
 
 function Pip() {
   return (
@@ -99,7 +19,7 @@ function MarqueeRow({
   reverse,
   reduced,
 }: {
-  items: (typeof TESTIMONIALS)[number][]
+  items: Testimonial[]
   reverse: boolean
   reduced: boolean | null
 }) {
@@ -155,7 +75,9 @@ function MarqueeRow({
   )
 }
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ lang = defaultLang }: { lang?: Lang }) {
+  const t = ui[lang].testimonials
+  const TESTIMONIALS = t.items
   const reduced = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -189,13 +111,13 @@ export default function TestimonialsSection() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
           </svg>
-          <p className="font-sans text-tooltip-l font-regular uppercase text-primary-600">Client voices</p>
+          <p className="font-sans text-tooltip-l font-regular uppercase text-primary-600">{t.eyebrow}</p>
         </div>
         <h2
           className="font-reckless text-[clamp(28px,3.5vw,52px)] font-light italic leading-[1.15] text-white"
           style={{ textWrap: 'balance' } as React.CSSProperties}
         >
-          Straight from the people<br className="hidden md:block" /> we built for.
+          {t.headingLine1}<br className="hidden md:block" /> {t.headingLine2}
         </h2>
       </div>
 

@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets'
 // import { Atom, Hexagon, Layers, Sparkle, Zap } from 'lucide-react'
 import { ScrollGlow } from '../ScrollGlow'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
+
+const t = useTranslations(getLangFromUrl(Astro.url)).logos
 
 import dentalCareSeattle from '../../assets/logos/dental-care-seattle-gray.webp'
 import dentalCareSeattleMark from '../../assets/logos/dental-care-seattle-favicon-gray.webp'
@@ -53,7 +56,7 @@ const logos = [
 
 <section class="relative pt-12 pb-0">
   <div class="mx-auto max-w-5xl px-4 text-center">
-    <p class="mb-8 text-p-bold font-semibold text-palette-950">Trusted by teams everywhere</p>
+    <p class="mb-8 text-p-bold font-semibold text-palette-950">{t.trustedBy}</p>
   </div>
 
   <div class="mx-auto max-w-5xl px-4">

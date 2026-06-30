@@ -11,6 +11,16 @@ import node from '@astrojs/node';
 export default defineConfig({
   adapter: node({ mode: 'standalone' }),
 
+  // English at the root (/), French under /fr. The default locale is not
+  // prefixed, so existing English URLs stay unchanged.
+  i18n: {
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },

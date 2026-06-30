@@ -2,6 +2,12 @@ import { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
 import { actions } from 'astro:actions'
 import Cal, { getCalApi } from '@calcom/embed-react'
+import { ui, defaultLang, type Lang } from '../../i18n/ui'
+
+// The selection field each wizard step writes to. Index-aligned with
+// ui[lang].contact.choiceSteps — kept separate from copy because it's logic.
+const FIELDS = ['project', 'timeline', 'company', 'budget'] as const
+type ContactCopy = (typeof ui)[Lang]['contact']
 
 // cal.com embed wants the path only ("arcani/book"), but PUBLIC_CALCOM_URL holds
 // the full URL ("https://cal.com/arcani/book"). Strip to the path. Empty = no
@@ -52,63 +58,17 @@ const CAL_LINK = (() => {
  * lead goes nowhere. See .env.example.
  * ========================================================================== */
 
-const CHOICE_STEPS = [
-  {
-    question: "What are you building?",
-    field: 'project' as const,
-    // FR: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre']
-    options: ['Business website / Landing page', 'Online store', 'Custom management software (ERP / CRM)', 'Web / mobile app', 'Something else'],
-  },
-  {
-    question: "When do you need it?",
-    field: 'timeline' as const,
-    // FR: ['Le plus tôt possible', '1 – 3 mois', '3 – 6 mois', "Je m'informe pour l'instant"]
-    options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'Just exploring options'],
-  },
-  {
-    // DEFAULT for this step. Overridden at render to BUSINESS_SIZE_STEP when the
-    // project is "Management software" (headcount drives the quote there — users,
-    // seats, roles; for everyone else the goal is the more useful signal). Both
-    // reuse the 'company' slot/server field.
-    question: "What's your main goal?",
-    field: 'company' as const,
-    // FR: ['Avoir plus de clients', 'Vendre en ligne', 'Paraître professionnel et crédible', 'Remplacer un site existant']
-    options: ['Get more customers', 'Sell online', 'Look professional & credible', 'Replace something old'],
-  },
-  {
-    question: "What's your budget?",
-    field: 'budget' as const,
-    // Options are OVERRIDDEN at render time per the project chosen in step 0
-    // (see BUDGET_BY_PROJECT below). These are the fallback (used for
-    // "Something else" / unknown project).
-    options: ['Under 100,000 DZD', '100,000 – 300,000 DZD', '300,000 – 800,000 DZD', '800,000 DZD and above'],
-  },
-]
-
-// Budget brackets in DZD, tailored to each project type from step 0. A landing
-// page and a custom app are not the same money — showing one set for all either
-// scares small buyers or under-quotes big ones. Key = exact project option label
-// from CHOICE_STEPS[0]. Fallback = the budget step's own `options` above.
-const BUDGET_BY_PROJECT: Record<string, string[]> = {
-  'Business website / Landing page': ['Under 50,000 DZD', '50,000 – 120,000 DZD', '120,000 – 250,000 DZD', '250,000 DZD and above'],
-  'Online store': ['Under 100,000 DZD', '100,000 – 250,000 DZD', '250,000 – 600,000 DZD', '600,000 DZD and above'],
-  'Custom management software (ERP / CRM)': ['Under 300,000 DZD', '300,000 – 600,000 DZD', '600,000 – 1,100,000 DZD', '1,100,000 DZD and above'],
-  'Web / mobile app': ['Under 600,000 DZD', '600,000 – 1,500,000 DZD', '1,500,000 – 3,000,000 DZD', '3,000,000 DZD and above'],
-}
-
-// Shown in place of the goal question ONLY for "Management software" leads —
-// team/company size drives the quote there (users, seats, roles). Same 'company' field.
-const BUSINESS_SIZE_STEP = {
-  question: "How big is your business?",
-  field: 'company' as const,
-  // FR: ['Solo / Micro (1–5)', 'Petite (6–20)', 'Moyenne (21–50)', 'Grande (50+)']
-  options: ['Solo / Micro (1–5)', 'Small (6–20)', 'Mid-size (21–50)', 'Large (50+)'],
-}
+// Step config (questions + options), budget brackets per project, and the
+// business-size variant all come from ui[lang].contact. The wizard logic keys
+// off the locale's own sentinel labels (c.somethingElse, c.managementKey) so it
+// keeps working in any language.
 
 type Selections = { project: string; company: string; budget: string; timeline: string }
 type Contact = { name: string; email: string; phone: string; business: string; message: string }
+type ChoiceConfig = { question: string; options: string[] }
 
-export default function ContactSection() {
+export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) {
+  const tc = ui[lang].contact
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'fwd' | 'bwd'>('fwd')
   const [animKey, setAnimKey] = useState(0)
@@ -145,7 +105,7 @@ export default function ContactSection() {
       [field]: value,
       ...(field === 'project' && value !== s.project ? { budget: '', company: '' } : {}),
     }))
-    if (value !== 'Something else') setTimeout(() => navigate(step + 1), 150)
+    if (value !== tc.somethingElse) setTimeout(() => navigate(step + 1), 150)
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -163,17 +123,17 @@ export default function ContactSection() {
   // if the contact details look valid. Mirrors (loosely) the server's leadSchema
   // so the user gets clean feedback before we ever submit. Kept intentionally
   // lenient — the server is the real gate.
-  function validateContact(c: Contact): string {
+  function validateContact(contact: Contact): string {
+    const v = tc.validation
     const errs: string[] = []
-    if (c.name.trim().length < 3) errs.push('your name')
-    const email = c.email.trim()
-    if (email.length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.push('a valid email address')
-    if (c.phone.trim().length < 8) errs.push('a valid phone number')
+    if (contact.name.trim().length < 3) errs.push(v.name)
+    const email = contact.email.trim()
+    if (email.length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.push(v.email)
+    if (contact.phone.trim().length < 8) errs.push(v.phone)
     if (errs.length === 0) return ''
-    // "a valid email address and a valid phone number" / "..., ... and ..."
     const list =
-      errs.length === 1 ? errs[0] : `${errs.slice(0, -1).join(', ')} and ${errs[errs.length - 1]}`
-    return `Please enter ${list}.`
+      errs.length === 1 ? errs[0] : `${errs.slice(0, -1).join(v.sep)}${v.and}${errs[errs.length - 1]}`
+    return `${v.intro}${list}${v.period}`
   }
 
   async function submit(e: React.FormEvent) {
@@ -195,7 +155,7 @@ export default function ContactSection() {
     // Field names here MUST match leadSchema in src/actions/index.ts.
     // For "Something else", we send the free-text (otherText) as the project.
     const { data, error } = await actions.submitLead({
-      project: selections.project === 'Something else' ? otherText : selections.project,
+      project: selections.project === tc.somethingElse ? otherText : selections.project,
       timeline: selections.timeline,
       company: selections.company,
       budget: selections.budget,
@@ -209,15 +169,15 @@ export default function ContactSection() {
 
     setSubmitting(false)
     if (error || !data?.ok) {
-      // Rate-limit / delivery errors carry a user-safe message we wrote in the
-      // action. But Astro's INPUT validation error dumps raw Zod JSON in
-      // `error.message` — never show that. Only trust our own ActionError codes;
-      // anything else gets a generic line.
+      // The server writes English messages; we map its ActionError codes to the
+      // active locale here. Astro's INPUT validation error dumps raw Zod JSON in
+      // `error.message` — never show that, so anything that isn't a known code
+      // falls through to the generic line.
+      const code = error && 'code' in error ? error.code : undefined
       const safe =
-        error && 'code' in error &&
-        (error.code === 'TOO_MANY_REQUESTS' || error.code === 'INTERNAL_SERVER_ERROR')
-          ? error.message
-          : 'Please check your details and try again.'
+        code === 'TOO_MANY_REQUESTS' ? tc.errorRate
+          : code === 'INTERNAL_SERVER_ERROR' ? tc.errorServer
+            : tc.errorGeneric
       setError(safe)
       return
     }
@@ -239,20 +199,20 @@ export default function ContactSection() {
       <section id="contact" className="bg-palette-950 px-6 pt-32 pb-24 md:px-12">
         <div className="mx-auto max-w-[1000px]">
           <h2 className="font-reckless font-light italic text-white leading-[1.05]" style={{ fontSize: 'clamp(40px, 6vw, 72px)' }}>
-            We'll be in touch<span style={{ color: '#F94500' }}>.</span>
+            {tc.sentHeading}<span style={{ color: '#F94500' }}>.</span>
           </h2>
           <p className="mt-5 text-palette-300 text-[15px] max-w-md leading-relaxed">
-            Got it — your request is in. We'll reach out by WhatsApp or phone within 24 hours to find a time that works.
+            {tc.sentBody}
           </p>
 
           {/* Optional express lane — only when cal.com is configured */}
           {CAL_LINK && (
             <div className="mt-16 border-t border-palette-800/60 pt-12">
               <p className="text-[13px] font-medium text-palette-400 tracking-widest uppercase">
-                Prefer to lock a time now?
+                {tc.expressEyebrow}
               </p>
               <p className="mt-3 text-palette-300 text-[15px] max-w-md leading-relaxed">
-                Skip the wait and grab a slot — your name and email are already filled in.
+                {tc.expressBody}
               </p>
               {showCal ? (
                 <div className="mt-8">
@@ -264,7 +224,7 @@ export default function ContactSection() {
                   className="group mt-7 inline-flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal text-white transition-[background-color] duration-200"
                   style={{ backgroundColor: '#F94500' }}
                 >
-                  Book a time now
+                  {tc.bookNow}
                   <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                 </button>
               )}
@@ -283,7 +243,7 @@ export default function ContactSection() {
         <div className="mx-auto max-w-[900px]">
           <div className="flex items-center gap-4 mb-3">
             <span className="text-[11px] font-medium text-palette-600 tabular-nums tracking-widest uppercase shrink-0">
-              Step {step + 1} of {TOTAL}
+              {tc.step} {step + 1} {tc.of} {TOTAL}
             </span>
             <div
               className="flex flex-1 gap-1.5"
@@ -312,16 +272,18 @@ export default function ContactSection() {
           {step < 4 ? (
             <ChoiceStep
               config={
-                CHOICE_STEPS[step].field === 'budget'
-                  ? { ...CHOICE_STEPS[step], options: BUDGET_BY_PROJECT[selections.project] ?? CHOICE_STEPS[step].options }
-                  : CHOICE_STEPS[step].field === 'company' && selections.project === 'Custom management software (ERP / CRM)'
-                    ? BUSINESS_SIZE_STEP
-                    : CHOICE_STEPS[step]
+                FIELDS[step] === 'budget'
+                  ? { ...tc.choiceSteps[step], options: tc.budgetByProject[selections.project] ?? tc.choiceSteps[step].options }
+                  : FIELDS[step] === 'company' && selections.project === tc.managementKey
+                    ? tc.businessSizeStep
+                    : tc.choiceSteps[step]
               }
-              selected={selections[CHOICE_STEPS[step].field]}
-              onPick={(val) => pick(CHOICE_STEPS[step].field, val)}
+              selected={selections[FIELDS[step]]}
+              onPick={(val) => pick(FIELDS[step], val)}
               otherText={step === 0 ? otherText : undefined}
               onOtherChange={step === 0 ? setOtherText : undefined}
+              somethingElse={tc.somethingElse}
+              otherPlaceholder={tc.otherPlaceholder}
             />
           ) : (
             <ContactStep
@@ -334,6 +296,7 @@ export default function ContactSection() {
               honeypot={honeypot}
               onHoneypotChange={setHoneypot}
               onBack={() => navigate(3)}
+              tc={tc}
             />
           )}
         </div>
@@ -352,16 +315,16 @@ export default function ContactSection() {
                 style={{ transform: step > 0 ? 'translateX(0)' : `translateX(-${backWidth}px)` }}
               >
                 <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-                Back
+                {tc.back}
               </button>
             </div>
             <button
               onClick={() => navigate(step + 1)}
-              disabled={!selections[CHOICE_STEPS[step].field] || (selections[CHOICE_STEPS[step].field] === 'Something else' && !otherText.trim())}
+              disabled={!selections[FIELDS[step]] || (selections[FIELDS[step]] === tc.somethingElse && !otherText.trim())}
               className="group flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
-              style={{ backgroundColor: selections[CHOICE_STEPS[step].field] ? '#F94500' : '#262626', color: '#fff' }}
+              style={{ backgroundColor: selections[FIELDS[step]] ? '#F94500' : '#262626', color: '#fff' }}
             >
-              Continue
+              {tc.continue}
               <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
           </div>
@@ -431,13 +394,15 @@ function renderOptionLabel(option: string) {
 }
 
 function ChoiceStep({
-  config, selected, onPick, otherText, onOtherChange,
+  config, selected, onPick, otherText, onOtherChange, somethingElse, otherPlaceholder,
 }: {
-  config: typeof CHOICE_STEPS[number]
+  config: ChoiceConfig
   selected: string
   onPick: (val: string) => void
   otherText?: string
   onOtherChange?: (val: string) => void
+  somethingElse: string
+  otherPlaceholder: string
 }) {
   return (
     <div>
@@ -451,7 +416,7 @@ function ChoiceStep({
       <ol className="divide-y divide-palette-800/60" role="list">
         {config.options.map((option, i) => {
           const isActive = selected === option
-          const isSomethingElse = option === 'Something else'
+          const isSomethingElse = option === somethingElse
           const showInput = isSomethingElse && isActive && onOtherChange !== undefined
           return (
             <li key={option}>
@@ -473,7 +438,7 @@ function ChoiceStep({
                     onChange={e => onOtherChange(e.target.value)}
                     onClick={e => e.stopPropagation()}
                     maxLength={200}
-                    placeholder="Tell us briefly what you need"
+                    placeholder={otherPlaceholder}
                     className="flex-1 bg-transparent text-white font-light placeholder:text-palette-700 focus:outline-none"
                     style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}
                   />
@@ -508,7 +473,7 @@ function ChoiceStep({
 }
 
 function ContactStep({
-  contact, onChange, onSubmit, canSubmit, submitting, error, honeypot, onHoneypotChange, onBack,
+  contact, onChange, onSubmit, canSubmit, submitting, error, honeypot, onHoneypotChange, onBack, tc,
 }: {
   contact: Contact
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
@@ -519,6 +484,7 @@ function ContactStep({
   honeypot: string
   onHoneypotChange: (val: string) => void
   onBack: () => void
+  tc: ContactCopy
 }) {
   return (
     <div>
@@ -526,14 +492,14 @@ function ContactStep({
         className="font-reckless font-light italic text-white leading-[1.05] mb-10"
         style={{ fontSize: 'clamp(40px, 7vw, 80px)' }}
       >
-        {"Almost\nthere."}
+        {tc.almostThere}
       </h2>
 
       <form onSubmit={onSubmit} className="flex flex-col">
         {/* Honeypot — hidden from humans, bots tend to fill it. Server rejects if non-empty. */}
         <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
           <label>
-            Company website
+            {tc.companyWebsiteLabel}
             <input
               type="text"
               name="company_website"
@@ -549,10 +515,10 @@ function ContactStep({
         <div className="grid sm:grid-cols-2 border-t border-palette-800/60">
           {/* maxLength = UX caps (tighter than the server's leadSchema in
               src/actions/index.ts, which stays the security backstop). */}
-          <InputField label="Your name" name="name" type="text" value={contact.name} onChange={onChange} required maxLength={50} placeholder="Full name" className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Email address" name="email" type="email" value={contact.email} onChange={onChange} required maxLength={50} placeholder="you@company.com" className="border-b border-palette-800/60 pl-0 sm:pl-8" />
-          <InputField label="Phone number" name="phone" type="tel" value={contact.phone} onChange={onChange} required maxLength={40} placeholder="+213 ..." className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
-          <InputField label="Business name" name="business" type="text" value={contact.business} onChange={onChange} maxLength={200} placeholder="Company or brand" className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label={tc.fields.name.label} name="name" type="text" value={contact.name} onChange={onChange} required maxLength={50} placeholder={tc.fields.name.placeholder} className="border-b sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label={tc.fields.email.label} name="email" type="email" value={contact.email} onChange={onChange} required maxLength={50} placeholder={tc.fields.email.placeholder} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
+          <InputField label={tc.fields.phone.label} name="phone" type="tel" value={contact.phone} onChange={onChange} required maxLength={40} placeholder={tc.fields.phone.placeholder} className="border-b sm:border-b-0 sm:border-r border-palette-800/60 pr-0 sm:pr-8" />
+          <InputField label={tc.fields.business.label} name="business" type="text" value={contact.business} onChange={onChange} maxLength={200} placeholder={tc.fields.business.placeholder} className="border-b border-palette-800/60 pl-0 sm:pl-8" />
         </div>
 
         {/* Message field — hidden, uncomment to restore
@@ -574,7 +540,7 @@ function ContactStep({
         <div className="border-t border-palette-800/60 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <p className="text-[14px] max-w-xs leading-relaxed" style={{ color: error ? '#F94500' : undefined }}>
             {error ? error : (
-              <span className="text-palette-500">We'll reach out within 24 hours to book your call.</span>
+              <span className="text-palette-500">{tc.reassure}</span>
             )}
           </p>
           <div className="flex items-center gap-4">
@@ -584,7 +550,7 @@ function ContactStep({
               className="group flex items-center gap-3 rounded-full border border-palette-700 h-12 pl-5 pr-6 text-[16px] font-normal text-palette-300 whitespace-nowrap hover:border-palette-500 hover:text-white transition-colors duration-200"
             >
               <ArrowLeft size={16} strokeWidth={1.5} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-              Back
+              {tc.back}
             </button>
             <button
               type="submit"
@@ -592,7 +558,7 @@ function ContactStep({
               className="group inline-flex shrink-0 items-center gap-3 rounded-full h-12 pl-5 pr-[13px] text-[16px] font-normal transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#F94500', color: '#fff' }}
             >
-              {submitting ? 'Sending…' : 'Send message'}
+              {submitting ? tc.sending : tc.send}
               <span className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-white/15">
                 <ArrowUpRight size={20} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-5 group-hover:-translate-y-5" />
                 <ArrowUpRight size={20} strokeWidth={1.5} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />

@@ -1,4 +1,7 @@
 ---
 import ProcessSection from './ProcessSection'
+import { getLangFromUrl } from '../../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
 ---
-<ProcessSection client:visible />
+<ProcessSection client:visible lang={lang} />

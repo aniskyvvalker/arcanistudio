@@ -1,5 +1,9 @@
 ---
 import { ScrollRevealText } from '../ScrollRevealText'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang).about
 ---
 
 <section class="bg-palette-950 py-[clamp(80px,10vw,128px)] rounded-t-2xl">
@@ -11,8 +15,8 @@ import { ScrollRevealText } from '../ScrollRevealText'
           fill="#F94500"
         />
       </svg>
-      <p class="text-tooltip-l font-regular uppercase text-primary-600">Our mission</p>
+      <p class="text-tooltip-l font-regular uppercase text-primary-600">{t.eyebrow}</p>
     </div>
-    <ScrollRevealText client:visible />
+    <ScrollRevealText client:visible lang={lang} />
   </div>
 </section>

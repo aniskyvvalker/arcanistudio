@@ -2,8 +2,8 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "dev",
-      "runtimeExecutable": "node_modules/.bin/astro",
+      "name": "arcani-dev",
+      "runtimeExecutable": "/Users/pc/Desktop/Agency/arcaniStudio-Website/node_modules/.bin/astro",
       "runtimeArgs": ["dev"],
       "port": 4321,
       "autoPort": true

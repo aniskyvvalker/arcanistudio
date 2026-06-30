@@ -1,5 +1,8 @@
 ---
 import { ChevronRight } from 'lucide-react'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
+
+const t = useTranslations(getLangFromUrl(Astro.url)).cta
 
 // Social-proof avatars: initials pulled from real testimonial authors.
 const proof = [
@@ -88,15 +91,15 @@ const proof = [
           </span>
         ))}
       </div>
-      <span class="text-tooltip-l text-white/80">Join 20+ founders who launched with ArcaniStudio</span>
+      <span class="text-tooltip-l text-white/80">{t.join}</span>
     </div>
 
     <h2 class="text-[clamp(40px,11.27vw,96px)] font-semibold leading-[1.05] text-white">
-      Your product is<br /><span class="font-reckless">one conversation away.</span>
+      {t.headingLine1}<br /><span class="font-reckless">{t.headingEm}</span>
     </h2>
 
     <p class="max-w-xl text-[19px] min-[450px]:text-[20px] text-white/80">
-      Book a 30-minute call. No pitch decks, no commitment — just the fastest path from idea to launch.
+      {t.subtitle}
     </p>
 
     <div class="mt-2 flex flex-col items-center gap-3 sm:flex-row">
@@ -105,8 +108,8 @@ const proof = [
         class="cta-btn group flex items-center gap-3 rounded-full bg-white py-2 pl-5 pr-2 text-[16px] font-light text-palette-950"
       >
         <span class="relative h-[1.2em] overflow-hidden">
-          <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Book My Discovery Call</span>
-          <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Book My Discovery Call</span>
+          <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">{t.primary}</span>
+          <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">{t.primary}</span>
         </span>
         <span class="cta-btn-circle relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white">
           <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
@@ -119,7 +122,7 @@ const proof = [
         href="#services"
         class="flex h-12 items-center rounded-full border border-white/60 bg-white/10 px-6 text-[16px] font-normal text-white backdrop-blur-sm transition-colors duration-300 hover:bg-white/20"
       >
-        See Our Services
+        {t.secondary}
       </a>
     </div>
   </div>

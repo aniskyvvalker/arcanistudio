@@ -1,6 +1,9 @@
 ---
 import { ChevronRight, Sparkles } from 'lucide-react'
 import { Wormhole } from '../Wormhole'
+import { getLangFromUrl, useTranslations } from '../../i18n/utils'
+
+const t = useTranslations(getLangFromUrl(Astro.url)).hero
 ---
 
 <section class="relative flex min-h-[80vh] flex-col items-center justify-center">
@@ -17,18 +20,17 @@ import { Wormhole } from '../Wormhole'
         class="flex items-center gap-1 rounded-full bg-primary-500 px-2 py-0.5 text-tooltip-s font-semibold uppercase text-white"
       >
         <Sparkles size={10} />
-        New
+        {t.badgeNew}
       </span>
-      <span>Now booking projects for next quarter</span>
+      <span>{t.badgeText}</span>
     </div>
 
     <h1 class="text-[clamp(40px,3.69vw+26.9px,80px)] leading-[1.05] font-semibold text-palette-950">
-      <span class="block whitespace-nowrap font-medium">Unleash Your</span><span class="block whitespace-nowrap font-reckless font-normal text-primary-700">Digital Potential</span>
+      <span class="block whitespace-nowrap font-medium">{t.titleLine1}</span><span class="block whitespace-nowrap font-reckless font-normal text-primary-700">{t.titleLine2}</span>
     </h1>
 
     <p class="max-w-2xl text-h6 text-palette-600">
-      You bring the vision. We bring it to life — 
-      design, code, testing, and deployment fully handled so you can focus on your business.
+      {t.subtitle}
     </p>
 
     <div class="relative">
@@ -37,8 +39,8 @@ import { Wormhole } from '../Wormhole'
         class="group flex items-center gap-3 rounded-full bg-primary-600 py-2 pl-5 pr-2 text-[16px] font-light text-white"
       >
         <span class="relative h-[1.2em] overflow-hidden">
-          <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">Book A Call</span>
-          <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">Book A Call</span>
+          <span class="flex h-full items-center transition-transform duration-500 group-hover:-translate-y-[150%]">{t.cta}</span>
+          <span class="absolute left-0 top-0 flex h-full translate-y-[150%] items-center transition-transform duration-500 group-hover:translate-y-0">{t.cta}</span>
         </span>
         <span class="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white text-palette-950">
           <ChevronRight size={24} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-8" />
