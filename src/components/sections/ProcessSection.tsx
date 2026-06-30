@@ -167,7 +167,8 @@ function DiscoverIllustration({ active, compact, lang = defaultLang }: { active:
   )
 }
 
-function DesignIllustration({ compact }: { compact?: boolean } = {}) {
+function DesignIllustration({ compact, lang = defaultLang }: { compact?: boolean; lang?: Lang } = {}) {
+  const d = ui[lang].process.dashboard
   const rootRef = useRef<HTMLDivElement>(null)
   const [fullyVisible, setFullyVisible] = useState(false)
 
@@ -188,10 +189,10 @@ function DesignIllustration({ compact }: { compact?: boolean } = {}) {
   ]
 
   const components = [
-    { label: 'Moodboard', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.5"/><rect x="9" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.35"/><rect x="1" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.25"/><rect x="9" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.15"/></svg> },
-    { label: 'UI Mockups', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="10" rx="1.5" stroke="#9ca3af" strokeWidth="1.2"/><rect x="3" y="3" width="5" height="3" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="3" y="7" width="10" height="1" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="6" y="13" width="4" height="1.5" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/></svg> },
-    { label: 'Usability Testing', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.2"/><path d="M5.5 8.5 L7 10 L10.5 6" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-    { label: 'Delivery', icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 5 L8 2 L14 5 L14 11 L8 14 L2 11 Z" stroke="#9ca3af" strokeWidth="1.2" strokeLinejoin="round"/><path d="M8 2 L8 14M2 5 L14 5" stroke="#9ca3af" strokeWidth="1.2"/></svg> },
+    { label: d.moodboard, icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.5"/><rect x="9" y="1" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.35"/><rect x="1" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.25"/><rect x="9" y="9" width="6" height="6" rx="1" fill="#9ca3af" fillOpacity="0.15"/></svg> },
+    { label: d.uiMockups, icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="10" rx="1.5" stroke="#9ca3af" strokeWidth="1.2"/><rect x="3" y="3" width="5" height="3" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="3" y="7" width="10" height="1" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/><rect x="6" y="13" width="4" height="1.5" rx="0.5" fill="#9ca3af" fillOpacity="0.3"/></svg> },
+    { label: d.usabilityTesting, icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.2"/><path d="M5.5 8.5 L7 10 L10.5 6" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    { label: d.delivery, icon: <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 5 L8 2 L14 5 L14 11 L8 14 L2 11 Z" stroke="#9ca3af" strokeWidth="1.2" strokeLinejoin="round"/><path d="M8 2 L8 14M2 5 L14 5" stroke="#9ca3af" strokeWidth="1.2"/></svg> },
   ]
 
   return (
@@ -203,7 +204,7 @@ function DesignIllustration({ compact }: { compact?: boolean } = {}) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
             </svg>
-            <span className="text-[13px] font-semibold text-gray-700">Design System</span>
+            <span className="text-[13px] font-semibold text-gray-700">{d.designSystem}</span>
           </div>
           <div className="flex gap-1.5">
             <div className="w-6 h-1.5 rounded-full bg-gray-200" />
@@ -214,7 +215,7 @@ function DesignIllustration({ compact }: { compact?: boolean } = {}) {
         <div className="px-3 py-2.5 space-y-2">
           {/* Color palette */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Palette</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.palette}</p>
             <div className="flex gap-1.5">
               {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c, i) => (
                 <motion.div
@@ -231,7 +232,7 @@ function DesignIllustration({ compact }: { compact?: boolean } = {}) {
 
           {/* Type scale */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Type Scale</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.typeScale}</p>
             <div className="space-y-1.5">
               {typeRows.map(({ label, h, w }, i) => (
                 <div key={label} className="flex items-center gap-3">
@@ -251,7 +252,7 @@ function DesignIllustration({ compact }: { compact?: boolean } = {}) {
           {/* Component list — hidden on mobile (≤767) */}
           {!compact && (
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.components}</p>
             {components.map(({ label, icon }, i) => (
               <motion.div
                 key={label}
@@ -645,7 +646,8 @@ function DiscoverWide({ active, lang = defaultLang }: { active: boolean; lang?: 
   )
 }
 
-function DesignWide() {
+function DesignWide({ lang = defaultLang }: { lang?: Lang } = {}) {
+  const d = ui[lang].process.dashboard
   const { ref, entered: v } = useEnteredOnce()
   const typeRows = [
     { label: 'H1', h: 'h-3', w: 'w-full' },
@@ -653,10 +655,10 @@ function DesignWide() {
     { label: 'Body', h: 'h-2', w: 'w-full' },
   ]
   const comps = [
-    { label: 'Moodboard', on: true },
-    { label: 'UI Mockups', on: true },
-    { label: 'Usability', on: false },
-    { label: 'Delivery', on: false },
+    { label: d.moodboard, on: true },
+    { label: d.uiMockups, on: true },
+    { label: d.usability, on: false },
+    { label: d.delivery, on: false },
   ]
   return (
     <div ref={ref} className="w-full h-full flex items-center">
@@ -667,7 +669,7 @@ function DesignWide() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 1 C12.6 7 14 10.6 22 12 C14 13.4 12.6 17 12 23 C11.4 17 10 13.4 2 12 C10 10.6 11.4 7 12 1 Z" fill="#F94500" />
             </svg>
-            <span className="text-[13px] font-semibold text-gray-700">Design System</span>
+            <span className="text-[13px] font-semibold text-gray-700">{d.designSystem}</span>
           </div>
           <div className="flex gap-1.5">
             <div className="w-6 h-1.5 rounded-full bg-gray-200" />
@@ -678,7 +680,7 @@ function DesignWide() {
         <div className="grid grid-cols-3 gap-2 p-2">
           {/* Palette */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Palette</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.palette}</p>
             <div className="grid grid-cols-3 gap-1.5">
               {['#F94500', '#330014', '#FF852F', '#FFD2A4', '#e5e5e5', '#f4f4f5'].map((c, i) => (
                 <motion.div
@@ -694,7 +696,7 @@ function DesignWide() {
           </div>
           {/* Type scale */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Type Scale</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.typeScale}</p>
             <div className="space-y-2.5">
               {typeRows.map(({ label, h, w }, i) => (
                 <div key={label} className="flex items-center gap-2">
@@ -711,7 +713,7 @@ function DesignWide() {
           </div>
           {/* Components */}
           <div className="rounded-lg border border-gray-100 bg-white p-3">
-            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Components</p>
+            <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">{d.components}</p>
             {comps.map(({ label, on }, i) => (
               <motion.div
                 key={label}
@@ -882,7 +884,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
   if (wide) {
     switch (step) {
       case 0: return <DiscoverWide active={sectionEntered} lang={lang} />
-      case 1: return <DesignWide />
+      case 1: return <DesignWide lang={lang} />
       case 2: return <BuildWide />
       case 3: return <LaunchIllustration />
       default: return null
@@ -892,7 +894,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
     // Vertical originals fill the container; Launch is pure SVG (h-full) so it needs an aspect box
     switch (step) {
       case 0: return <DiscoverIllustration active={sectionEntered} compact lang={lang} />
-      case 1: return <DesignIllustration compact />
+      case 1: return <DesignIllustration compact lang={lang} />
       case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} />
       case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
       default: return null
@@ -900,7 +902,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
   }
   switch (step) {
     case 0: return <DiscoverIllustration active={sectionEntered} lang={lang} />
-    case 1: return <DesignIllustration />
+    case 1: return <DesignIllustration lang={lang} />
     case 2: return <BuildIllustration />
     case 3: return <LaunchIllustration />
     default: return null
