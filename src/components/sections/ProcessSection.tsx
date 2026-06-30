@@ -437,7 +437,8 @@ function BuildIllustration({ codeDef = CODE_DEF, codeChars = CODE_CHARS, lang = 
   )
 }
 
-function LaunchIllustration() {
+function LaunchIllustration({ lang = defaultLang }: { lang?: Lang } = {}) {
+  const d = ui[lang].process.dashboard
   const rootRef = useRef<HTMLDivElement>(null)
   const [v, setV] = useState(false)
 
@@ -528,7 +529,7 @@ function LaunchIllustration() {
           transition={{ duration: 0.4, delay: 1.2 }}
         >
           <div className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ animation: 'pulse 1.5s ease-in-out infinite' }} />
-          <span className="text-[10px] text-green-400 font-mono">deployed</span>
+          <span className="text-[10px] text-green-400 font-mono">{d.deployed}</span>
         </motion.div>
       </div>
     </div>
@@ -888,7 +889,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
       case 0: return <DiscoverWide active={sectionEntered} lang={lang} />
       case 1: return <DesignWide lang={lang} />
       case 2: return <BuildWide lang={lang} />
-      case 3: return <LaunchIllustration />
+      case 3: return <LaunchIllustration lang={lang} />
       default: return null
     }
   }
@@ -898,7 +899,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
       case 0: return <DiscoverIllustration active={sectionEntered} compact lang={lang} />
       case 1: return <DesignIllustration compact lang={lang} />
       case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} lang={lang} />
-      case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
+      case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration lang={lang} /></div>
       default: return null
     }
   }
@@ -906,7 +907,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
     case 0: return <DiscoverIllustration active={sectionEntered} lang={lang} />
     case 1: return <DesignIllustration lang={lang} />
     case 2: return <BuildIllustration lang={lang} />
-    case 3: return <LaunchIllustration />
+    case 3: return <LaunchIllustration lang={lang} />
     default: return null
   }
 }
