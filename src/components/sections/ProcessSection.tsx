@@ -307,7 +307,8 @@ const CODE_CHARS: CodeChar[] = CODE_DEF.flatMap((line, li) =>
   )
 )
 
-function BuildIllustration({ codeDef = CODE_DEF, codeChars = CODE_CHARS }: { codeDef?: CodeLine[]; codeChars?: CodeChar[] } = {}) {
+function BuildIllustration({ codeDef = CODE_DEF, codeChars = CODE_CHARS, lang = defaultLang }: { codeDef?: CodeLine[]; codeChars?: CodeChar[]; lang?: Lang } = {}) {
+  const d = ui[lang].process.dashboard
   const rootRef = useRef<HTMLDivElement>(null)
   const [fullyVisible, setFullyVisible] = useState(false)
   const [charCount, setCharCount] = useState(0)
@@ -422,10 +423,10 @@ function BuildIllustration({ codeDef = CODE_DEF, codeChars = CODE_CHARS }: { cod
               : <span>{CMD.slice(0, cmdCount)}{cmdCount < CMD.length && <span className="inline-block w-[5px] h-[9px] bg-[#F94500] ml-px align-middle" style={{ animation: 'blink 1s steps(1) infinite' }} />}</span>
             }
           </div>
-          <div className="text-[10px] text-gray-500" style={{ visibility: terminalStep >= 1 ? 'visible' : 'hidden' }}>Preparing your project...</div>
-          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>✓ Code reviewed</div>
-          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>✓ Tests passed</div>
-          <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>✓ Your app is live</div>
+          <div className="text-[10px] text-gray-500" style={{ visibility: terminalStep >= 1 ? 'visible' : 'hidden' }}>{d.preparingProject}</div>
+          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>{d.codeReviewed}</div>
+          <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>{d.testsPassed}</div>
+          <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>{d.appIsLive}</div>
           <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 5 ? 'visible' : 'hidden' }}>
             <span className="text-gray-400 text-[10px]">$</span>
             <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
@@ -768,7 +769,8 @@ const CODE_CHARS_MINI: CodeChar[] = CODE_DEF_MINI.flatMap((line, li) =>
   )
 )
 
-function BuildWide() {
+function BuildWide({ lang = defaultLang }: { lang?: Lang } = {}) {
+  const d = ui[lang].process.dashboard
   const { ref, entered: fullyVisible } = useEnteredOnce()
   const [charCount, setCharCount] = useState(0)
   const [terminalStep, setTerminalStep] = useState(0)
@@ -866,9 +868,9 @@ function BuildWide() {
               }
             </div>
             <div className="text-[10px] text-gray-500" style={{ visibility: terminalStep >= 1 ? 'visible' : 'hidden' }}>Preparing...</div>
-            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>✓ Code reviewed</div>
-            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>✓ Tests passed</div>
-            <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>✓ Your app is live</div>
+            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 2 ? 'visible' : 'hidden' }}>{d.codeReviewed}</div>
+            <div className="text-[10px] text-emerald-500" style={{ visibility: terminalStep >= 3 ? 'visible' : 'hidden' }}>{d.testsPassed}</div>
+            <div className="text-[10px] text-emerald-500 font-medium" style={{ visibility: terminalStep >= 4 ? 'visible' : 'hidden' }}>{d.appIsLive}</div>
             <div className="flex items-center gap-1 pt-0.5" style={{ visibility: terminalStep >= 5 ? 'visible' : 'hidden' }}>
               <span className="text-gray-400 text-[10px]">$</span>
               <div className="w-1.5 h-3 bg-[#F94500]" style={{ animation: 'blink 1s steps(1) infinite' }} />
@@ -885,7 +887,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
     switch (step) {
       case 0: return <DiscoverWide active={sectionEntered} lang={lang} />
       case 1: return <DesignWide lang={lang} />
-      case 2: return <BuildWide />
+      case 2: return <BuildWide lang={lang} />
       case 3: return <LaunchIllustration />
       default: return null
     }
@@ -895,7 +897,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
     switch (step) {
       case 0: return <DiscoverIllustration active={sectionEntered} compact lang={lang} />
       case 1: return <DesignIllustration compact lang={lang} />
-      case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} />
+      case 2: return <BuildIllustration codeDef={CODE_DEF_MINI} codeChars={CODE_CHARS_MINI} lang={lang} />
       case 3: return <div className="mx-auto aspect-[233/148] w-full"><LaunchIllustration /></div>
       default: return null
     }
@@ -903,7 +905,7 @@ function StepIllustration({ step, sectionEntered, wide, mobile, lang = defaultLa
   switch (step) {
     case 0: return <DiscoverIllustration active={sectionEntered} lang={lang} />
     case 1: return <DesignIllustration lang={lang} />
-    case 2: return <BuildIllustration />
+    case 2: return <BuildIllustration lang={lang} />
     case 3: return <LaunchIllustration />
     default: return null
   }

@@ -110,6 +110,10 @@ export const ui = {
         usabilityTesting: 'Usability Testing',
         usability: 'Usability',
         delivery: 'Delivery',
+        preparingProject: 'Preparing your project...',
+        codeReviewed: '✓ Code reviewed',
+        testsPassed: '✓ Tests passed',
+        appIsLive: '✓ Your app is live',
       },
     },
     portfolio: {
@@ -314,7 +318,7 @@ export const ui = {
       steps: [
         { number: '01', title: 'Découverte', verb: 'Comprendre avant de construire', body: "On étudie votre marché, vos concurrents et vos contraintes avant de démarrer quoi que ce soit. Appels découverte, audit de l'expérience utilisateur, cadrage technique — vous repartez avec un plan produit, un schéma technique et un devis clair." },
         { number: '02', title: 'Design', verb: 'Valider la vision tôt', body: "Chaque écran testé avant le début du développement. Wireframes, maquettes et prototypes interactifs. Vous le testez, vous cliquez, vous validez — aucune surprise quand on passe au développement." },
-        { number: '03', title: 'Construction', verb: 'Le design devient un vrai produit', body: "Votre prototype devient un vrai produit. Code propre, architecture solide, avancement transparent — et des points hebdomadaires pour que rien ne dérive. Chaque fonctionnalité relue, chaque détail voulu." },
+        { number: '03', title: 'Réalisation', verb: 'Le design devient un vrai produit', body: "Votre prototype devient un vrai produit. Code propre, architecture solide, progression visible — et des suivis hebdomadaires pour que rien ne dérive. Chaque fonctionnalité testée, chaque détail pensé." },
         { number: '04', title: 'Lancement', verb: "Au-delà de la ligne d'arrivée", body: "Tests, finitions, optimisation. Une fois en ligne, on reste à vos côtés — 30 jours de support post-lancement inclus, avec des sprints mensuels en option pour faire évoluer votre produit avec vos utilisateurs. Vous repartez pleinement propriétaire, sans aucune dépendance technique." },
       ],
       dashboard: {
@@ -336,6 +340,10 @@ export const ui = {
         usabilityTesting: 'Tests utilisateurs',
         usability: 'Tests UX',
         delivery: 'Lancement',
+        preparingProject: 'Préparation de votre projet...',
+        codeReviewed: '✓ Code vérifié',
+        testsPassed: '✓ Tests réussis',
+        appIsLive: '✓ Votre app est en ligne',
       },
     },
     portfolio: {
