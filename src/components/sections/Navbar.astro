@@ -1,5 +1,4 @@
 ---
-import { Menu, X } from 'lucide-react'
 import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/utils'
 
 const lang = getLangFromUrl(Astro.url)
@@ -80,10 +79,13 @@ const wide = lang === 'fr'
         id="mobile-menu-toggle"
         aria-label={t.openMenu}
         aria-expanded="false"
-        class={`flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors duration-200 hover:bg-white/8 ${wide.toggle}`}
+        class={`relative flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors duration-200 hover:bg-white/8 ${wide.toggle}`}
       >
-        <span id="menu-icon-open"><Menu size={20} /></span>
-        <span id="menu-icon-close" class="hidden"><X size={20} /></span>
+        <span class="hamburger" aria-hidden="true">
+          <span class="hamburger-bar hamburger-bar--top"></span>
+          <span class="hamburger-bar hamburger-bar--mid"></span>
+          <span class="hamburger-bar hamburger-bar--bot"></span>
+        </span>
       </button>
     </div>
   </nav>
@@ -100,7 +102,7 @@ const wide = lang === 'fr'
         <li>
           <a
             href={link.href}
-            class="mobile-nav-link block rounded-xl px-4 py-3 text-base font-medium text-palette-200 transition-colors duration-200 hover:bg-white/8 hover:text-white"
+            class="mobile-nav-link block rounded-xl px-4 py-3 text-center text-base font-medium text-palette-200 transition-colors duration-200 hover:bg-white/8 hover:text-white"
           >
             {link.label}
           </a>
@@ -205,28 +207,60 @@ const wide = lang === 'fr'
       transition: none;
     }
   }
+
+  .hamburger {
+    position: relative;
+    width: 18px;
+    height: 12px;
+  }
+
+  .hamburger-bar {
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 1.75px;
+    border-radius: 2px;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  }
+
+  .hamburger-bar--top { top: 0; }
+  .hamburger-bar--mid { top: 50%; transform: translateY(-50%); }
+  .hamburger-bar--bot { bottom: 0; }
+
+  [aria-expanded='true'] .hamburger-bar--top {
+    transform: translateY(5.125px) rotate(45deg);
+  }
+  [aria-expanded='true'] .hamburger-bar--mid {
+    opacity: 0;
+    transform: translateY(-50%) scaleX(0.4);
+  }
+  [aria-expanded='true'] .hamburger-bar--bot {
+    transform: translateY(-5.125px) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hamburger-bar {
+      transition: opacity 0.15s linear;
+    }
+  }
 </style>
 
 <script>
   const toggle = document.getElementById('mobile-menu-toggle')
   const menu = document.getElementById('mobile-menu')
-  const iconOpen = document.getElementById('menu-icon-open')
-  const iconClose = document.getElementById('menu-icon-close')
 
   function openMenu() {
     menu!.classList.remove('hidden')
     menu!.classList.add('block')
     toggle!.setAttribute('aria-expanded', 'true')
-    iconOpen!.classList.add('hidden')
-    iconClose!.classList.remove('hidden')
   }
 
   function closeMenu() {
     menu!.classList.add('hidden')
     menu!.classList.remove('block')
     toggle!.setAttribute('aria-expanded', 'false')
-    iconOpen!.classList.remove('hidden')
-    iconClose!.classList.add('hidden')
   }
 
   toggle?.addEventListener('click', () => {
@@ -234,8 +268,8 @@ const wide = lang === 'fr'
     isOpen ? closeMenu() : openMenu()
   })
 
-  // Close on nav link click
-  menu?.querySelectorAll('.mobile-nav-link').forEach(link => {
+  // Close on any link click (nav links + CTA)
+  menu?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeMenu)
   })
 
