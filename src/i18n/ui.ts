@@ -276,8 +276,8 @@ export const ui = {
       openMenu: 'Ouvrir le menu',
     },
     hero: {
-      badgeNew: 'Nouveau',
-      badgeText: 'Nous accueillons de nouveaux projets pour le prochain trimestre',
+      badgeNew: 'Dispo', // alt: 'Info'
+      badgeText: 'Agenda ouvert pour le prochain trimestre',
       titleLine1: 'Libérez votre',
       titleLine2: 'potentiel digital',
       subtitle:
