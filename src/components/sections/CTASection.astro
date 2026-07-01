@@ -2,7 +2,15 @@
 import { ChevronRight } from 'lucide-react'
 import { getLangFromUrl, useTranslations } from '../../i18n/utils'
 
-const t = useTranslations(getLangFromUrl(Astro.url)).cta
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang).cta
+
+// FR heading is longer than EN — needs a smaller floor + gentler growth so it
+// doesn't blow up to 4 lines on narrow phones. EN keeps the original scale.
+const headingSize =
+  lang === 'fr'
+    ? 'text-[clamp(40px,10.67vw,96px)] max-[369px]:text-[38px]'
+    : 'text-[clamp(40px,11.27vw,96px)]'
 
 // Social-proof avatars: initials pulled from real testimonial authors.
 const proof = [
@@ -94,7 +102,7 @@ const proof = [
       <span class="text-tooltip-l text-white/80">{t.join}</span>
     </div>
 
-    <h2 class="text-[clamp(40px,11.27vw,96px)] font-semibold leading-[1.05] text-white">
+    <h2 class={`${headingSize} font-semibold leading-[1.05] text-white`}>
       {t.headingLine1}<br /><span class="font-reckless">{t.headingEm}</span>
     </h2>
 
