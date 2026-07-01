@@ -273,7 +273,11 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
             <ChoiceStep
               config={
                 FIELDS[step] === 'budget'
-                  ? { ...tc.choiceSteps[step], options: tc.budgetByProject[selections.project] ?? tc.choiceSteps[step].options }
+                  ? {
+                      ...tc.choiceSteps[step],
+                      question: selections.project === tc.managementKey ? tc.budgetQuestionManagement : tc.choiceSteps[step].question,
+                      options: tc.budgetByProject[selections.project] ?? tc.choiceSteps[step].options,
+                    }
                   : FIELDS[step] === 'company' && selections.project === tc.managementKey
                     ? tc.businessSizeStep
                     : tc.choiceSteps[step]

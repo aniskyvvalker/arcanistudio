@@ -210,10 +210,11 @@ export const ui = {
       of: 'of',
       choiceSteps: [
         { question: 'What are you building?', options: ['Business website / Landing page', 'Online store', 'Custom management software (ERP / CRM)', 'Web / mobile app', 'Something else'] },
-        { question: 'When do you need it?', options: ['As soon as possible', '1 – 3 months', '3 – 6 months', 'Just exploring options'] },
+        { question: 'When do you need it?', options: ['As soon as possible', 'Within 1 – 3 months', 'Within 3 – 6 months', 'Just exploring options'] },
         { question: "What's your main goal?", options: ['Get more customers', 'Sell online', 'Look professional & credible', 'Replace something old'] },
         { question: "What's your budget?", options: ['Under 100,000 DZD', '100,000 – 300,000 DZD', '300,000 – 800,000 DZD', '800,000 DZD and above'] },
       ],
+      budgetQuestionManagement: 'What investment are you planning for this project?',
       businessSizeStep: { question: 'How big is your business?', options: ['Solo / Micro (1–5)', 'Small (6–20)', 'Mid-size (21–50)', 'Large (50+)'] },
       budgetByProject: {
         'Business website / Landing page': ['Under 50,000 DZD', '50,000 – 120,000 DZD', '120,000 – 250,000 DZD', '250,000 DZD and above'],
@@ -448,11 +449,14 @@ export const ui = {
       step: 'Étape',
       of: 'sur',
       choiceSteps: [
-        { question: 'Que construisez-vous ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre chose'] },
-        { question: 'Pour quand en avez-vous besoin ?', options: ['Le plus tôt possible', '1 – 3 mois', '3 – 6 mois', "Je m'informe pour l'instant"] },
+        // alt considered: 'De quoi avez-vous besoin ?'
+        { question: 'Quel est votre projet ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre chose'] },
+        // alt considered: 'C'est pour quand ?'
+        { question: 'Pour quand en avez-vous besoin ?', options: ['Le plus tôt possible', "D'ici 1 à 3 mois", "D'ici 3 à 6 mois", "Je m'informe pour l'instant"] },
         { question: 'Quel est votre objectif principal ?', options: ['Avoir plus de clients', 'Vendre en ligne', 'Paraître professionnel et crédible', 'Remplacer un site existant'] },
-        { question: 'Quel est votre budget ?', options: ['Moins de 100 000 DZD', '100 000 – 300 000 DZD', '300 000 – 800 000 DZD', '800 000 DZD et plus'] },
+        { question: 'Quel est votre budget pour ce projet ?', options: ['Moins de 100 000 DZD', '100 000 – 300 000 DZD', '300 000 – 800 000 DZD', '800 000 DZD et plus'] },
       ],
+      budgetQuestionManagement: 'Quel investissement prévoyez-vous pour ce projet ?',
       businessSizeStep: { question: 'Quelle est la taille de votre entreprise ?', options: ['Solo / Micro (1–5)', 'Petite (6–20)', 'Moyenne (21–50)', 'Grande (50+)'] },
       budgetByProject: {
         'Site vitrine / Landing page': ['Moins de 50 000 DZD', '50 000 – 120 000 DZD', '120 000 – 250 000 DZD', '250 000 DZD et plus'],
