@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { ui, defaultLang, type Lang } from '../../i18n/ui'
+import { localizePath } from '../../i18n/utils'
 
 // ── Data ──────────────────────────────────────────────────────
 // Copy (names, categories, descriptions) lives in src/i18n/ui.ts.
@@ -251,6 +252,7 @@ function MobileCard({
 export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }) {
   const t = ui[lang].portfolio
   const PROJECTS = t.projects as Project[]
+  const workHref = localizePath('/work', lang)
   const ROWS = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6)]
   const TABLET_ROWS = [PROJECTS.slice(0, 2), PROJECTS.slice(2, 4), PROJECTS.slice(4, 6)]
 
@@ -333,7 +335,7 @@ export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }
 
           {/* ── Tablet: "See all projects" button ── */}
           <a
-            href="/work"
+            href={workHref}
             className="mt-6 w-full hidden sm:flex md:hidden items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
           >
             {t.seeAll}
@@ -401,7 +403,7 @@ export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }
 
           {/* ── See all projects ── */}
           <a
-            href="/work"
+            href={workHref}
             className="group mt-28 hidden md:inline-flex xl:-ml-14 flex-col cursor-none"
             onMouseEnter={() => setSeeAllHovered(true)}
             onMouseLeave={() => setSeeAllHovered(false)}
