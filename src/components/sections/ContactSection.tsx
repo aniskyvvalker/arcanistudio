@@ -325,7 +325,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
             </div>
             <button
               onClick={() => navigate(step + 1)}
-              disabled={!selections[FIELDS[step]] || (selections[FIELDS[step]] === tc.somethingElse && !otherText.trim())}
+              disabled={!selections[FIELDS[step]] || (selections[FIELDS[step]] === tc.somethingElse && otherText.trim().length < 3)}
               className="group flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal transition-[background-color,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-30 disabled:cursor-not-allowed"
               style={{ backgroundColor: selections[FIELDS[step]] ? '#F94500' : '#262626', color: '#fff' }}
             >

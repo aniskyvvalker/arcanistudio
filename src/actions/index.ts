@@ -84,7 +84,7 @@ const leadSchema = z.object({
   // a FR translation is planned, so we don't want the server to reject a label
   // change. Capped to keep payloads small. `project` is the only required one
   // (it also carries the free-text value when the user picks "Something else").
-  project: z.string().trim().min(1).max(200),
+  project: z.string().trim().min(3).max(200),
   timeline: z.string().trim().max(200).optional().default(''),
   company: z.string().trim().max(200).optional().default(''),
   budget: z.string().trim().max(200).optional().default(''),
