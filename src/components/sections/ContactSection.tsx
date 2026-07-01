@@ -355,6 +355,36 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
 // Inline cal.com booking calendar — rendered in the success state so the user
 // books without leaving the site. Dark-themed to match, brand color on accents,
 // name+email prefilled from the form so they don't retype.
+//
+// ── Widget LANGUAGE (why it's not driven by `lang`) ─────────────────────────
+// The embedded cal.com widget renders in the cal.com ACCOUNT owner's language
+// (cal.com dashboard → Settings → General → Language). It does NOT read the
+// visitor's browser language, and there is NO free-plan URL/config param to
+// override it per-embed (we tried threading `language: lang` into the config
+// below — cal.com ignores it). Per-event-type language override is an open,
+// UNSHIPPED cal.com feature request, so paid plans don't solve it today either.
+//   Refs: github.com/calcom/cal.com/issues/8706  (per-event-type language)
+//         github.com/calcom/cal.com/issues/18710 (enforce booking-page language)
+//         github.com/calcom/cal.com/issues/20643 (embed follows account language)
+//
+// CURRENT STATE: the cal.com account is set to French, so BOTH the /fr and /en
+// pages show a French widget. Accepted on purpose — the audience is FR/Algeria-
+// dominant, and date/time/Confirm read fine even for the rare EN visitor.
+//
+// ── If you later want a real EN widget + FR widget (2-account approach) ──────
+// One cal.com account = one language, so a true per-locale split needs TWO
+// cal.com accounts, each set to its own language, each with its own event link:
+//   1. Create a 2nd cal.com account (e.g. an EN one); set its Language = English.
+//      Keep the existing account on French. Connect both to your calendar so
+//      availability stays in sync (or accept two calendars to watch).
+//   2. Expose two booking URLs via env, e.g.
+//         PUBLIC_CALCOM_URL_FR = https://cal.com/arcani/book       (French acct)
+//         PUBLIC_CALCOM_URL_EN = https://cal.com/arcani-en/book    (English acct)
+//      and build CAL_LINK (top of file) from the one matching `lang` instead of
+//      the single PUBLIC_CALCOM_URL.
+//   3. Thread `lang` down to <CalEmbed> and pick the calLink by locale.
+// Trade-off: 2 logins, 2 availability/no-show configs to maintain. Only worth it
+// if EN leads grow enough that a French widget actually costs bookings.
 function CalEmbed({ name, email }: { name: string; email: string }) {
   useEffect(() => {
     let active = true
