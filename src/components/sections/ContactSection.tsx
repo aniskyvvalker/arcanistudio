@@ -611,16 +611,16 @@ function InputField({
   required?: boolean; maxLength?: number; placeholder?: string; className?: string
 }) {
   return (
-    <div className={`py-6 ${className}`}>
-      <label className="block text-[13px] font-medium text-palette-400 mb-3 tracking-widest uppercase">
+    <label className={`block py-6 ${className}`}>
+      <span className="block text-[13px] font-medium text-palette-400 mb-3 tracking-widest uppercase">
         {label}
-      </label>
+      </span>
       <input
         type={type} name={name} value={value} onChange={onChange} required={required}
         maxLength={maxLength}
         placeholder={placeholder ?? label}
         className="w-full bg-transparent text-white text-[15px] font-light placeholder:text-palette-600 focus:outline-none"
       />
-    </div>
+    </label>
   )
 }
