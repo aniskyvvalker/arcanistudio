@@ -216,7 +216,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
               </p>
               {showCal ? (
                 <div className="mt-8">
-                  <CalEmbed name={contact.name} email={contact.email} />
+                  <CalEmbed name={contact.name} email={contact.email} phone={contact.phone} />
                 </div>
               ) : (
                 <button
@@ -389,7 +389,19 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
 //   3. Thread `lang` down to <CalEmbed> and pick the calLink by locale.
 // Trade-off: 2 logins, 2 availability/no-show configs to maintain. Only worth it
 // if EN leads grow enough that a French widget actually costs bookings.
-function CalEmbed({ name, email }: { name: string; email: string }) {
+// Cal's phone widget needs E.164 (leading "+" + country code) or it can't
+// determine the country and shows a garbage "+0" flag. Our input just strips
+// letters (see handleChange), so a raw local number like "0636661023" has no
+// "+" yet. Strip formatting chars and default the country to +213 (Algeria —
+// our target audience per the placeholder "+213 ...") when the user didn't
+// type one.
+function toE164(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, '')
+  if (digits.startsWith('+')) return digits
+  return `+213${digits.replace(/^0+/, '')}`
+}
+
+function CalEmbed({ name, email, phone }: { name: string; email: string; phone: string }) {
   useEffect(() => {
     let active = true
     ;(async () => {
@@ -409,7 +421,7 @@ function CalEmbed({ name, email }: { name: string; email: string }) {
     <Cal
       calLink={CAL_LINK}
       style={{ width: '100%', height: '100%', minHeight: '640px', overflow: 'scroll' }}
-      config={{ name, email, theme: 'dark', layout: 'month_view' }}
+      config={{ name, email, attendeePhoneNumber: toE164(phone), theme: 'dark', layout: 'month_view' }}
     />
   )
 }
