@@ -17,6 +17,12 @@ export const ui = {
       homeTitle: 'arcaniStudio',
       bookTitle: 'Book a call — arcaniStudio',
     },
+    notFound: {
+      title: 'Page not found — arcaniStudio',
+      headingParts: ['Page', 'Not', 'Available'],
+      bodyLines: ["Sorry, this page isn't available", 'anymore or an error occurred.'],
+      backHome: 'Back home',
+    },
     nav: {
       tagline: 'Digital Solutions With Purpose',
       links: [
@@ -247,6 +253,12 @@ export const ui = {
     meta: {
       homeTitle: 'arcaniStudio',
       bookTitle: 'Réserver un appel — arcaniStudio',
+    },
+    notFound: {
+      title: 'Page introuvable — arcaniStudio',
+      headingParts: ['Page', 'Non', 'Disponible'],
+      bodyLines: ["Désolé, cette page n'est plus disponible", "ou une erreur s'est produite."],
+      backHome: 'Retour à l’accueil',
     },
     nav: {
       tagline: 'Des solutions digitales qui ont du sens',

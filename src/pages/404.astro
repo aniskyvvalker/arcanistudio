@@ -1,15 +1,24 @@
 ---
 import '../styles/global.css'
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils'
+
+// Rendered on-demand so `Astro.url` carries the real requested path — this is
+// what lets us serve the French 404 under `/fr/...` and English elsewhere.
+export const prerender = false
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang).notFound
+const homeHref = localizePath('/', lang)
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content="noindex" />
-    <title>Page not found — arcaniStudio</title>
+    <title>{t.title}</title>
   </head>
   <body class="overflow-hidden bg-palette-950">
     <main class="relative flex min-h-dvh items-center justify-center">
@@ -28,20 +37,27 @@ import '../styles/global.css'
       {/* Centered overlay content */}
       <div class="overlay-content relative z-10 flex flex-col items-center gap-4 px-5 text-center md:translate-y-[6vh]">
         <h1 class="err-title font-reckless text-white">
-          <span class="fs" style="--d:0s">Page</span>
-          <span class="fs" style="--d:.1s"> Not</span>
-          <span class="fs" style="--d:.2s"> Available</span>
+          {t.headingParts.map((part, i) => (
+            <>
+              {i > 0 && ' '}
+              <span class="fs" style={`--d:${i * 0.1}s`}>{part}</span>
+            </>
+          ))}
         </h1>
         <p class="text-[14px] leading-relaxed text-white">
-          <span class="fs" style="--d:.35s">Sorry, this page isn't available</span><br />
-          <span class="fs" style="--d:.45s">anymore or an error occurred.</span>
+          {t.bodyLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              <span class="fs" style={`--d:${0.35 + i * 0.1}s`}>{line}</span>
+            </>
+          ))}
         </p>
         <span class="fs" style="--d:.6s">
         <a
-          href="/"
+          href={homeHref}
           class="group mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[16px] font-light text-palette-950 transition-colors duration-200 hover:bg-palette-100"
         >
-          Back home
+          {t.backHome}
           <svg class="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M7 17 17 7M7 7h10v10" />
           </svg>
