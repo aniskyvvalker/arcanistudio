@@ -281,7 +281,7 @@ export const ui = {
       titleLine1: 'Libérez votre',
       titleLine2: 'potentiel digital',
       subtitle:
-        'Vous portez la vision, nous la réalisons — design, code, tests, déploiement : tout est pris en charge pour vous laisser concentré sur votre business.',
+        'Vous portez la vision, on la réalise — design, code, tests, déploiement : tout est pris en charge pour vous laisser concentré sur votre business.',
       cta: 'Réserver un appel',
     },
     logos: {
