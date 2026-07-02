@@ -23,4 +23,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://REPLACE-ME.arcanistudio.example/sitemap-index.xml
+Sitemap: https://arcanistudio.vercel.app/sitemap-index.xml

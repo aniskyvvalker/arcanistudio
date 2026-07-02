@@ -11,9 +11,10 @@ import sitemap from '@astrojs/sitemap';
 // rendering only where needed — i.e. the lead-submission Action endpoint —
 // as a Vercel serverless function.
 export default defineConfig({
-  // PRE-LAUNCH PLACEHOLDER — swap for the real domain (or set SITE_URL) before
-  // going live. Drives canonical/hreflang/OG URLs and the sitemap's <loc> values.
-  site: process.env.SITE_URL ?? 'https://REPLACE-ME.arcanistudio.example',
+  // Current live domain is the Vercel-assigned one — swap for the real custom
+  // domain (or set SITE_URL) once bought. Drives canonical/hreflang/OG URLs
+  // and the sitemap's <loc> values.
+  site: process.env.SITE_URL ?? 'https://arcanistudio.vercel.app',
 
   adapter: vercel(),
 

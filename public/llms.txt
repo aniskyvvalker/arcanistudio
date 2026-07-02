@@ -4,7 +4,7 @@
 
 arcaniStudio is a full-service digital agency. Typical engagement: a free 30-minute discovery call, then five stages — strategy & goals, copywriting, UX/UI design, development, and delivery with onboarding — with client approval at each stage. Sites are built for measurable results: fast load times, clean semantic structure, and technical SEO baked in from the start (not an afterthought).
 
-Available in English (https://REPLACE-ME.arcanistudio.example/) and French (https://REPLACE-ME.arcanistudio.example/fr).
+Available in English (https://arcanistudio.vercel.app/) and French (https://arcanistudio.vercel.app/fr).
 
 ## Services
 
