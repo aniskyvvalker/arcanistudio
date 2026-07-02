@@ -15,7 +15,6 @@ export const ui = {
   en: {
     meta: {
       homeTitle: 'arcaniStudio',
-      bookTitle: 'Book a call — arcaniStudio',
     },
     notFound: {
       title: 'Page not found — arcaniStudio',
@@ -254,7 +253,6 @@ export const ui = {
   fr: {
     meta: {
       homeTitle: 'arcaniStudio',
-      bookTitle: 'Réserver un appel — arcaniStudio',
     },
     notFound: {
       title: 'Page introuvable — arcaniStudio',

@@ -105,6 +105,15 @@ const leadSchema = z.object({
 })
 
 // ---- naive rate limiter ----------------------------------------------------
+// IN-MEMORY, PER-INSTANCE — does not hold on serverless (Vercel spins fresh
+// instances per invocation, so this Map resets constantly). Treat as a speed
+// bump against casual bots, not a real wall. Not fixed yet — suggestion only,
+// stay open to other approaches if a better one shows up:
+//   (A) Vercel Firewall dashboard rule (rate-limit rule on /_actions/submitLead,
+//       no code change, configure after the project is deployed) — likely path.
+//   (B) Swap this Map for a durable store (e.g. Upstash Redis, free tier) so
+//       the count is shared across instances — more setup, host-agnostic.
+// Revisit only if real spam shows up; honeypot + Zod caps already blunt most of it.
 
 const WINDOW_MS = 60_000
 const MAX_PER_WINDOW = 5
