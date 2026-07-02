@@ -32,3 +32,17 @@ export function localizePath(path: string, lang: Lang): string {
   if (lang === defaultLang) return clean || '/'
   return `/${lang}${clean}`
 }
+
+/**
+ * Absolute URLs for every locale variant of the current path, for canonical +
+ * hreflang tags. `xDefault` points at the unprefixed default-locale (en) URL,
+ * since that's what `prefixDefaultLocale: false` serves at `/`.
+ */
+export function getAlternateUrls(site: URL | undefined, path: string) {
+  const base = site ?? new URL('https://REPLACE-ME.arcanistudio.example')
+  return {
+    en: new URL(localizePath(path, 'en'), base).toString(),
+    fr: new URL(localizePath(path, 'fr'), base).toString(),
+    xDefault: new URL(localizePath(path, 'en'), base).toString(),
+  }
+}

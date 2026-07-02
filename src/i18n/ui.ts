@@ -15,6 +15,9 @@ export const ui = {
   en: {
     meta: {
       homeTitle: 'arcaniStudio',
+      title: 'arcaniStudio — Web & App Development Agency in Algeria',
+      description:
+        'arcaniStudio builds fast, scalable websites, mobile apps, and AI-powered systems for founders and brands in Algeria and beyond. Book a free discovery call.',
     },
     langBanner: {
       message: 'Prefer to read this in French?',
@@ -258,6 +261,9 @@ export const ui = {
   fr: {
     meta: {
       homeTitle: 'arcaniStudio',
+      title: 'arcaniStudio — Agence de développement web & mobile en Algérie',
+      description:
+        "arcaniStudio conçoit sites web, apps mobiles et systèmes IA pour fondateurs et marques en Algérie. Réservez un appel découverte gratuit.",
     },
     langBanner: {
       message: 'Vous préférez lire ceci en anglais ?',

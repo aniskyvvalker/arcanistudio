@@ -1,0 +1,43 @@
+# arcaniStudio
+
+> Web and app development agency serving founders and brands in Algeria and internationally. Digital solutions with purpose: design, code, testing, and deployment fully handled end-to-end.
+
+arcaniStudio is a full-service digital agency. Typical engagement: a free 30-minute discovery call, then five stages — strategy & goals, copywriting, UX/UI design, development, and delivery with onboarding — with client approval at each stage. Sites are built for measurable results: fast load times, clean semantic structure, and technical SEO baked in from the start (not an afterthought).
+
+Available in English (https://REPLACE-ME.arcanistudio.example/) and French (https://REPLACE-ME.arcanistudio.example/fr).
+
+## Services
+
+- **Web Development** — fast, scalable web applications with modern frameworks (React, Next.js, Astro, TypeScript), from landing pages to complex platforms, optimized for speed, SEO, and performance.
+- **Branding & UI/UX Design** — brand identity and interface design (Figma, design systems, prototyping), research-driven and built to convert.
+- **Mobile Apps** — native and cross-platform apps (React Native, iOS, Android, Expo), concept through App Store launch.
+- **Automation & AI** — workflow automation and AI-powered integrations (custom agents, APIs) to cut manual work.
+- **E-Commerce Solutions** — online stores engineered for conversion (Shopify, Stripe, headless commerce, CRO).
+- **SEO & Growth** — technical SEO audits, content strategy, analytics, and Core Web Vitals optimization, including visibility across AI answer engines.
+
+## Frequently asked questions
+
+**What types of applications do you build?**
+Web applications, mobile apps (iOS and Android), AI-integrated management systems (CRM, ERP), custom dashboards, and SaaS platforms — every solution tailored to the client's needs.
+
+**What does the process look like?**
+A free 30-minute discovery call, then five stages: strategy & goals, copywriting, UX/UI design, development, and delivery with onboarding. The client reviews and approves each phase before the next begins.
+
+**How long does a project take?**
+Depends on scope: a landing page ships in 7–10 business days, a full website in 3–5 weeks, and complex systems like CRMs or ERPs run 3–6 months.
+
+**How does payment work?**
+Most projects are split into milestones: 40% upfront, 30% at mid-project, 30% on delivery.
+
+**Do clients own the designs and the code?**
+Yes, completely — on final payment, the code, designs, and data belong to the client. No license traps.
+
+**Will a site built by arcaniStudio rank well on Google (SEO)?**
+Yes — SEO is built into every project: clean semantic structure, meta tags, fast load times, responsive design, and a sitemap.
+
+**Is ongoing support and maintenance available?**
+Yes — an optional monthly plan covers maintenance, updates, and technical check-ins.
+
+## Contact
+
+Discovery calls and project inquiries via the contact form on the site. Response by WhatsApp or phone within 24 hours. Area served: Algeria and international clients.

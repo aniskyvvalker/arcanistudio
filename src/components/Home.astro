@@ -16,12 +16,51 @@ import CTASection from './sections/CTASection.astro'
 import ContactSection from './sections/ContactSection'
 import Footer from './sections/Footer.astro'
 import LanguageBanner from './LanguageBanner'
-import { getLangFromUrl, useTranslations } from '../i18n/utils'
+import { getLangFromUrl, useTranslations, getAlternateUrls } from '../i18n/utils'
 
 // Locale is derived from the URL, so this single component renders both the
 // English (/) and French (/fr) homepages — every child reads the same lang.
 const lang = getLangFromUrl(Astro.url)
 const t = useTranslations(lang)
+
+// Home.astro only ever renders the homepage itself (both '/' and '/fr' route
+// here), so the delocalized path is always '/' — not Astro.url.pathname,
+// which already carries the '/fr' prefix and would double it up.
+const alternates = getAlternateUrls(Astro.site, '/')
+const canonicalURL = lang === 'fr' ? alternates.fr : alternates.en
+const ogImageURL = new URL('/og-image.jpg', Astro.site).toString()
+const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_US'
+const ogLocaleAlternate = lang === 'fr' ? 'en_US' : 'fr_FR'
+
+// JSON-LD: Organization (no street address — none exists in the site's copy;
+// see FAQPage below for the rich-snippet FAQ markup) + FAQPage from the same
+// FAQ content the page already renders, so the two never drift apart.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'arcaniStudio',
+  url: Astro.site?.toString(),
+  logo: new URL('/logo.svg', Astro.site).toString(),
+  image: ogImageURL,
+  description: t.meta.description,
+  areaServed: 'Algeria',
+  availableLanguage: ['English', 'French'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    availableLanguage: ['English', 'French'],
+  },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: t.faq.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}
 ---
 
 <html lang={lang}>
@@ -30,7 +69,32 @@ const t = useTranslations(lang)
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{t.meta.homeTitle}</title>
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="en" href={alternates.en} />
+    <link rel="alternate" hreflang="fr" href={alternates.fr} />
+    <link rel="alternate" hreflang="x-default" href={alternates.xDefault} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.meta.homeTitle} />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlternate} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.meta.title} />
+    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </head>
   <body>
     <Navbar />
