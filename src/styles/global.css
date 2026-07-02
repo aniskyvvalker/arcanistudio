@@ -419,12 +419,25 @@
     }
     html {
         @apply font-sans;
-        scroll-behavior: smooth;
-    }
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
-        }
+        /*
+          `auto` (not `smooth`) because Lenis (src/components/Home.astro) now
+          owns scroll easing on the homepage. Native `smooth` here would
+          double-ease anchor jumps on top of Lenis.
+
+          To revert to native browser smooth-scroll (after removing Lenis
+          from Home.astro), restore:
+
+            scroll-behavior: smooth;
+
+          and re-add, inside this same @layer base block:
+
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
+            }
+        */
+        scroll-behavior: auto;
     }
 }
 
