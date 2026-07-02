@@ -1103,7 +1103,7 @@ export default function ProcessSection({ lang = defaultLang }: { lang?: Lang }) 
               </div>
 
               {/* Step illustration — vertical variant: width 350–549px AND height ≥790px */}
-              <div className="mr-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:549px)_and_(min-height:790px)]:block">
+              <div className="mr-auto hidden w-full max-w-[360px] shrink-0 [@media(min-width:350px)_and_(max-width:549px)]:block">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
