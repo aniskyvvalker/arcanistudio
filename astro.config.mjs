@@ -16,6 +16,11 @@ export default defineConfig({
   // and the sitemap's <loc> values.
   site: process.env.SITE_URL ?? 'https://arcanistudio.vercel.app',
 
+  // Canonical/hreflang tags never emit a trailing slash (see i18n/utils.ts
+  // localizePath) — match that here so the generated sitemap agrees instead
+  // of listing "/fr/" against a canonical of "/fr".
+  trailingSlash: 'never',
+
   adapter: vercel(),
 
   // English at the root (/), French under /fr. The default locale is not
