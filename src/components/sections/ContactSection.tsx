@@ -128,12 +128,16 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
     const errs: string[] = []
     if (contact.name.trim().length < 3) errs.push(v.name)
     const email = contact.email.trim()
-    if (email.length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.push(v.email)
+    // Charset mirrors the server's zod .email() closely enough that anything this
+    // accepts also passes server-side — otherwise a user can clear this check and
+    // still get bounced by the server with only the generic fallback message.
+    if (email.length < 8 || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errs.push(v.email)
     if (contact.phone.trim().length < 8) errs.push(v.phone)
     if (errs.length === 0) return ''
     const list =
       errs.length === 1 ? errs[0] : `${errs.slice(0, -1).join(v.sep)}${v.and}${errs[errs.length - 1]}`
-    return `${v.intro}${list}${v.period}`
+    const suffix = errs.length === 1 ? v.suffixSingle : v.suffixMulti
+    return `${v.intro}${list}${suffix}`
   }
 
   async function submit(e: React.FormEvent) {
@@ -398,6 +402,9 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
 function toE164(phone: string): string {
   const digits = phone.replace(/[^\d+]/g, '')
   if (digits.startsWith('+')) return digits
+  // User typed the country code without a leading "+" (e.g. "213 656 661 023").
+  // Don't prepend +213 again — that would double it up.
+  if (digits.startsWith('213')) return `+${digits}`
   return `+213${digits.replace(/^0+/, '')}`
 }
 
