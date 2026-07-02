@@ -225,7 +225,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
                   style={{ backgroundColor: '#F94500' }}
                 >
                   {tc.bookNow}
-                  <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                  <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </button>
               )}
             </div>

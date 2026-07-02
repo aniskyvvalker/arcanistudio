@@ -52,7 +52,7 @@ export const ui = {
       eyebrow: 'Proof',
       heading: 'Numbers that speak for themselves',
       subtitle: 'We lead digital projects built for measurable results.',
-      quote: 'Quote',
+      quote: 'Get a Quote',
       discover: 'Discover',
       items: [
         { value: '20+', label: 'Projects launched', description: 'For founders and brands who take their digital presence seriously.' },
@@ -291,7 +291,7 @@ export const ui = {
       eyebrow: 'Preuves',
       heading: "Des chiffres qui parlent d'eux-mêmes",
       subtitle: 'On pilote des projets digitaux conçus pour des résultats mesurables.',
-      quote: 'Devis',
+      quote: 'Obtenir un devis',
       discover: 'Découvrir',
       items: [
         { value: '20+', label: 'Projets lancés', description: 'Pour les fondateurs et marques qui prennent leur présence digitale au sérieux.' },

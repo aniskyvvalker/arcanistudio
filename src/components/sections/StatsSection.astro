@@ -25,16 +25,16 @@ const stats = t.items
       <div class="mt-4 flex items-center gap-4">
         <a
           href="#contact"
-          class="rounded-full border border-palette-700 px-6 py-3 text-p-bold font-semibold text-white transition-colors hover:bg-palette-800"
+          class="rounded-full border border-palette-700 px-6 py-3 text-p-bold font-normal text-white transition-colors duration-300 hover:border-primary-600 hover:bg-primary-600"
         >
           {t.quote}
         </a>
         <a
-          href="#work"
-          class="flex items-center gap-1 text-p-bold font-semibold text-white transition-colors hover:text-primary-500"
+          href="#portfolio"
+          class="group flex items-center gap-1 text-p-bold font-normal text-white transition-colors hover:text-primary-500"
         >
           {t.discover}
-          <ArrowRight size={16} />
+          <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
         </a>
       </div>
     </div>
