@@ -16,6 +16,11 @@ export const ui = {
     meta: {
       homeTitle: 'arcaniStudio',
     },
+    langBanner: {
+      message: 'Prefer to read this in French?',
+      switchLabel: 'Voir en français',
+      dismiss: 'Dismiss',
+    },
     notFound: {
       title: 'Page not found — arcaniStudio',
       headingParts: ['Page', 'Not', 'Available'],
@@ -253,6 +258,11 @@ export const ui = {
   fr: {
     meta: {
       homeTitle: 'arcaniStudio',
+    },
+    langBanner: {
+      message: 'Vous préférez lire ceci en anglais ?',
+      switchLabel: 'View in English',
+      dismiss: 'Fermer',
     },
     notFound: {
       title: 'Page introuvable — arcaniStudio',

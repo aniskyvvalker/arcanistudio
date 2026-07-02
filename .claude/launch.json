@@ -7,6 +7,13 @@
       "runtimeArgs": ["/Users/pc/Desktop/Agency/arcaniStudio-Website/node_modules/astro/bin/astro.mjs", "dev"],
       "port": 4321,
       "autoPort": true
+    },
+    {
+      "name": "arcani-preview",
+      "runtimeExecutable": "/Users/pc/.nvm/versions/node/v22.22.3/bin/node",
+      "runtimeArgs": ["/Users/pc/Desktop/Agency/arcaniStudio-Website/dist/server/entry.mjs"],
+      "port": 4322,
+      "autoPort": true
     }
   ]
 }

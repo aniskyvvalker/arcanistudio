@@ -15,6 +15,7 @@ import FAQSection from './sections/FAQSection.astro'
 import CTASection from './sections/CTASection.astro'
 import ContactSection from './sections/ContactSection'
 import Footer from './sections/Footer.astro'
+import LanguageBanner from './LanguageBanner'
 import { getLangFromUrl, useTranslations } from '../i18n/utils'
 
 // Locale is derived from the URL, so this single component renders both the
@@ -67,6 +68,7 @@ const t = useTranslations(lang)
       <div id="contact"><ContactSection client:visible lang={lang} /></div>
     </main>
     <Footer />
+    <LanguageBanner client:load lang={lang} />
   </body>
 </html>
 

@@ -21,6 +21,13 @@ export default defineConfig({
     },
   },
 
+  // Safety net for anyone typing/linking /en assuming standard i18n URLs —
+  // redirect to the real (unprefixed) English root instead of 404ing or
+  // serving duplicate content at two URLs.
+  redirects: {
+    '/en': '/',
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },
