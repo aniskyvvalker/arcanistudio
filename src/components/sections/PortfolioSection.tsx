@@ -258,7 +258,9 @@ export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }
 
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [seeAllHovered, setSeeAllHovered] = useState(false)
-  const [mobileExpanded, setMobileExpanded] = useState(false)
+  // `mobileExpanded` drove the old in-place expand behavior below (now
+  // commented out in the mobile block). Uncomment to restore it.
+  // const [mobileExpanded, setMobileExpanded] = useState(false)
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
   const headerRef = useRef<HTMLDivElement>(null)
   const headerInView = useInView(headerRef, { once: true, margin: '-80px' })
@@ -371,9 +373,31 @@ export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }
           </div>
           ── */}
 
-          {/* ── Mobile: stacked grid ── */}
-          {/* TODO: behavior inconsistency — mobile expands in-place while tablet links to /work.
-              Decide on one pattern: either both expand or both link. */}
+          {/* ── Mobile: stacked grid — shows first 3, rest live behind /work link ── */}
+          <div className="grid grid-cols-1 gap-4 sm:hidden">
+            {PROJECTS.slice(0, 3).map((project, i) => (
+              <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
+            ))}
+          </div>
+
+          {/* ── Mobile: "See all projects" — now links to /work, matching tablet/desktop ── */}
+          <a
+            href={workHref}
+            className="mt-6 w-full sm:hidden flex items-center justify-center gap-2 rounded-full border border-palette-950/20 py-3.5 text-[13px] font-medium uppercase tracking-wider text-palette-950 transition-colors duration-200 hover:border-palette-950/50"
+          >
+            {t.seeAll}
+            <ArrowUpRight size={14} strokeWidth={2} />
+          </a>
+
+          {/* ── Mobile: in-place expand (commented out, was previous behavior) ──
+          Old pattern: only 3 cards shown, button toggled `mobileExpanded` to
+          reveal the remaining 3 in an animated height/opacity panel, instead
+          of navigating away. Diverged from tablet/desktop (which link to
+          /work), so it's replaced by the live link block above.
+
+          To restore: uncomment `mobileExpanded` state near the top of this
+          component, delete the two live blocks above, and swap in this one.
+
           <div className="grid grid-cols-1 gap-4 sm:hidden">
             {PROJECTS.slice(0, 3).map((project, i) => (
               <MobileCard key={project.id} project={project} index={i} reduced={reduced} />
@@ -400,6 +424,7 @@ export default function PortfolioSection({ lang = defaultLang }: { lang?: Lang }
               <ArrowUpRight size={14} strokeWidth={2} />
             </button>
           )}
+          ── */}
 
           {/* ── See all projects ── */}
           <a
