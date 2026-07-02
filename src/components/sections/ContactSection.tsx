@@ -411,7 +411,6 @@ function CalEmbed({ name, email, phone }: { name: string; email: string; phone: 
         theme: 'dark',
         cssVarsPerTheme: { dark: { 'cal-brand': '#F94500' } },
         hideEventTypeDetails: false,
-        layout: 'month_view',
       })
     })()
     return () => { active = false }
@@ -421,7 +420,7 @@ function CalEmbed({ name, email, phone }: { name: string; email: string; phone: 
     <Cal
       calLink={CAL_LINK}
       style={{ width: '100%', height: '100%', minHeight: '640px', overflow: 'scroll' }}
-      config={{ name, email, attendeePhoneNumber: toE164(phone), theme: 'dark', layout: 'month_view' }}
+      config={{ name, email, attendeePhoneNumber: toE164(phone), theme: 'dark' }}
     />
   )
 }
