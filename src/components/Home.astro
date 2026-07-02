@@ -93,5 +93,20 @@ const t = useTranslations(lang)
       requestAnimationFrame(raf)
     }
     requestAnimationFrame(raf)
+
+    // Lenis only smooths wheel/touch input by default — it does NOT catch
+    // clicks on in-page anchor links (navbar, "Discover", "Réserver un
+    // créneau", etc). Without this, those still native-jump since CSS
+    // scroll-behavior is off. Route any `#hash` link through Lenis instead.
+    document.addEventListener('click', (e) => {
+      const anchor = (e.target as HTMLElement).closest('a[href^="#"]')
+      if (!anchor) return
+      const id = anchor.getAttribute('href')?.slice(1)
+      if (!id) return
+      const target = document.getElementById(id)
+      if (!target) return
+      e.preventDefault()
+      lenis.scrollTo(target)
+    })
   }
 </script>
