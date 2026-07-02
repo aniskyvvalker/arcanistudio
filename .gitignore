@@ -15,3 +15,6 @@ dist/
 # editor / OS
 .DS_Store
 *.local
+
+# local audit/report exports (Lighthouse-style tools dump these in cwd)
+*.report.html
