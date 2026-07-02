@@ -49,9 +49,8 @@ import { z } from 'astro:schema'
  *       it's manual: we get the phone via email/Telegram and message them.
  *   [ ] Real env values filled (.env). Without them, leads VALIDATE but go
  *       NOWHERE — both channels skip silently. THIS IS THE #1 GOTCHA.
- *   [ ] Deploy to a Node host (adapter is @astrojs/node). Hostinger VPS / Railway
- *       / Render, or swap adapter to @astrojs/vercel. Static-only hosting (e.g.
- *       Hostinger shared) will NOT run this action.
+ *   [x] Adapter is @astrojs/vercel — deploys as a Vercel serverless function.
+ *       Static-only hosting (e.g. Hostinger shared) will NOT run this action.
  *   [ ] Optional hardening: persist leads (DB / sheet) so none are lost if email
  *       AND Telegram both fail; durable rate limiting (Redis) for multi-instance.
  *

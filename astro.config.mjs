@@ -3,18 +3,19 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
-// Pages stay static (output: 'static'); the Node adapter enables on-demand
-// rendering only where needed — i.e. the lead-submission Action endpoint.
+// Pages stay static (output: 'static'); the Vercel adapter enables on-demand
+// rendering only where needed — i.e. the lead-submission Action endpoint —
+// as a Vercel serverless function.
 export default defineConfig({
   // PRE-LAUNCH PLACEHOLDER — swap for the real domain (or set SITE_URL) before
   // going live. Drives canonical/hreflang/OG URLs and the sitemap's <loc> values.
   site: process.env.SITE_URL ?? 'https://REPLACE-ME.arcanistudio.example',
 
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
 
   // English at the root (/), French under /fr. The default locale is not
   // prefixed, so existing English URLs stay unchanged.
