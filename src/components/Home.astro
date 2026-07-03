@@ -173,6 +173,10 @@ const faqSchema = {
       if (!target) return
       e.preventDefault()
       lenis.scrollTo(target)
+      // preventDefault() above also blocks the browser's native URL-hash update
+      // (that's why the address bar no longer shows #contact/#services after
+      // clicking, unlike before this handler existed). To restore it:
+      //   history.pushState(null, '', anchor.getAttribute('href'))
     })
   }
 </script>
