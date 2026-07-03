@@ -374,6 +374,14 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
 // books without leaving the site. Dark-themed to match, brand color on accents,
 // name+email prefilled from the form so they don't retype.
 //
+// ── Duplicate-booking detection is by EMAIL (confirmed 2026-07-03) ──────────
+// If the same visitor books twice for this event type, cal.com shows a
+// "you already have a booking, reschedule instead?" banner. Tested directly:
+// it's keyed on the attendee's EMAIL, not name or phone — submitting the same
+// email again triggers it regardless of name/phone; a different email does
+// not. Relevant if this form's prefill or a future "resubmit" flow ever needs
+// to reason about what counts as "the same lead" from cal.com's perspective.
+//
 // ── Widget LANGUAGE (why it's not driven by `lang`) ─────────────────────────
 // The embedded cal.com widget renders in the cal.com ACCOUNT owner's language
 // (cal.com dashboard → Settings → General → Language). It does NOT read the
