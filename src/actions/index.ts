@@ -53,8 +53,34 @@ import { ui } from '../i18n/ui'
  *   [ ] cal.com account + the two event types created.
  *   [ ] PUBLIC_CALCOM_URL set, and ContactSection redirect to Event 2 on success
  *       (currently it just shows the "We'll be in touch" screen — see that file).
- *   [ ] WhatsApp follow-up. User wants to build a bot to send these. Until then
- *       it's manual: we get the phone via email/Telegram and message them.
+ *   [ ] WhatsApp follow-up. Until then it's manual: we get the phone via
+ *       email/Telegram/Sheets and message them ourselves. Researched a bot
+ *       (2026-07-03), deliberately NOT building one yet — decision on hold,
+ *       revisit later. Findings, so this doesn't get re-researched from
+ *       scratch next time:
+ *         - Official WhatsApp Business API (Meta Cloud API, directly or via
+ *           a BSP like Twilio/360dialog) is the only ban-safe route. Signup
+ *           is free, but requires Meta business verification, and sending
+ *           the FIRST message to a lead (they haven't messaged us first) is
+ *           a business-initiated template message — Meta bills per-message
+ *           for that (~$0.01-0.02, utility category), small but non-zero.
+ *         - Botpress (and similar no-code bot builders) sit ON TOP of the
+ *           same official API — their own "free tier message count" does
+ *           NOT waive Meta's underlying per-message fee. Don't mistake a
+ *           platform's free quota for Meta's WhatsApp costs going away.
+ *         - Unofficial libraries (Baileys, whatsapp-web.js, Evolution API,
+ *           etc.) automate a real WhatsApp Web session via reverse-engineered
+ *           protocol — genuinely free, but real ban risk (weeks-long bans
+ *           reported), and risk is HIGHEST for exactly our use case: proactive
+ *           messages to people who haven't messaged us first. Using a personal
+ *           (non-Business) number doesn't reduce this — Meta has no official
+ *           API for personal accounts at all, so it's the same unofficial/
+ *           reverse-engineered route either way, just risking a number we
+ *           might use personally too.
+ *         - The one genuinely free + zero-risk option: a manual `wa.me`
+ *           click-to-chat link (opens WhatsApp pre-filled, a human clicks
+ *           send) — no API, no approval, no bot. Good stepgap if/when we
+ *           revisit this.
  *   [ ] Real env values filled (.env). Without them, leads VALIDATE but go
  *       NOWHERE — both channels skip silently. THIS IS THE #1 GOTCHA.
  *   [x] Adapter is @astrojs/vercel — deploys as a Vercel serverless function.
