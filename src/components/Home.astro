@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css'
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 import Navbar from './sections/Navbar.astro'
 import HeroHeader from './sections/HeroHeader.astro'
 import LogoList from './sections/LogoList.astro'
@@ -133,6 +135,8 @@ const faqSchema = {
     </main>
     <Footer />
     <LanguageBanner client:load lang={lang} />
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
 
