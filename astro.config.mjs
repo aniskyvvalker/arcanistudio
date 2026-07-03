@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
+import sentry from '@sentry/astro';
 
 // https://astro.build/config
 // Pages stay static (output: 'static'); the Vercel adapter enables on-demand
@@ -44,5 +45,24 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), sitemap({ lastmod: new Date() })]
+  integrations: [
+    react(),
+    sitemap({ lastmod: new Date() }),
+    // Skipped entirely when the DSN is unset, so local dev never reports
+    // errors to Sentry. Source map upload also skipped unless an auth token
+    // is present, to keep `npm run build` working without Sentry creds.
+    ...(process.env.SENTRY_DSN
+      ? [
+          sentry({
+            dsn: process.env.SENTRY_DSN,
+            sourceMapsUploadOptions: {
+              enabled: Boolean(process.env.SENTRY_AUTH_TOKEN),
+              authToken: process.env.SENTRY_AUTH_TOKEN,
+              org: process.env.SENTRY_ORG,
+              project: process.env.SENTRY_PROJECT,
+            },
+          }),
+        ]
+      : []),
+  ]
 });
