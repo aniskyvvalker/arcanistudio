@@ -20,6 +20,7 @@ const wide = lang === 'fr'
       logoBack: 'min-[500px]:block',
       wordmarkShow: 'min-[450px]:inline',
       chevron: 'inline-flex shrink-0',
+      ctaHover: 'hover:bg-white hover:text-black',
     }
   : {
       navGrid: 'min-[1200px]:grid-cols-[1fr_auto_1fr]',
@@ -32,6 +33,13 @@ const wide = lang === 'fr'
       logoBack: 'min-[430px]:block',
       wordmarkShow: 'min-[380px]:inline',
       chevron: 'inline-flex shrink-0 min-[380px]:hidden min-[400px]:inline-flex',
+      // Same hover as FR everywhere EXCEPT 380-399px, where it's suppressed entirely
+      // (no hover:bg-white/text-black rule exists in that band) — paired with the
+      // matchMedia guard below that also skips the chevron/text slide in that range.
+      // NOTE: Tailwind v4 compiles max-[Npx] as `width < N` (exclusive), so the
+      // lower half needs max-[380px] (not 379px) to cover widths 0-379 inclusive
+      // and butt exactly against min-[380px] with no 1px gap or overlap.
+      ctaHover: 'max-[380px]:hover:bg-white max-[380px]:hover:text-black min-[400px]:hover:bg-white min-[400px]:hover:text-black',
     }
 ---
 
@@ -69,7 +77,7 @@ const wide = lang === 'fr'
       <a
         id="cta-btn"
         href="#contact"
-        class="shrink-0 overflow-hidden whitespace-nowrap rounded-full bg-primary-600 px-4 py-2 text-tooltip-l font-medium text-white transition-colors duration-700 hover:bg-white hover:text-black"
+        class={`shrink-0 overflow-hidden whitespace-nowrap rounded-full bg-primary-600 px-4 py-2 text-tooltip-l font-medium text-white transition-colors duration-700 ${wide.ctaHover}`}
       >
         <span id="cta-inner" class="flex items-center gap-3">
           <span id="cta-chevron" class={`${wide.chevron}`} style="transition:transform 0.7s cubic-bezier(0.22,1,0.36,1)"><svg width="6" height="11" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -275,13 +283,17 @@ const wide = lang === 'fr'
     link.addEventListener('click', closeMenu)
   })
 
-  // CTA chevron swap
+  // CTA chevron swap — suppressed on English at 380-399px (paired with the
+  // ctaHover suppression above; at that width the chevron itself is hidden too,
+  // so a text-only slide would look broken).
+  const narrowEnGap = window.matchMedia('(min-width: 380px) and (max-width: 399px)')
   window.addEventListener('load', () => {
     const ctaBtn = document.getElementById('cta-btn') as HTMLAnchorElement | null
     const chev = document.getElementById('cta-chevron') as HTMLElement | null
     const ctaText = document.getElementById('cta-text') as HTMLElement | null
     ctaBtn?.addEventListener('mouseenter', () => {
       if (!chev || !ctaText) return
+      if (document.documentElement.lang === 'en' && narrowEnGap.matches) return
       const textW = ctaText.offsetWidth
       chev.style.transform = `translateX(${textW + 12}px)`
       ctaText.style.transform = `translateX(-18px)`
