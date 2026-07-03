@@ -42,6 +42,10 @@ import { ui } from '../i18n/ui'
  *   - Airtable backup log     (optional — best-effort archive of every lead;
  *     a failure here is logged but never blocks or errors the visitor's
  *     submission — it's insurance, not a critical channel like the two above).
+ *   - Google Sheets backup log (optional — same best-effort/non-blocking deal
+ *     as Airtable; a second independent archive for collaborators who only use
+ *     Sheets. Talks to a Google Apps Script Web App, not the official Sheets
+ *     API — no OAuth/service-account needed, see .env.example for the script).
  *   - Frontend wired: mailto removed, calls this action, shows sending/error states.
  *
  * WHAT'S MISSING / TODO  🚧  (pick up here in a future session)
@@ -56,6 +60,8 @@ import { ui } from '../i18n/ui'
  *   [x] Adapter is @astrojs/vercel — deploys as a Vercel serverless function.
  *       Static-only hosting (e.g. Hostinger shared) will NOT run this action.
  *   [x] Leads persisted to Airtable as a backup archive (best-effort, non-blocking).
+ *   [x] Leads also persisted to Google Sheets (same best-effort deal, for
+ *       collaborators who only use Sheets).
  *   [ ] Durable rate limiting (Redis) for multi-instance — the in-memory limiter
  *       below resets per serverless instance; a Vercel Firewall rule is the
  *       real backstop today.
@@ -75,6 +81,7 @@ import { ui } from '../i18n/ui'
  *   RESEND_API_KEY, RESEND_FROM, LEAD_NOTIFY_EMAIL          → email channel
  *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID                    → Telegram channel
  *   AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME → Airtable backup log
+ *   GOOGLE_SHEETS_WEBHOOK_URL, GOOGLE_SHEETS_SECRET         → Google Sheets backup log
  *   PUBLIC_CALCOM_URL                                       → read by the FRONTEND only
  * ============================================================================ */
 
@@ -274,6 +281,47 @@ async function sendAirtable(lead: Lead): Promise<void> {
   if (!res.ok) throw new Error(`Airtable: ${res.status} ${await res.text()}`)
 }
 
+// PASSIVE channel, same reasoning as sendAirtable — a second, independent
+// backup archive (some collaborators only use Sheets, not Airtable). Talks to
+// a Google Apps Script Web App bound to the target Sheet (doPost appends a
+// row) rather than the official Sheets API, so there's no OAuth/service-
+// account/JWT-signing to implement — just a webhook URL + a shared secret the
+// script checks itself (see .env.example for the script + setup steps).
+async function sendGoogleSheets(lead: Lead): Promise<void> {
+  const url = import.meta.env.GOOGLE_SHEETS_WEBHOOK_URL
+  const secret = import.meta.env.GOOGLE_SHEETS_SECRET
+  if (!url || !secret) return // not configured → skip silently
+
+  const isManagement = isManagementLead(lead)
+  const res = await fetch(url, {
+    method: 'POST',
+    // text/plain, NOT application/json — Apps Script Web Apps with "Anyone"
+    // access mishandle a JSON content-type on POST (spuriously returns Drive's
+    // "authorization needed" page even though the deployment is genuinely
+    // public). The body is still a JSON string; doPost reads it as raw text
+    // via e.postData.contents and JSON.parse()s it regardless of the header.
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      secret,
+      fields: {
+        Name: lead.name,
+        Project: lead.project,
+        Timeline: lead.timeline || '',
+        Goal: isManagement ? '' : lead.company || '',
+        'Business size': isManagement ? lead.company || '' : '',
+        Budget: lead.budget || '',
+        Email: lead.email || '',
+        Phone: lead.phone,
+        Business: lead.business || '',
+        Message: lead.message || '',
+        Lang: lead.lang,
+        'Submitted At': new Date().toISOString(),
+      },
+    }),
+  })
+  if (!res.ok) throw new Error(`Google Sheets: ${res.status} ${await res.text()}`)
+}
+
 // ---- action ----------------------------------------------------------------
 
 export const server = {
@@ -292,17 +340,22 @@ export const server = {
         })
       }
 
-      // Fan out. Airtable is a passive backup/archive, not a critical channel —
-      // run it alongside the critical pair but never let its failure surface to
-      // the visitor or block a lead that a human already received via Telegram/email.
-      const [emailResult, telegramResult, airtableResult] = await Promise.allSettled([
+      // Fan out. Airtable/Google Sheets are passive backup archives, not
+      // critical channels — run them alongside the critical pair but never let
+      // their failure surface to the visitor or block a lead that a human
+      // already received via Telegram/email.
+      const [emailResult, telegramResult, airtableResult, sheetsResult] = await Promise.allSettled([
         sendEmail(lead),
         sendTelegram(lead),
         sendAirtable(lead),
+        sendGoogleSheets(lead),
       ])
 
       if (airtableResult.status === 'rejected') {
         console.error('[submitLead] Airtable backup failed:', airtableResult.reason)
+      }
+      if (sheetsResult.status === 'rejected') {
+        console.error('[submitLead] Google Sheets backup failed:', sheetsResult.reason)
       }
 
       const criticalFailure = [emailResult, telegramResult].find(
