@@ -39,6 +39,9 @@ import { ui } from '../i18n/ui'
  *   - Best-effort per-IP rate limit.
  *   - Resend email delivery   (optional — only if its env vars are set).
  *   - Telegram delivery       (optional — only if its env vars are set).
+ *   - Airtable backup log     (optional — best-effort archive of every lead;
+ *     a failure here is logged but never blocks or errors the visitor's
+ *     submission — it's insurance, not a critical channel like the two above).
  *   - Frontend wired: mailto removed, calls this action, shows sending/error states.
  *
  * WHAT'S MISSING / TODO  🚧  (pick up here in a future session)
@@ -52,8 +55,10 @@ import { ui } from '../i18n/ui'
  *       NOWHERE — both channels skip silently. THIS IS THE #1 GOTCHA.
  *   [x] Adapter is @astrojs/vercel — deploys as a Vercel serverless function.
  *       Static-only hosting (e.g. Hostinger shared) will NOT run this action.
- *   [ ] Optional hardening: persist leads (DB / sheet) so none are lost if email
- *       AND Telegram both fail; durable rate limiting (Redis) for multi-instance.
+ *   [x] Leads persisted to Airtable as a backup archive (best-effort, non-blocking).
+ *   [ ] Durable rate limiting (Redis) for multi-instance — the in-memory limiter
+ *       below resets per serverless instance; a Vercel Firewall rule is the
+ *       real backstop today.
  *
  *
  * SECURITY NOTES
@@ -67,9 +72,10 @@ import { ui } from '../i18n/ui'
  *
  * ENV VARS (see .env.example for the copy-paste template + setup steps)
  * --------------------------------------------------------------------
- *   RESEND_API_KEY, RESEND_FROM, LEAD_NOTIFY_EMAIL   → email channel
- *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID             → Telegram channel
- *   PUBLIC_CALCOM_URL                                → read by the FRONTEND only
+ *   RESEND_API_KEY, RESEND_FROM, LEAD_NOTIFY_EMAIL          → email channel
+ *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID                    → Telegram channel
+ *   AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME → Airtable backup log
+ *   PUBLIC_CALCOM_URL                                       → read by the FRONTEND only
  * ============================================================================ */
 
 // ---- validation schema -----------------------------------------------------
@@ -135,12 +141,15 @@ function rateLimited(ip: string): boolean {
   return recent.length > MAX_PER_WINDOW
 }
 
-// ---- delivery channels (both optional) -------------------------------------
+// ---- delivery channels (all optional) ---------------------------------------
 // Each channel checks its own env vars and returns early (no-op) if unset. So
-// the site runs fine with neither configured — leads just go nowhere. Configure
-// at least one before launch. To add a channel later (e.g. save to a DB / Google
-// Sheet / CRM), write another `send*` fn and add it to the Promise.allSettled
-// array in the handler below.
+// the site runs fine with none configured — leads just go nowhere. Configure
+// at least Resend or Telegram before launch. `sendAirtable` below is the
+// reference example for adding another channel later: write a `send*` fn,
+// add it to the Promise.allSettled array in the handler, and explicitly decide
+// whether it's CRITICAL (its failure should surface to the visitor, like
+// email/Telegram) or PASSIVE (best-effort archive, logged but swallowed, like
+// Airtable) — don't assume every channel is equally critical by default.
 
 type Lead = z.infer<typeof leadSchema>
 
@@ -216,6 +225,44 @@ async function sendTelegram(lead: Lead): Promise<void> {
   if (!res.ok) throw new Error(`Telegram: ${res.status} ${await res.text()}`)
 }
 
+// PASSIVE channel (see note above) — a best-effort archive, not a critical
+// notification path. Runs on every submission (not just as a fallback), so a
+// broken token/base is caught the same day rather than sitting silently
+// unverified until the day Telegram+email both fail and it's actually needed.
+async function sendAirtable(lead: Lead): Promise<void> {
+  const token = import.meta.env.AIRTABLE_API_KEY
+  const baseId = import.meta.env.AIRTABLE_BASE_ID
+  const table = import.meta.env.AIRTABLE_TABLE_NAME || 'Leads'
+  if (!token || !baseId) return // not configured → skip silently
+
+  const res = await fetch(
+    `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fields: {
+          Project: lead.project,
+          Timeline: lead.timeline || undefined,
+          Company: lead.company || undefined,
+          Budget: lead.budget || undefined,
+          Name: lead.name,
+          Email: lead.email || undefined,
+          Phone: lead.phone,
+          Business: lead.business || undefined,
+          Message: lead.message || undefined,
+          Lang: lead.lang,
+          'Submitted At': new Date().toISOString(),
+        },
+      }),
+    }
+  )
+  if (!res.ok) throw new Error(`Airtable: ${res.status} ${await res.text()}`)
+}
+
 // ---- action ----------------------------------------------------------------
 
 export const server = {
@@ -234,15 +281,25 @@ export const server = {
         })
       }
 
-      // Fan out. If a channel is misconfigured we still don't want to lose the
-      // lead silently, so surface the first failure — but only after trying both.
-      const results = await Promise.allSettled([sendEmail(lead), sendTelegram(lead)])
-      const failure = results.find((r) => r.status === 'rejected') as
-        | PromiseRejectedResult
-        | undefined
+      // Fan out. Airtable is a passive backup/archive, not a critical channel —
+      // run it alongside the critical pair but never let its failure surface to
+      // the visitor or block a lead that a human already received via Telegram/email.
+      const [emailResult, telegramResult, airtableResult] = await Promise.allSettled([
+        sendEmail(lead),
+        sendTelegram(lead),
+        sendAirtable(lead),
+      ])
 
-      if (failure) {
-        console.error('[submitLead] delivery failed:', failure.reason)
+      if (airtableResult.status === 'rejected') {
+        console.error('[submitLead] Airtable backup failed:', airtableResult.reason)
+      }
+
+      const criticalFailure = [emailResult, telegramResult].find(
+        (r) => r.status === 'rejected'
+      ) as PromiseRejectedResult | undefined
+
+      if (criticalFailure) {
+        console.error('[submitLead] delivery failed:', criticalFailure.reason)
         throw new ActionError({
           code: 'INTERNAL_SERVER_ERROR',
           message: 'Could not send your request. Please try again or contact us directly.',
