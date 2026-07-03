@@ -190,6 +190,11 @@ export const ui = {
       primary: 'Book My Discovery Call',
       secondary: 'See Our Services',
     },
+    // TODO(seo): legalLinks below are placeholder "#" hrefs — real Privacy Policy
+    // and Terms of Service pages are a future task. Also planned: dedicated
+    // service pages (currently all 6 services crammed under one #services
+    // anchor, capping keyword targeting) and a case-study/blog section for
+    // long-tail + authority. See project memory "SEO/Perf Audit" for full context.
     footer: {
       buildSomething: "Let's Build Something",
       dropEmail: "Drop your email and we'll reach out to discuss your project.",

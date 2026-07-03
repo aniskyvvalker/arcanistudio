@@ -7,9 +7,10 @@ const t = useTranslations(lang).services
 ---
 
 <section class="pt-28 pb-20">
-  <!-- Scrolling banner -->
+  <h2 class="sr-only">{t.ticker}</h2>
+  <!-- Scrolling banner (decorative repeat of the heading above; hidden from a11y tree) -->
   <div class="mb-0 overflow-hidden py-2">
-    <div class="ticker-track flex w-max items-start whitespace-nowrap text-[38px] font-normal text-palette-950 sm:text-5xl md:text-5xl lg:text-6xl">
+    <div aria-hidden="true" class="ticker-track flex w-max items-start whitespace-nowrap text-[38px] font-normal text-palette-950 sm:text-5xl md:text-5xl lg:text-6xl">
       {[1, 2, 3, 4].map(() => (
         <div class="flex shrink-0 items-start">
           <span class="mx-2">{t.ticker}</span>
