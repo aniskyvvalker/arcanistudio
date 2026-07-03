@@ -77,7 +77,10 @@ function ServiceRow({
 }) {
   return (
     <button
-      onClick={onToggle}
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest('a')) return
+        onToggle()
+      }}
       className={`group w-full py-8 text-left ${!isLast ? 'border-b border-palette-300' : ''}`}
     >
       <div className="grid grid-cols-[1fr_auto] items-center gap-3 md:grid-cols-[3rem_1fr_auto] md:items-start">
@@ -135,7 +138,6 @@ function ServiceRow({
                 ) : (
                   <a
                     href="#contact"
-                    onClick={(e) => e.stopPropagation()}
                     className="group/cta mt-4 inline-flex items-center gap-3 rounded-full bg-primary-600 py-2 pl-5 pr-2 text-[16px] font-light text-white"
                   >
                     <span className="relative h-[1.2em] overflow-hidden">
