@@ -177,6 +177,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
       business: contact.business,
       message: contact.message,
       company_website: honeypot, // honeypot — real users leave this empty
+      lang, // controls the language of the Telegram/email notification, not stored on the lead
     })
 
     setSubmitting(false)

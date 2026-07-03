@@ -1,5 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions'
 import { z } from 'astro:schema'
+import { ui } from '../i18n/ui'
 
 /* ============================================================================
  * LEAD SUBMISSION PIPELINE  —  Arcani Studio contact funnel
@@ -101,6 +102,10 @@ const leadSchema = z.object({
   // Honeypot — must stay empty. Accepted by the schema (so bots don't learn it's
   // a trap from a validation error); the handler silently drops non-empty values.
   company_website: z.string().max(200).optional().default(''),
+
+  // Which site locale the visitor filled the form in — controls the language of
+  // the notification we receive (Telegram + email), not the lead's own data.
+  lang: z.enum(['en', 'fr']).optional().default('en'),
 })
 
 // ---- naive rate limiter ----------------------------------------------------
@@ -139,19 +144,39 @@ function rateLimited(ip: string): boolean {
 
 type Lead = z.infer<typeof leadSchema>
 
+// Notification labels — separate from the site's own `ui` translations (those
+// are for visitor-facing copy). Keyed the same way so both stay in sync.
+const NOTIFY_LABELS = {
+  en: {
+    project: 'Project', timeline: 'Timeline', goal: 'Goal', businessSize: 'Business size',
+    budget: 'Budget', name: 'Name', phone: 'Phone', email: 'Email', business: 'Business',
+    newLead: '🆕 New lead', subject: (name: string, project: string) => `New lead — ${name} (${project})`,
+  },
+  fr: {
+    project: 'Projet', timeline: 'Délai', goal: 'Objectif', businessSize: "Taille de l'entreprise",
+    budget: 'Budget', name: 'Nom', phone: 'Téléphone', email: 'Email', business: 'Entreprise',
+    newLead: '🆕 Nouveau lead', subject: (name: string, project: string) => `Nouveau lead — ${name} (${project})`,
+  },
+} as const
+
 function formatLines(lead: Lead): string[] {
+  const l = NOTIFY_LABELS[lead.lang]
+  // The `company` field is reused by the form: it holds business size for
+  // "Management software" leads, otherwise the main goal. Compared against the
+  // SAME locale's managementKey — lead.project is whatever language the visitor
+  // submitted in, so comparing against a hardcoded English string would silently
+  // mislabel every FR "Management software" lead.
+  const isManagement = lead.project === ui[lead.lang].contact.managementKey
   return [
-    `Project: ${lead.project}`,
-    `Timeline: ${lead.timeline || '—'}`,
-    // The `company` field is reused by the form: it holds business size for
-    // "Management software" leads, otherwise the main goal. Label accordingly.
-    `${lead.project === 'Custom management software (ERP / CRM)' ? 'Business size' : 'Goal'}: ${lead.company || '—'}`,
-    `Budget: ${lead.budget || '—'}`,
+    `${l.project}: ${lead.project}`,
+    `${l.timeline}: ${lead.timeline || '—'}`,
+    `${isManagement ? l.businessSize : l.goal}: ${lead.company || '—'}`,
+    `${l.budget}: ${lead.budget || '—'}`,
     '',
-    `Name: ${lead.name}`,
-    `Phone: ${lead.phone}`,
-    `Email: ${lead.email || '—'}`,
-    `Business: ${lead.business || '—'}`,
+    `${l.name}: ${lead.name}`,
+    `${l.phone}: ${lead.phone}`,
+    `${l.email}: ${lead.email || '—'}`,
+    `${l.business}: ${lead.business || '—'}`,
     ...(lead.message ? ['', lead.message] : []),
   ]
 }
@@ -168,7 +193,7 @@ async function sendEmail(lead: Lead): Promise<void> {
     from,
     to,
     replyTo: lead.email || undefined,
-    subject: `New lead — ${lead.name} (${lead.project})`,
+    subject: NOTIFY_LABELS[lead.lang].subject(lead.name, lead.project),
     text: formatLines(lead).join('\n'),
   })
   if (error) throw new Error(`Resend: ${error.message}`)
@@ -182,7 +207,7 @@ async function sendTelegram(lead: Lead): Promise<void> {
   // Plain text on purpose — NO parse_mode. User input (name, project, …) is
   // unescaped, so Markdown/HTML parse modes would let a value like "John_Doe"
   // or "*x*" break Telegram's parser (→ 400 → lost lead) or inject formatting.
-  const text = ['🆕 New lead', '', ...formatLines(lead)].join('\n')
+  const text = [NOTIFY_LABELS[lead.lang].newLead, '', ...formatLines(lead)].join('\n')
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
