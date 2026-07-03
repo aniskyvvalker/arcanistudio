@@ -266,15 +266,15 @@ function buildLeadPayload(lead: Lead): NotifyPayload {
     ],
     fields: {
       Project: lead.project,
-      Timeline: lead.timeline,
-      Goal: isManagement ? '' : lead.company,
-      'Business size': isManagement ? lead.company : '',
-      Budget: lead.budget,
+      Timeline: lead.timeline || '—',
+      Goal: isManagement ? '—' : lead.company || '—',
+      'Business size': isManagement ? lead.company || '—' : '—',
+      Budget: lead.budget || '—',
       Name: lead.name,
-      Email: lead.email || '',
+      Email: lead.email || '—',
       Phone: lead.phone,
-      Business: lead.business,
-      Message: lead.message,
+      Business: lead.business || '—',
+      Message: lead.message || '—',
       Lang: lead.lang,
       'Submitted At': new Date().toISOString(),
     },
@@ -283,7 +283,8 @@ function buildLeadPayload(lead: Lead): NotifyPayload {
 
 // Footer "drop your email" capture — same table/columns as a full lead
 // (per the "same table, labeled row" decision), everything but Email/Lang
-// left blank so it's visually obvious which rows are low-intent signups.
+// marked "—" (matches how Telegram/email already render missing fields)
+// so it's visually obvious which rows are low-intent signups.
 function buildFooterPayload(email: string, lang: Lang): NotifyPayload {
   const l = NOTIFY_LABELS[lang]
   return {
@@ -293,15 +294,15 @@ function buildFooterPayload(email: string, lang: Lang): NotifyPayload {
     lines: [`${l.email}: ${email}`],
     fields: {
       Project: 'Footer signup',
-      Timeline: '',
-      Goal: '',
-      'Business size': '',
-      Budget: '',
-      Name: '',
+      Timeline: '—',
+      Goal: '—',
+      'Business size': '—',
+      Budget: '—',
+      Name: '—',
       Email: email,
-      Phone: '',
-      Business: '',
-      Message: '',
+      Phone: '—',
+      Business: '—',
+      Message: '—',
       Lang: lang,
       'Submitted At': new Date().toISOString(),
     },
