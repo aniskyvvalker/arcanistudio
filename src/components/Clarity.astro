@@ -1,0 +1,23 @@
+---
+// Skipped entirely when the ID is unset (local dev has none by default) or
+// outside a production build, so local testing never pollutes real Clarity data.
+const clarityId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID
+const shouldLoad = clarityId && import.meta.env.PROD
+---
+
+{shouldLoad && (
+  <script define:vars={{ clarityId }}>
+    ;(function (c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function () {
+          ;(c[a].q = c[a].q || []).push(arguments)
+        }
+      t = l.createElement(r)
+      t.async = 1
+      t.src = 'https://www.clarity.ms/tag/' + i
+      y = l.getElementsByTagName(r)[0]
+      y.parentNode.insertBefore(t, y)
+    })(window, document, 'clarity', 'script', clarityId)
+  </script>
+)}

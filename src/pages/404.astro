@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils'
 import GoogleAnalytics from '../components/GoogleAnalytics.astro'
+import Clarity from '../components/Clarity.astro'
 
 // Rendered on-demand so `Astro.url` carries the real requested path — this is
 // what lets us serve the French 404 under `/fr/...` and English elsewhere.
@@ -21,6 +22,7 @@ const homeHref = localizePath('/', lang)
     <meta name="robots" content="noindex" />
     <title>{t.title}</title>
     <GoogleAnalytics />
+    <Clarity />
   </head>
   <body class="overflow-hidden bg-palette-950">
     <main class="relative flex min-h-dvh items-center justify-center">
