@@ -201,6 +201,9 @@ export const ui = {
       emailPlaceholder: 'Write your email',
       emailSubject: 'New project inquiry',
       getInTouch: 'Get in touch',
+      emailSent: "Thanks — we'll be in touch soon.",
+      emailErrorRate: 'Too many submissions. Please wait a minute and try again.',
+      emailErrorGeneric: 'Something went wrong. Please try again or contact us directly.',
       menu: 'Menu',
       legal: 'Legal',
       links: [
@@ -449,6 +452,9 @@ export const ui = {
       emailPlaceholder: 'Votre e-mail',
       emailSubject: 'Nouvelle demande de projet',
       getInTouch: 'Nous contacter',
+      emailSent: 'Merci — on vous recontacte bientôt.',
+      emailErrorRate: 'Trop de tentatives. Patientez une minute et réessayez.',
+      emailErrorGeneric: 'Une erreur est survenue. Réessayez ou contactez-nous directement.',
       menu: 'Menu',
       legal: 'Légal',
       links: [

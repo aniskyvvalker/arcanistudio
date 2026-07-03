@@ -42,32 +42,77 @@ const socialLinks = [
         <form
           id="footer-email-form"
           class="mt-6 flex max-w-sm items-center justify-between rounded-full border border-palette-800 bg-palette-900 p-1.5 pl-5 md:mt-auto"
-          data-subject={t.emailSubject}
+          data-lang={lang}
+          data-sent={t.emailSent}
+          data-error-rate={t.emailErrorRate}
+          data-error-generic={t.emailErrorGeneric}
         >
           <input
             type="email"
-            name="body"
+            name="email"
             required
+            maxlength="200"
             placeholder={t.emailPlaceholder}
             class="w-full bg-transparent text-tooltip-l text-white placeholder:text-palette-500 focus:outline-none"
           />
+          {/* Honeypot — hidden from humans, bots tend to fill it. Server drops it silently. */}
+          <div aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+            <label>
+              Company website
+              <input type="text" name="company_website" tabindex={-1} autocomplete="off" maxlength="200" />
+            </label>
+          </div>
           <button
             type="submit"
             aria-label={t.getInTouch}
-            class="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white"
+            class="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-600 text-white disabled:opacity-50"
           >
             <ArrowUpRight size={20} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-5 group-hover:-translate-y-5" />
             <ArrowUpRight size={20} strokeWidth={1.5} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
           </button>
         </form>
+        <p id="footer-email-status" class="mt-2 text-tooltip-l text-palette-400" aria-live="polite"></p>
 
         <script>
+          import { actions } from 'astro:actions'
+
           const form = document.getElementById('footer-email-form') as HTMLFormElement | null
-          form?.addEventListener('submit', (e) => {
+          const status = document.getElementById('footer-email-status')
+          const button = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null
+
+          form?.addEventListener('submit', async (e) => {
             e.preventDefault()
-            const body = new FormData(form).get('body')
-            const subject = form.dataset.subject ?? ''
-            window.location.href = `mailto:hello@arcanistudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(String(body ?? ''))}`
+            if (button?.disabled) return
+
+            const data = new FormData(form)
+            const email = String(data.get('email') ?? '')
+            const honeypot = String(data.get('company_website') ?? '')
+            const lang = (form.dataset.lang === 'fr' ? 'fr' : 'en') as 'en' | 'fr'
+
+            if (button) button.disabled = true
+            if (status) status.textContent = ''
+
+            const { data: result, error } = await actions.submitFooterEmail({
+              email,
+              company_website: honeypot,
+              lang,
+            })
+
+            if (button) button.disabled = false
+
+            if (error || !result?.ok) {
+              // Astro's raw INPUT validation error dumps Zod JSON in error.message —
+              // never show that, only known ActionError codes get a friendly string.
+              const code = error && 'code' in error ? error.code : undefined
+              if (status) {
+                status.textContent =
+                  code === 'TOO_MANY_REQUESTS' ? (form.dataset.errorRate ?? '') : (form.dataset.errorGeneric ?? '')
+              }
+              return
+            }
+
+            form.reset()
+            if (status) status.textContent = form.dataset.sent ?? ''
           })
         </script>
       </div>

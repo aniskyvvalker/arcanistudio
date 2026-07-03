@@ -1,6 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions'
 import { z } from 'astro:schema'
-import { ui } from '../i18n/ui'
+import { ui, type Lang } from '../i18n/ui'
 
 /* ============================================================================
  * LEAD SUBMISSION PIPELINE  —  Arcani Studio contact funnel
@@ -12,8 +12,14 @@ import { ui } from '../i18n/ui'
  * validates it, blocks spam, and notifies us (email + Telegram). It is an
  * Astro Action, exposed automatically at  POST /_actions/submitLead.
  *
- * Called from the client island in:
+ * Also exposes `submitFooterEmail` (POST /_actions/submitFooterEmail) — the
+ * footer's "drop your email" field, a much lower-intent capture (email only).
+ * Reuses the exact same four delivery channels via a shared `deliver()` +
+ * `NotifyPayload` shape (see below) rather than duplicating the integrations.
+ *
+ * Called from the client islands in:
  *   src/components/sections/ContactSection.tsx  → submit()  → actions.submitLead(...)
+ *   src/components/sections/Footer.astro        → inline script → actions.submitFooterEmail(...)
  *
  *
  * THE BIGGER FUNNEL (the plan this is one piece of)
@@ -46,6 +52,8 @@ import { ui } from '../i18n/ui'
  *     as Airtable; a second independent archive for collaborators who only use
  *     Sheets. Talks to a Google Apps Script Web App, not the official Sheets
  *     API — no OAuth/service-account needed, see .env.example for the script).
+ *   - Footer email capture also wired to a real backend (`submitFooterEmail`),
+ *     mailto: removed there too — same reasoning as the main form.
  *   - Frontend wired: mailto removed, calls this action, shows sending/error states.
  *
  * WHAT'S MISSING / TODO  🚧  (pick up here in a future session)
@@ -147,6 +155,17 @@ const leadSchema = z.object({
   lang: z.enum(['en', 'fr']).optional().default('en'),
 })
 
+// The footer "drop your email" field — a much lower-intent capture than the
+// full wizard (email only, no name/phone/project). Its own schema on purpose:
+// leadSchema's phone/name are intentionally required for the qualified funnel,
+// which this isn't. Reuses the same delivery channels via buildFooterPayload
+// below rather than inventing a fifth notification path.
+const footerEmailSchema = z.object({
+  email: z.string().trim().email('Invalid email').max(200),
+  company_website: z.string().max(200).optional().default(''),
+  lang: z.enum(['en', 'fr']).optional().default('en'),
+})
+
 // ---- naive rate limiter ----------------------------------------------------
 // IN-MEMORY, PER-INSTANCE — does not hold on serverless (Vercel spins fresh
 // instances per invocation, so this Map resets constantly). Treat as a speed
@@ -186,6 +205,20 @@ function rateLimited(ip: string): boolean {
 
 type Lead = z.infer<typeof leadSchema>
 
+// What every channel actually needs — decoupled from `Lead` so the footer
+// email capture (a much smaller shape) can reuse the exact same send*
+// functions instead of a fifth set of API integrations. `fields` always
+// carries every Airtable/Sheets column key (empty string, not omitted, for
+// whatever a given payload doesn't have) so both callers land in the same
+// table/columns with blanks in whatever they didn't collect.
+type NotifyPayload = {
+  subject: string
+  telegramHeader: string
+  lines: string[]        // body text for email + Telegram
+  fields: Record<string, string>  // Airtable/Sheets row
+  replyTo?: string
+}
+
 // Notification labels — separate from the site's own `ui` translations (those
 // are for visitor-facing copy). Keyed the same way so both stay in sync.
 const NOTIFY_LABELS = {
@@ -193,11 +226,13 @@ const NOTIFY_LABELS = {
     project: 'Project', timeline: 'Timeline', goal: 'Goal', businessSize: 'Business size',
     budget: 'Budget', name: 'Name', phone: 'Phone', email: 'Email', business: 'Business',
     newLead: '🆕 New lead', subject: (name: string, project: string) => `New lead — ${name} (${project})`,
+    footerHeader: '📧 New footer signup', footerSubject: (email: string) => `New footer signup — ${email}`,
   },
   fr: {
     project: 'Projet', timeline: 'Délai', goal: 'Objectif', businessSize: "Taille de l'entreprise",
     budget: 'Budget', name: 'Nom', phone: 'Téléphone', email: 'Email', business: 'Entreprise',
     newLead: '🆕 Nouveau lead', subject: (name: string, project: string) => `Nouveau lead — ${name} (${project})`,
+    footerHeader: '📧 Nouvelle inscription (footer)', footerSubject: (email: string) => `Nouvelle inscription — ${email}`,
   },
 } as const
 
@@ -210,24 +245,70 @@ function isManagementLead(lead: Lead): boolean {
   return lead.project === ui[lead.lang].contact.managementKey
 }
 
-function formatLines(lead: Lead): string[] {
+function buildLeadPayload(lead: Lead): NotifyPayload {
   const l = NOTIFY_LABELS[lead.lang]
   const isManagement = isManagementLead(lead)
-  return [
-    `${l.project}: ${lead.project}`,
-    `${l.timeline}: ${lead.timeline || '—'}`,
-    `${isManagement ? l.businessSize : l.goal}: ${lead.company || '—'}`,
-    `${l.budget}: ${lead.budget || '—'}`,
-    '',
-    `${l.name}: ${lead.name}`,
-    `${l.phone}: ${lead.phone}`,
-    `${l.email}: ${lead.email || '—'}`,
-    `${l.business}: ${lead.business || '—'}`,
-    ...(lead.message ? ['', lead.message] : []),
-  ]
+  return {
+    subject: l.subject(lead.name, lead.project),
+    telegramHeader: l.newLead,
+    replyTo: lead.email || undefined,
+    lines: [
+      `${l.project}: ${lead.project}`,
+      `${l.timeline}: ${lead.timeline || '—'}`,
+      `${isManagement ? l.businessSize : l.goal}: ${lead.company || '—'}`,
+      `${l.budget}: ${lead.budget || '—'}`,
+      '',
+      `${l.name}: ${lead.name}`,
+      `${l.phone}: ${lead.phone}`,
+      `${l.email}: ${lead.email || '—'}`,
+      `${l.business}: ${lead.business || '—'}`,
+      ...(lead.message ? ['', lead.message] : []),
+    ],
+    fields: {
+      Project: lead.project,
+      Timeline: lead.timeline,
+      Goal: isManagement ? '' : lead.company,
+      'Business size': isManagement ? lead.company : '',
+      Budget: lead.budget,
+      Name: lead.name,
+      Email: lead.email || '',
+      Phone: lead.phone,
+      Business: lead.business,
+      Message: lead.message,
+      Lang: lead.lang,
+      'Submitted At': new Date().toISOString(),
+    },
+  }
 }
 
-async function sendEmail(lead: Lead): Promise<void> {
+// Footer "drop your email" capture — same table/columns as a full lead
+// (per the "same table, labeled row" decision), everything but Email/Lang
+// left blank so it's visually obvious which rows are low-intent signups.
+function buildFooterPayload(email: string, lang: Lang): NotifyPayload {
+  const l = NOTIFY_LABELS[lang]
+  return {
+    subject: l.footerSubject(email),
+    telegramHeader: l.footerHeader,
+    replyTo: email,
+    lines: [`${l.email}: ${email}`],
+    fields: {
+      Project: 'Footer signup',
+      Timeline: '',
+      Goal: '',
+      'Business size': '',
+      Budget: '',
+      Name: '',
+      Email: email,
+      Phone: '',
+      Business: '',
+      Message: '',
+      Lang: lang,
+      'Submitted At': new Date().toISOString(),
+    },
+  }
+}
+
+async function sendEmail(payload: NotifyPayload): Promise<void> {
   const apiKey = import.meta.env.RESEND_API_KEY
   const to = import.meta.env.LEAD_NOTIFY_EMAIL
   const from = import.meta.env.RESEND_FROM // e.g. "Arcani <leads@arcanistudio.com>"
@@ -238,14 +319,14 @@ async function sendEmail(lead: Lead): Promise<void> {
   const { error } = await resend.emails.send({
     from,
     to,
-    replyTo: lead.email || undefined,
-    subject: NOTIFY_LABELS[lead.lang].subject(lead.name, lead.project),
-    text: formatLines(lead).join('\n'),
+    replyTo: payload.replyTo,
+    subject: payload.subject,
+    text: payload.lines.join('\n'),
   })
   if (error) throw new Error(`Resend: ${error.message}`)
 }
 
-async function sendTelegram(lead: Lead): Promise<void> {
+async function sendTelegram(payload: NotifyPayload): Promise<void> {
   const token = import.meta.env.TELEGRAM_BOT_TOKEN
   const chatId = import.meta.env.TELEGRAM_CHAT_ID
   if (!token || !chatId) return // not configured → skip silently
@@ -253,7 +334,7 @@ async function sendTelegram(lead: Lead): Promise<void> {
   // Plain text on purpose — NO parse_mode. User input (name, project, …) is
   // unescaped, so Markdown/HTML parse modes would let a value like "John_Doe"
   // or "*x*" break Telegram's parser (→ 400 → lost lead) or inject formatting.
-  const text = [NOTIFY_LABELS[lead.lang].newLead, '', ...formatLines(lead)].join('\n')
+  const text = [payload.telegramHeader, '', ...payload.lines].join('\n')
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -266,7 +347,7 @@ async function sendTelegram(lead: Lead): Promise<void> {
 // notification path. Runs on every submission (not just as a fallback), so a
 // broken token/base is caught the same day rather than sitting silently
 // unverified until the day Telegram+email both fail and it's actually needed.
-async function sendAirtable(lead: Lead): Promise<void> {
+async function sendAirtable(payload: NotifyPayload): Promise<void> {
   const token = import.meta.env.AIRTABLE_API_KEY
   const baseId = import.meta.env.AIRTABLE_BASE_ID
   const table = import.meta.env.AIRTABLE_TABLE_NAME || 'Leads'
@@ -280,28 +361,7 @@ async function sendAirtable(lead: Lead): Promise<void> {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        fields: {
-          Project: lead.project,
-          Timeline: lead.timeline || undefined,
-          // Split into two columns instead of one ambiguous "Company" field —
-          // see isManagementLead: the same form field means different things
-          // depending on project type, and unlike the Telegram/email text
-          // (which can swap the label per row) an Airtable column header is
-          // fixed, so both meanings need their own column.
-          ...(isManagementLead(lead)
-            ? { 'Business size': lead.company || undefined }
-            : { Goal: lead.company || undefined }),
-          Budget: lead.budget || undefined,
-          Name: lead.name,
-          Email: lead.email || undefined,
-          Phone: lead.phone,
-          Business: lead.business || undefined,
-          Message: lead.message || undefined,
-          Lang: lead.lang,
-          'Submitted At': new Date().toISOString(),
-        },
-      }),
+      body: JSON.stringify({ fields: payload.fields }),
     }
   )
   if (!res.ok) throw new Error(`Airtable: ${res.status} ${await res.text()}`)
@@ -313,12 +373,11 @@ async function sendAirtable(lead: Lead): Promise<void> {
 // row) rather than the official Sheets API, so there's no OAuth/service-
 // account/JWT-signing to implement — just a webhook URL + a shared secret the
 // script checks itself (see .env.example for the script + setup steps).
-async function sendGoogleSheets(lead: Lead): Promise<void> {
+async function sendGoogleSheets(payload: NotifyPayload): Promise<void> {
   const url = import.meta.env.GOOGLE_SHEETS_WEBHOOK_URL
   const secret = import.meta.env.GOOGLE_SHEETS_SECRET
   if (!url || !secret) return // not configured → skip silently
 
-  const isManagement = isManagementLead(lead)
   const res = await fetch(url, {
     method: 'POST',
     // text/plain, NOT application/json — Apps Script Web Apps with "Anyone"
@@ -327,28 +386,52 @@ async function sendGoogleSheets(lead: Lead): Promise<void> {
     // public). The body is still a JSON string; doPost reads it as raw text
     // via e.postData.contents and JSON.parse()s it regardless of the header.
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({
-      secret,
-      fields: {
-        Name: lead.name,
-        Project: lead.project,
-        Timeline: lead.timeline || '',
-        Goal: isManagement ? '' : lead.company || '',
-        'Business size': isManagement ? lead.company || '' : '',
-        Budget: lead.budget || '',
-        Email: lead.email || '',
-        Phone: lead.phone,
-        Business: lead.business || '',
-        Message: lead.message || '',
-        Lang: lead.lang,
-        'Submitted At': new Date().toISOString(),
-      },
-    }),
+    body: JSON.stringify({ secret, fields: payload.fields }),
   })
   if (!res.ok) throw new Error(`Google Sheets: ${res.status} ${await res.text()}`)
 }
 
 // ---- action ----------------------------------------------------------------
+
+// Shared by both actions below: rate-limit, fan out to all four channels,
+// treat Airtable/Sheets as passive (logged, never thrown), Telegram/email as
+// critical (their failure surfaces to the visitor as a generic error).
+async function deliver(payload: NotifyPayload, ip: string): Promise<{ ok: true }> {
+  if (rateLimited(ip)) {
+    throw new ActionError({
+      code: 'TOO_MANY_REQUESTS',
+      message: 'Too many submissions. Please wait a minute and try again.',
+    })
+  }
+
+  const [emailResult, telegramResult, airtableResult, sheetsResult] = await Promise.allSettled([
+    sendEmail(payload),
+    sendTelegram(payload),
+    sendAirtable(payload),
+    sendGoogleSheets(payload),
+  ])
+
+  if (airtableResult.status === 'rejected') {
+    console.error('[deliver] Airtable backup failed:', airtableResult.reason)
+  }
+  if (sheetsResult.status === 'rejected') {
+    console.error('[deliver] Google Sheets backup failed:', sheetsResult.reason)
+  }
+
+  const criticalFailure = [emailResult, telegramResult].find(
+    (r) => r.status === 'rejected'
+  ) as PromiseRejectedResult | undefined
+
+  if (criticalFailure) {
+    console.error('[deliver] delivery failed:', criticalFailure.reason)
+    throw new ActionError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'Could not send your request. Please try again or contact us directly.',
+    })
+  }
+
+  return { ok: true }
+}
 
 export const server = {
   submitLead: defineAction({
@@ -357,46 +440,18 @@ export const server = {
     handler: async (lead, ctx) => {
       // Drop bots that filled the honeypot — pretend success, do nothing.
       if (lead.company_website) return { ok: true }
+      return deliver(buildLeadPayload(lead), ctx.clientAddress ?? 'unknown')
+    },
+  }),
 
-      const ip = ctx.clientAddress ?? 'unknown'
-      if (rateLimited(ip)) {
-        throw new ActionError({
-          code: 'TOO_MANY_REQUESTS',
-          message: 'Too many submissions. Please wait a minute and try again.',
-        })
-      }
-
-      // Fan out. Airtable/Google Sheets are passive backup archives, not
-      // critical channels — run them alongside the critical pair but never let
-      // their failure surface to the visitor or block a lead that a human
-      // already received via Telegram/email.
-      const [emailResult, telegramResult, airtableResult, sheetsResult] = await Promise.allSettled([
-        sendEmail(lead),
-        sendTelegram(lead),
-        sendAirtable(lead),
-        sendGoogleSheets(lead),
-      ])
-
-      if (airtableResult.status === 'rejected') {
-        console.error('[submitLead] Airtable backup failed:', airtableResult.reason)
-      }
-      if (sheetsResult.status === 'rejected') {
-        console.error('[submitLead] Google Sheets backup failed:', sheetsResult.reason)
-      }
-
-      const criticalFailure = [emailResult, telegramResult].find(
-        (r) => r.status === 'rejected'
-      ) as PromiseRejectedResult | undefined
-
-      if (criticalFailure) {
-        console.error('[submitLead] delivery failed:', criticalFailure.reason)
-        throw new ActionError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Could not send your request. Please try again or contact us directly.',
-        })
-      }
-
-      return { ok: true }
+  // Footer "drop your email" capture — see footerEmailSchema/buildFooterPayload
+  // above. Exposed at POST /_actions/submitFooterEmail.
+  submitFooterEmail: defineAction({
+    accept: 'json',
+    input: footerEmailSchema,
+    handler: async (data, ctx) => {
+      if (data.company_website) return { ok: true }
+      return deliver(buildFooterPayload(data.email, data.lang), ctx.clientAddress ?? 'unknown')
     },
   }),
 }
