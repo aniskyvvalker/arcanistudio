@@ -168,14 +168,18 @@ const NOTIFY_LABELS = {
   },
 } as const
 
+// The `company` field is reused by the form: it holds business size for
+// "Management software" leads, otherwise the main goal. Compared against the
+// SAME locale's managementKey — lead.project is whatever language the visitor
+// submitted in, so comparing against a hardcoded English string would silently
+// mislabel every FR "Management software" lead.
+function isManagementLead(lead: Lead): boolean {
+  return lead.project === ui[lead.lang].contact.managementKey
+}
+
 function formatLines(lead: Lead): string[] {
   const l = NOTIFY_LABELS[lead.lang]
-  // The `company` field is reused by the form: it holds business size for
-  // "Management software" leads, otherwise the main goal. Compared against the
-  // SAME locale's managementKey — lead.project is whatever language the visitor
-  // submitted in, so comparing against a hardcoded English string would silently
-  // mislabel every FR "Management software" lead.
-  const isManagement = lead.project === ui[lead.lang].contact.managementKey
+  const isManagement = isManagementLead(lead)
   return [
     `${l.project}: ${lead.project}`,
     `${l.timeline}: ${lead.timeline || '—'}`,
@@ -247,7 +251,14 @@ async function sendAirtable(lead: Lead): Promise<void> {
         fields: {
           Project: lead.project,
           Timeline: lead.timeline || undefined,
-          Company: lead.company || undefined,
+          // Split into two columns instead of one ambiguous "Company" field —
+          // see isManagementLead: the same form field means different things
+          // depending on project type, and unlike the Telegram/email text
+          // (which can swap the label per row) an Airtable column header is
+          // fixed, so both meanings need their own column.
+          ...(isManagementLead(lead)
+            ? { 'Business size': lead.company || undefined }
+            : { Goal: lead.company || undefined }),
           Budget: lead.budget || undefined,
           Name: lead.name,
           Email: lead.email || undefined,
