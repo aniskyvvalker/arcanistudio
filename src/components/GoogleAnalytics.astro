@@ -6,15 +6,47 @@ const shouldLoad = gaId && import.meta.env.PROD
 ---
 
 {shouldLoad && (
-  <>
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-    <script define:vars={{ gaId }}>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
+  <script define:vars={{ gaId }}>
+    // Perf tradeoff (2026-07-03): gtag.js used to load unconditionally on every
+    // page load (async, but still ~157 KiB / 66.9 KiB "unused JS" per Lighthouse,
+    // costing real mobile Performance score — see project_seo_perf_audit memory).
+    // Instead we defer it until the first sign of real user engagement
+    // (scroll, click/tap, keydown) or a 5s idle timeout, whichever comes first.
+    //
+    // Tradeoff: if a visitor bounces within that window without scrolling,
+    // clicking, or typing, their pageview is NOT recorded in GA. Everyone else
+    // (the vast majority) is tracked identically, just a few seconds later.
+    //
+    // To revert to eager/unconditional loading (restores full accuracy,
+    // costs the Lighthouse perf points back), replace this whole block with:
+    //   <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+    //   <script define:vars={{ gaId }}>
+    //     window.dataLayer = window.dataLayer || []
+    //     function gtag() { dataLayer.push(arguments) }
+    //     gtag('js', new Date())
+    //     gtag('config', gaId)
+    //   </script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+
+    let gaLoaded = false
+    function loadGA() {
+      if (gaLoaded) return
+      gaLoaded = true
+      const script = document.createElement('script')
+      script.async = true
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
+      document.head.appendChild(script)
       gtag('js', new Date())
       gtag('config', gaId)
-    </script>
-  </>
+      events.forEach((event) => window.removeEventListener(event, loadGA))
+      clearTimeout(idleTimer)
+    }
+
+    const events = ['scroll', 'click', 'keydown', 'touchstart']
+    events.forEach((event) => window.addEventListener(event, loadGA, { once: true, passive: true }))
+    const idleTimer = setTimeout(loadGA, 5000)
+  </script>
 )}
