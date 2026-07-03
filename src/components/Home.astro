@@ -172,7 +172,9 @@ const faqSchema = {
       const target = document.getElementById(id)
       if (!target) return
       e.preventDefault()
-      lenis.scrollTo(target)
+      // Positive offset overshoots past the target's top edge (down the page).
+      const offset = id === 'contact' ? 35 : 0
+      lenis.scrollTo(target, { offset })
       // preventDefault() above also blocks the browser's native URL-hash update
       // (that's why the address bar no longer shows #contact/#services after
       // clicking, unlike before this handler existed). To restore it:

@@ -67,6 +67,14 @@ type Selections = { project: string; company: string; budget: string; timeline: 
 type Contact = { name: string; email: string; phone: string; business: string; message: string }
 type ChoiceConfig = { question: string; options: string[] }
 
+// Glues the last word to a trailing "?" with a non-breaking space so the
+// question mark never wraps onto its own line — the last word wraps with it.
+function glueLastWord(text: string) {
+  const lastSpace = text.lastIndexOf(' ')
+  if (lastSpace === -1) return text
+  return `${text.slice(0, lastSpace)} ${text.slice(lastSpace + 1)}`
+}
+
 export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) {
   const tc = ui[lang].contact
   const [step, setStep] = useState(0)
@@ -464,7 +472,7 @@ function ChoiceStep({
         className="font-reckless font-light italic text-white leading-[1.05] mb-10"
         style={{ fontSize: 'clamp(36px, 5vw, 56px)' }}
       >
-        {config.question}
+        {glueLastWord(config.question)}
       </h2>
 
       <ol className="divide-y divide-palette-800/60" role="list">
