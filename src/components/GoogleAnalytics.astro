@@ -1,0 +1,20 @@
+---
+// Skipped entirely when the ID is unset (local dev has none by default) or
+// outside a production build, so local testing never pollutes real GA data.
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID
+const shouldLoad = gaId && import.meta.env.PROD
+---
+
+{shouldLoad && (
+  <>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+    <script define:vars={{ gaId }}>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', gaId)
+    </script>
+  </>
+)}
