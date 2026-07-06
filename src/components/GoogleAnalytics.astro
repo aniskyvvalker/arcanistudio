@@ -18,14 +18,12 @@ const shouldLoad = gaId && import.meta.env.PROD
     // (the vast majority) is tracked identically, just a few seconds later.
     //
     // To revert to eager/unconditional loading (restores full accuracy,
-    // costs the Lighthouse perf points back), replace this whole block with:
-    //   <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-    //   <script define:vars={{ gaId }}>
-    //     window.dataLayer = window.dataLayer || []
-    //     function gtag() { dataLayer.push(arguments) }
-    //     gtag('js', new Date())
-    //     gtag('config', gaId)
-    //   </script>
+    // costs the Lighthouse perf points back), replace this whole block with a
+    // plain async gtag.js <script> tag plus a define:vars script that sets
+    // window.dataLayer, defines gtag(), and calls gtag('js', new Date()) /
+    // gtag('config', gaId).
+    // (Not shown inline: a literal closing script tag in this comment breaks
+    // the HTML parser, which closes <script> blocks on first sight of it.)
     window.dataLayer = window.dataLayer || []
     function gtag() {
       dataLayer.push(arguments)
