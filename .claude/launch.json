@@ -4,8 +4,8 @@
     {
       "name": "arcani-dev",
       "runtimeExecutable": "/Users/pc/.nvm/versions/node/v22.22.3/bin/node",
-      "runtimeArgs": ["/Users/pc/Desktop/Agency/arcaniStudio-Website/node_modules/astro/bin/astro.mjs", "dev"],
-      "port": 4321,
+      "runtimeArgs": ["/Users/pc/Desktop/Agency/arcaniStudio-Website/node_modules/astro/bin/astro.mjs", "dev", "--port", "4325"],
+      "port": 4325,
       "autoPort": true
     },
     {
