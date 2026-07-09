@@ -89,11 +89,24 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const backRef = useRef<HTMLButtonElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const [backWidth, setBackWidth] = useState(0)
 
   useLayoutEffect(() => {
     if (backRef.current) setBackWidth(backRef.current.offsetWidth)
   }, [])
+
+  // When the success screen replaces the wizard, the user may still be
+  // scrolled down to wherever the ContactStep form was (mid-page on tall
+  // viewports). Snap the section back to the top so the "We'll be in touch"
+  // heading is visible instead of landing mid-scroll. -80px clears the fixed
+  // navbar (h-12 + top-4, see Navbar.astro) plus a little breathing room.
+  useEffect(() => {
+    if (!sent || !sectionRef.current) return
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const top = sectionRef.current.getBoundingClientRect().top + window.scrollY - 80
+    window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' })
+  }, [sent])
 
   const TOTAL = 5
 
@@ -209,7 +222,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
   // never a gate: the lead already reached us via the action before this screen.
   if (sent) {
     return (
-      <section id="contact" className="bg-palette-950 px-6 pt-32 pb-24 md:px-12">
+      <section id="contact" ref={sectionRef} className="bg-palette-950 px-6 pt-32 pb-24 md:px-12">
         <div className="mx-auto max-w-[1000px]">
           <h2 className="font-reckless font-light italic text-white leading-[1.05]" style={{ fontSize: 'clamp(40px, 6vw, 72px)' }}>
             {tc.sentHeading}<span style={{ color: '#F94500' }}>.</span>
@@ -234,8 +247,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
               ) : (
                 <button
                   onClick={() => setShowCal(true)}
-                  className="group mt-7 inline-flex items-center gap-3 rounded-full h-12 pl-6 pr-5 text-[16px] font-normal text-white transition-[background-color] duration-200"
-                  style={{ backgroundColor: '#F94500' }}
+                  className="group mt-7 inline-flex items-center gap-3 rounded-full border border-palette-700 h-12 pl-6 pr-5 text-[16px] font-normal text-palette-300 hover:border-palette-500 hover:text-white transition-colors duration-200"
                 >
                   {tc.bookNow}
                   <ArrowRight size={20} strokeWidth={1.5} className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -249,7 +261,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
   }
 
   return (
-    <section id="contact" className="bg-palette-950 overflow-x-clip">
+    <section id="contact" ref={sectionRef} className="bg-palette-950 overflow-x-clip">
 
       {/* Progress bar + step counter */}
       <div className="px-6 pt-32 md:px-12">
