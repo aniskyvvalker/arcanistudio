@@ -9,7 +9,7 @@ const t = useTranslations(lang).footer
 const navLinks = t.links.map((link) =>
   link.href.startsWith('#') ? link : { ...link, href: localizePath(link.href, lang) }
 )
-const legalLinks = t.legalLinks
+const legalLinks = t.legalLinks.map((link) => ({ ...link, href: localizePath(link.href, lang) }))
 
 const socialLinks = [
   {

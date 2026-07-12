@@ -190,11 +190,12 @@ export const ui = {
       primary: 'Book My Discovery Call',
       secondary: 'See Our Services',
     },
-    // TODO(seo): legalLinks below are placeholder "#" hrefs — real Privacy Policy
-    // and Terms of Service pages are a future task. Also planned: dedicated
-    // service pages (currently all 6 services crammed under one #services
-    // anchor, capping keyword targeting) and a case-study/blog section for
-    // long-tail + authority. See project memory "SEO/Perf Audit" for full context.
+    // Privacy Policy / Terms of Service pages live at /privacy and /terms (see
+    // legal.privacy / legal.terms below + src/components/LegalPage.astro).
+    // Still planned: dedicated service pages (currently all 6 services crammed
+    // under one #services anchor, capping keyword targeting) and a
+    // case-study/blog section for long-tail + authority. See project memory
+    // "SEO/Perf Audit" for full context.
     footer: {
       buildSomething: "Let's Build Something",
       dropEmail: "Drop your email and we'll reach out to discuss your project.",
@@ -215,8 +216,8 @@ export const ui = {
         { label: 'Contact', href: '#contact' },
       ],
       legalLinks: [
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Terms of Service', href: '#' },
+        { label: 'Privacy Policy', href: '/privacy' },
+        { label: 'Terms of Service', href: '/terms' },
       ],
       rights: 'Arcani Studio. All Rights Reserved.',
     },
@@ -263,6 +264,204 @@ export const ui = {
       errorRate: 'Too many submissions. Please wait a minute and try again.',
       errorServer: 'Could not send your request. Please try again or contact us directly.',
       errorGeneric: 'Please check your details and try again.',
+    },
+    legal: {
+      backHome: 'Back home',
+      privacy: {
+        metaTitle: 'Privacy Policy — arcaniStudio',
+        metaDescription:
+          'How arcaniStudio collects, uses, and protects your personal data when you visit arcanistudio.com, submit the contact form, or book a call.',
+        heading: 'Privacy Policy',
+        lastUpdated: 'Last updated: July 12, 2026',
+        intro:
+          'This Privacy Policy describes how arcaniStudio collects, uses, and protects the personal data of users of the arcanistudio.com website, in accordance with the General Data Protection Regulation (GDPR).',
+        sections: [
+          {
+            heading: 'Data controller',
+            content: [
+              'The arcanistudio.com website is published and operated by arcaniStudio, a web and mobile development agency. arcaniStudio is the party responsible for the processing of personal data collected through the site.',
+              'For any question regarding the processing of your data, you can contact us at: contact@arcanistudio.com.',
+            ],
+          },
+          {
+            heading: 'Personal data collected',
+            content: [
+              'In the course of its activity, arcaniStudio may collect the following personal data:',
+              [
+                'First and last name',
+                'Email address',
+                'Phone number',
+                'Company name (where applicable)',
+                'Information about your project (project type, budget, timeline) submitted through the contact form',
+                'Any information you voluntarily provide through a form or by email',
+              ],
+              'No sensitive data is collected.',
+            ],
+          },
+          {
+            heading: 'Purposes of processing',
+            content: [
+              'Personal data is collected solely for the following purposes:',
+              [
+                'Responding to contact and quote requests',
+                'Managing the client relationship and business communications',
+                'Preparing quotes, invoices, and contractual documents',
+                'Following up on the services provided',
+                'Meeting legal and accounting obligations',
+              ],
+              'Data is never used for unsolicited marketing purposes.',
+            ],
+          },
+          {
+            heading: 'Legal basis for processing',
+            content: [
+              'The processing carried out relies on:',
+              [
+                'your consent (contact form submissions);',
+                'contractual necessity (performance of a quote or service);',
+                'a legal obligation (invoicing, accounting).',
+              ],
+            ],
+          },
+          {
+            heading: 'Recipients of the data',
+            content: [
+              'Personal data is intended solely for arcaniStudio. It is never sold, rented, or transferred to third parties.',
+              'Certain data may, however, be shared with technical service providers strictly necessary to deliver our services, in compliance with the GDPR, notably:',
+              [
+                'website hosting',
+                'email delivery',
+                'internal team communication tools',
+                'internal client and lead record-keeping',
+                'appointment scheduling',
+                'technical error monitoring',
+                'audience measurement and analytics',
+              ],
+            ],
+          },
+          {
+            heading: 'Data retention',
+            content: [
+              'Data is retained:',
+              [
+                'for the duration of the business relationship;',
+                'then archived for a maximum of 3 years from the last contact, for prospects;',
+                'and 10 years for invoicing and accounting data (legal obligation).',
+              ],
+            ],
+          },
+          {
+            heading: 'Data security',
+            content: [
+              'arcaniStudio implements all reasonable technical and organizational measures to ensure the security and confidentiality of personal data and to prevent unauthorized access, loss, alteration, or disclosure. The site operates entirely over HTTPS, and forms are rate-limited and spam-filtered.',
+            ],
+          },
+          {
+            heading: 'Your rights',
+            content: [
+              'In accordance with the GDPR, you have the following rights:',
+              [
+                'Right of access',
+                'Right to rectification',
+                'Right to erasure',
+                'Right to restriction of processing',
+                'Right to object',
+                'Right to data portability',
+              ],
+              'These rights may be exercised at any time by written request to: contact@arcanistudio.com.',
+            ],
+          },
+          {
+            heading: 'Complaints',
+            content: [
+              'If you have any concern regarding the processing of your personal data, you may lodge a complaint with the competent data protection authority.',
+            ],
+          },
+          {
+            heading: 'Cookies and audience measurement',
+            content: [
+              'The site uses cookies for audience measurement and to record anonymized session activity, helping us understand how the site is used. Separate performance-monitoring tools used on the site do not use cookies.',
+              'You can accept, refuse, or delete cookies at any time through your browser settings. The site remains functional without them.',
+            ],
+          },
+          {
+            heading: 'Changes to this policy',
+            content: [
+              'This Privacy Policy may be amended at any time to remain compliant with legal or technical developments. The version in force is the one published on the site at the time of consultation.',
+            ],
+          },
+        ],
+      },
+      terms: {
+        metaTitle: 'Terms of Use — arcaniStudio',
+        metaDescription: 'The terms that govern access to and use of the arcanistudio.com website.',
+        heading: 'Terms of Use',
+        lastUpdated: 'Last updated: July 12, 2026',
+        intro:
+          'These Terms of Use (the "Terms") govern access to and use of the arcanistudio.com website. By accessing the site, the user accepts these Terms in full.',
+        sections: [
+          {
+            heading: 'Purpose',
+            content: [
+              "These Terms define the conditions under which arcaniStudio makes its website available and under which the user may browse it. The site is informational: it presents arcaniStudio's services and allows visitors to get in touch.",
+            ],
+          },
+          {
+            heading: 'Access to the site',
+            content: [
+              'The site is accessible free of charge to any user with internet access. The user agrees to use it for its intended purpose and to refrain from any conduct likely to disrupt its operation, including large-scale scraping and abuse of the contact form (spam, automated submissions). Form submissions are rate-limited and filtered.',
+            ],
+          },
+          {
+            heading: 'Intellectual property',
+            content: [
+              'The design, code, content, and branding of this site are the property of arcaniStudio. Any reproduction or use without prior authorization is prohibited. Client logos and work shown on the site are displayed for portfolio purposes with permission; their presence does not constitute an endorsement of arcaniStudio unless explicitly stated by the client.',
+            ],
+          },
+          {
+            heading: 'Services and engagements',
+            content: [
+              'This website is informational only. The scope, pricing, timeline, and deliverables of any client project are defined exclusively in a separate signed agreement (quote and contract), and never by the content of this site.',
+            ],
+          },
+          {
+            heading: 'No guarantee of results',
+            content: [
+              'Case studies, testimonials, and examples presented on this site illustrate past work. They do not guarantee similar results for any future project, as each project differs.',
+            ],
+          },
+          {
+            heading: 'Third-party links and services',
+            content: [
+              'This site embeds a Cal.com booking widget and links to external sites (such as our Instagram profile). arcaniStudio is not responsible for the content or privacy practices of sites it does not operate.',
+            ],
+          },
+          {
+            heading: 'Personal data',
+            content: ['The processing of personal data collected through this site is described in our Privacy Policy.'],
+          },
+          {
+            heading: 'Limitation of liability',
+            content: [
+              'To the extent permitted by applicable law, arcaniStudio shall not be held liable for any indirect, incidental, or consequential damages arising from the use of this website.',
+            ],
+          },
+          {
+            heading: 'Governing law',
+            content: ['These Terms are governed by the laws of Algeria, where arcaniStudio operates.'],
+          },
+          {
+            heading: 'Amendments',
+            content: [
+              'arcaniStudio may amend these Terms as the site evolves. Continued use of the site after any change constitutes acceptance of the updated Terms.',
+            ],
+          },
+          {
+            heading: 'Contact',
+            content: ['For any question regarding these Terms: contact@arcanistudio.com.'],
+          },
+        ],
+      },
     },
   },
 
@@ -466,8 +665,8 @@ export const ui = {
         { label: 'Contact', href: '#contact' },
       ],
       legalLinks: [
-        { label: 'Politique de confidentialité', href: '#' },
-        { label: "Conditions d'utilisation", href: '#' },
+        { label: 'Politique de confidentialité', href: '/privacy' },
+        { label: "Conditions d'utilisation", href: '/terms' },
       ],
       rights: 'Arcani Studio. Tous droits réservés.',
     },
@@ -516,6 +715,204 @@ export const ui = {
       errorRate: 'Trop de tentatives. Patientez une minute et réessayez.',
       errorServer: "Impossible d'envoyer votre demande. Réessayez ou contactez-nous directement.",
       errorGeneric: 'Veuillez vérifier vos informations et réessayer.',
+    },
+    legal: {
+      backHome: "Retour à l'accueil",
+      privacy: {
+        metaTitle: 'Politique de confidentialité — arcaniStudio',
+        metaDescription:
+          "Comment arcaniStudio collecte, utilise et protège vos données personnelles lorsque vous visitez arcanistudio.com, remplissez le formulaire de contact ou réservez un appel.",
+        heading: 'Politique de confidentialité',
+        lastUpdated: 'Dernière mise à jour : 12 juillet 2026',
+        intro:
+          "La présente politique de confidentialité décrit la manière dont arcaniStudio collecte, utilise et protège les données personnelles des utilisateurs du site arcanistudio.com, conformément au Règlement Général sur la Protection des Données (RGPD).",
+        sections: [
+          {
+            heading: 'Responsable du traitement',
+            content: [
+              "Le site arcanistudio.com est édité et exploité par arcaniStudio, agence de développement web et mobile. arcaniStudio est responsable du traitement des données personnelles collectées sur le site.",
+              'Pour toute question relative au traitement de vos données, vous pouvez nous contacter à l’adresse : contact@arcanistudio.com.',
+            ],
+          },
+          {
+            heading: 'Données personnelles collectées',
+            content: [
+              'Dans le cadre de son activité, arcaniStudio peut être amené à collecter les données personnelles suivantes :',
+              [
+                'Nom et prénom',
+                'Adresse e-mail',
+                'Numéro de téléphone',
+                "Nom de l'entreprise (le cas échéant)",
+                'Informations relatives à votre projet (type de projet, budget, délai) transmises via le formulaire de contact',
+                'Toute information transmise volontairement via un formulaire ou par e-mail',
+              ],
+              "Aucune donnée sensible n'est collectée.",
+            ],
+          },
+          {
+            heading: 'Finalités du traitement',
+            content: [
+              'Les données personnelles sont collectées uniquement pour les finalités suivantes :',
+              [
+                'Répondre aux demandes de contact et de devis',
+                'Gérer la relation client et les échanges commerciaux',
+                'Établir des devis, factures et documents contractuels',
+                'Assurer le suivi des prestations',
+                'Respecter les obligations légales et comptables',
+              ],
+              'Les données ne sont jamais utilisées à des fins commerciales non sollicitées.',
+            ],
+          },
+          {
+            heading: 'Base légale du traitement',
+            content: [
+              'Les traitements effectués reposent :',
+              [
+                'sur le consentement de la personne concernée (formulaire de contact) ;',
+                "sur la nécessité contractuelle (exécution d'un devis ou d'une prestation) ;",
+                'sur une obligation légale (facturation, comptabilité).',
+              ],
+            ],
+          },
+          {
+            heading: 'Destinataires des données',
+            content: [
+              'Les données personnelles sont destinées exclusivement à arcaniStudio. Elles ne sont ni vendues, ni louées, ni cédées à des tiers.',
+              "Certaines données peuvent toutefois être transmises à des prestataires techniques strictement nécessaires à l'exécution des services, dans le respect du RGPD, notamment :",
+              [
+                "l'hébergement du site",
+                "l'envoi d'e-mails",
+                "les outils de communication interne à l'équipe",
+                'la gestion interne des clients et prospects',
+                'la prise de rendez-vous',
+                'la surveillance technique des erreurs',
+                "la mesure d'audience et l'analyse statistique",
+              ],
+            ],
+          },
+          {
+            heading: 'Durée de conservation',
+            content: [
+              'Les données sont conservées :',
+              [
+                'pendant la durée de la relation commerciale ;',
+                'puis archivées pour une durée maximale de 3 ans à compter du dernier contact, pour les prospects ;',
+                'et 10 ans pour les données liées à la facturation (obligation légale).',
+              ],
+            ],
+          },
+          {
+            heading: 'Sécurité des données',
+            content: [
+              "arcaniStudio met en œuvre toutes les mesures techniques et organisationnelles raisonnables afin de garantir la sécurité et la confidentialité des données personnelles et d'empêcher leur accès non autorisé, perte, altération ou divulgation. Le site fonctionne intégralement en HTTPS, et les formulaires sont limités en fréquence et filtrés contre le spam.",
+            ],
+          },
+          {
+            heading: 'Vos droits',
+            content: [
+              'Conformément au RGPD, toute personne dispose des droits suivants :',
+              [
+                "Droit d'accès",
+                'Droit de rectification',
+                "Droit d'effacement",
+                'Droit à la limitation du traitement',
+                "Droit d'opposition",
+                'Droit à la portabilité des données',
+              ],
+              "Ces droits peuvent être exercés à tout moment par simple demande écrite à l'adresse suivante : contact@arcanistudio.com.",
+            ],
+          },
+          {
+            heading: 'Réclamation',
+            content: [
+              "En cas de difficulté relative au traitement de vos données personnelles, vous pouvez introduire une réclamation auprès de l'autorité de protection des données compétente.",
+            ],
+          },
+          {
+            heading: "Cookies et mesure d'audience",
+            content: [
+              "Le site utilise des cookies à des fins de mesure d'audience et pour enregistrer une activité de session anonymisée, afin de mieux comprendre l'utilisation du site. Les outils de suivi de performance utilisés séparément sur le site n'utilisent pas de cookies.",
+              'Vous pouvez accepter, refuser ou supprimer les cookies à tout moment depuis les réglages de votre navigateur. Le site reste fonctionnel sans eux.',
+            ],
+          },
+          {
+            heading: 'Modification de la politique',
+            content: [
+              "La présente politique de confidentialité peut être modifiée à tout moment afin de rester conforme aux évolutions légales ou techniques. La version en vigueur est celle publiée sur le site au moment de la consultation.",
+            ],
+          },
+        ],
+      },
+      terms: {
+        metaTitle: "Conditions d'utilisation — arcaniStudio",
+        metaDescription: "Les conditions générales qui régissent l'accès et l'utilisation du site arcanistudio.com.",
+        heading: "Conditions d'utilisation",
+        lastUpdated: 'Dernière mise à jour : 12 juillet 2026',
+        intro:
+          "Les présentes conditions générales d'utilisation (ci-après les « CGU ») régissent l'accès et l'utilisation du site arcanistudio.com. En accédant au site, l'utilisateur accepte sans réserve les présentes CGU.",
+        sections: [
+          {
+            heading: 'Objet',
+            content: [
+              "Les présentes CGU définissent les conditions dans lesquelles arcaniStudio met le site à disposition et dans lesquelles l'utilisateur peut le consulter. Le site est informatif : il présente les services d'arcaniStudio et permet aux visiteurs de prendre contact.",
+            ],
+          },
+          {
+            heading: 'Accès au site',
+            content: [
+              "Le site est accessible gratuitement à tout utilisateur disposant d'un accès à internet. L'utilisateur s'engage à l'utiliser conformément à sa destination et à s'abstenir de tout comportement susceptible d'en perturber le fonctionnement, notamment l'aspiration à grande échelle et l'abus du formulaire de contact (spam, soumissions automatisées). Les soumissions sont limitées en fréquence et filtrées.",
+            ],
+          },
+          {
+            heading: 'Propriété intellectuelle',
+            content: [
+              "Le design, le code, les contenus et l'identité de marque de ce site sont la propriété d'arcaniStudio. Toute reproduction ou utilisation sans autorisation préalable est interdite. Les logos et travaux de clients présentés sur le site le sont à des fins de portfolio, avec leur autorisation ; leur présence ne constitue pas une approbation d'arcaniStudio, sauf mention explicite du client.",
+            ],
+          },
+          {
+            heading: 'Prestations et engagements',
+            content: [
+              "Ce site est purement informatif. Le périmètre, le prix, les délais et les livrables de tout projet client sont définis exclusivement dans un contrat signé séparément (devis et contrat), et jamais par le contenu de ce site.",
+            ],
+          },
+          {
+            heading: 'Absence de garantie de résultat',
+            content: [
+              "Les études de cas, témoignages et exemples présentés sur ce site illustrent des projets passés. Ils ne garantissent pas de résultats similaires pour un futur projet, chaque projet étant différent.",
+            ],
+          },
+          {
+            heading: 'Liens et services tiers',
+            content: [
+              "Ce site intègre un widget de réservation Cal.com et renvoie vers des sites externes (comme notre profil Instagram). arcaniStudio n'est pas responsable du contenu ou des pratiques de confidentialité des sites qu'elle n'exploite pas.",
+            ],
+          },
+          {
+            heading: 'Données personnelles',
+            content: ['Le traitement des données personnelles collectées via ce site est décrit dans notre politique de confidentialité.'],
+          },
+          {
+            heading: 'Limitation de responsabilité',
+            content: [
+              "Dans la mesure permise par la loi applicable, arcaniStudio ne saurait être tenue responsable des dommages indirects, accessoires ou consécutifs résultant de l'utilisation de ce site.",
+            ],
+          },
+          {
+            heading: 'Droit applicable',
+            content: ["Les présentes CGU sont régies par le droit algérien, pays où arcaniStudio exerce son activité."],
+          },
+          {
+            heading: 'Modification des CGU',
+            content: [
+              "arcaniStudio peut modifier les présentes CGU à mesure que le site évolue. Toute utilisation du site postérieure à une modification vaut acceptation des CGU mises à jour.",
+            ],
+          },
+          {
+            heading: 'Contact',
+            content: ['Pour toute question relative aux présentes CGU : contact@arcanistudio.com.'],
+          },
+        ],
+      },
     },
   },
 }
