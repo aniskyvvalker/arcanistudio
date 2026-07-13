@@ -4,16 +4,16 @@
 
 arcaniStudio is a full-service digital agency. Typical engagement: a free 30-minute discovery call, then five stages — strategy & goals, copywriting, UX/UI design, development, and delivery with onboarding — with client approval at each stage. Sites are built for measurable results: fast load times, clean semantic structure, and technical SEO baked in from the start (not an afterthought).
 
-Available in [English](https://arcanistudio.vercel.app/) and [French](https://arcanistudio.vercel.app/fr).
+Available in [English](https://www.arcanistudio.com/) and [French](https://www.arcanistudio.com/fr).
 
 ## Pages
 
-- [Homepage](https://arcanistudio.vercel.app/): overview, services, process, work, FAQ, and contact.
-- [Services](https://arcanistudio.vercel.app/#services): web development, branding & UI/UX, mobile apps, automation & AI, e-commerce, SEO & growth.
-- [Process](https://arcanistudio.vercel.app/#how-we-work): the five-stage engagement flow from discovery call to delivery.
-- [Work](https://arcanistudio.vercel.app/#portfolio): client portfolio and testimonials.
-- [FAQ](https://arcanistudio.vercel.app/#faq): common questions on pricing, timelines, and ownership.
-- [Contact](https://arcanistudio.vercel.app/#contact): discovery call booking and contact form.
+- [Homepage](https://www.arcanistudio.com/): overview, services, process, work, FAQ, and contact.
+- [Services](https://www.arcanistudio.com/#services): web development, branding & UI/UX, mobile apps, automation & AI, e-commerce, SEO & growth.
+- [Process](https://www.arcanistudio.com/#how-we-work): the five-stage engagement flow from discovery call to delivery.
+- [Work](https://www.arcanistudio.com/#portfolio): client portfolio and testimonials.
+- [FAQ](https://www.arcanistudio.com/#faq): common questions on pricing, timelines, and ownership.
+- [Contact](https://www.arcanistudio.com/#contact): discovery call booking and contact form.
 
 ## Services
 
