@@ -64,21 +64,24 @@ const logos = [
   <div class="mx-auto max-w-5xl px-4">
     <div class="ticker-mask relative overflow-hidden">
       <div class="ticker-track flex w-max items-center">
-        {[...logos, ...logos, ...logos, ...logos].map(({ label, icon: Icon, src, mark, imgClass = 'h-6', opacity }) => (
-          <div class="flex shrink-0 items-center gap-2 px-8">
-            {src ? (
-              <>
-                {mark && <Image src={mark} alt="" class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading="eager" decoding="async" />}
-                <Image src={src} alt={label} class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading="eager" decoding="async" />
-              </>
-            ) : (
-              <div class="flex items-center gap-2 text-palette-800">
-                <Icon size={20} />
-                <span class="text-h5 font-semibold whitespace-nowrap">{label}</span>
-              </div>
-            )}
-          </div>
-        ))}
+        {[0, 1, 2, 3].flatMap((copyIndex) => {
+          const loading = copyIndex === 0 ? 'eager' : 'lazy'
+          return logos.map(({ label, icon: Icon, src, mark, imgClass = 'h-6', opacity }) => (
+            <div class="flex shrink-0 items-center gap-2 px-8">
+              {src ? (
+                <>
+                  {mark && <Image src={mark} alt="" class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading={loading} decoding="async" />}
+                  <Image src={src} alt={label} class={`logo-img ${imgClass} w-auto`} style={opacity ? `opacity:${opacity}` : undefined} loading={loading} decoding="async" />
+                </>
+              ) : (
+                <div class="flex items-center gap-2 text-palette-800">
+                  <Icon size={20} />
+                  <span class="text-h5 font-semibold whitespace-nowrap">{label}</span>
+                </div>
+              )}
+            </div>
+          ))
+        })}
       </div>
     </div>
   </div>
