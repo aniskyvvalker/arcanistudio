@@ -36,9 +36,9 @@ const ogImageURL = new URL('/og-image.jpg', Astro.site).toString()
 const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_US'
 const ogLocaleAlternate = lang === 'fr' ? 'en_US' : 'fr_FR'
 
-// JSON-LD: Organization (no street address — none exists in the site's copy;
-// see FAQPage below for the rich-snippet FAQ markup) + FAQPage from the same
-// FAQ content the page already renders, so the two never drift apart.
+// JSON-LD: Organization (no street address in the site's copy, only city-level
+// locality — see FAQPage below for the rich-snippet FAQ markup) + FAQPage from
+// the same FAQ content the page already renders, so the two never drift apart.
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -48,6 +48,11 @@ const organizationSchema = {
   image: ogImageURL,
   description: t.meta.description,
   areaServed: 'Algeria',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Algiers',
+    addressCountry: 'DZ',
+  },
   availableLanguage: ['English', 'French'],
   sameAs: ['https://www.instagram.com/arcanistudio.agency/'],
   contactPoint: {
