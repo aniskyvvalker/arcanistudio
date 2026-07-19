@@ -1,5 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions'
 import { z } from 'astro:schema'
+import * as Sentry from '@sentry/astro'
 import { ui, type Lang } from '../i18n/ui'
 
 /* ============================================================================
@@ -414,9 +415,18 @@ async function deliver(payload: NotifyPayload, ip: string): Promise<{ ok: true }
 
   if (airtableResult.status === 'rejected') {
     console.error('[deliver] Airtable backup failed:', airtableResult.reason)
+    Sentry.captureException(airtableResult.reason, { tags: { channel: 'airtable' } })
   }
   if (sheetsResult.status === 'rejected') {
     console.error('[deliver] Google Sheets backup failed:', sheetsResult.reason)
+    Sentry.captureException(sheetsResult.reason, { tags: { channel: 'google_sheets' } })
+  }
+
+  if (emailResult.status === 'rejected') {
+    Sentry.captureException(emailResult.reason, { tags: { channel: 'email' } })
+  }
+  if (telegramResult.status === 'rejected') {
+    Sentry.captureException(telegramResult.reason, { tags: { channel: 'telegram' } })
   }
 
   const criticalFailure = [emailResult, telegramResult].find(
