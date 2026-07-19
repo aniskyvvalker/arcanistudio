@@ -345,6 +345,22 @@ async function sendTelegram(payload: NotifyPayload): Promise<void> {
   if (!res.ok) throw new Error(`Telegram: ${res.status} ${await res.text()}`)
 }
 
+// Both Airtable and Google Sheets render `fields` as spreadsheet cells. A
+// value starting with =, +, -, or @ is interpreted as a formula by Excel/
+// Sheets on export or open (CSV/spreadsheet formula injection) — e.g. a lead
+// named `=HYPERLINK("http://evil.com")` could phish whoever opens the sheet.
+// Prefixing with a single quote forces text interpretation; harmless no-op
+// for every normal value.
+function escapeSpreadsheetFormula(value: string): string {
+  return /^[=+\-@]/.test(value) ? `'${value}` : value
+}
+
+function sanitizeSpreadsheetFields(fields: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(fields).map(([key, value]) => [key, escapeSpreadsheetFormula(value)])
+  )
+}
+
 // PASSIVE channel (see note above) — a best-effort archive, not a critical
 // notification path. Runs on every submission (not just as a fallback), so a
 // broken token/base is caught the same day rather than sitting silently
@@ -363,7 +379,7 @@ async function sendAirtable(payload: NotifyPayload): Promise<void> {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fields: payload.fields }),
+      body: JSON.stringify({ fields: sanitizeSpreadsheetFields(payload.fields) }),
     }
   )
   if (!res.ok) throw new Error(`Airtable: ${res.status} ${await res.text()}`)
@@ -388,7 +404,7 @@ async function sendGoogleSheets(payload: NotifyPayload): Promise<void> {
     // public). The body is still a JSON string; doPost reads it as raw text
     // via e.postData.contents and JSON.parse()s it regardless of the header.
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ secret, fields: payload.fields }),
+    body: JSON.stringify({ secret, fields: sanitizeSpreadsheetFields(payload.fields) }),
   })
   if (!res.ok) throw new Error(`Google Sheets: ${res.status} ${await res.text()}`)
 }
