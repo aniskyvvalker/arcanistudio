@@ -4,6 +4,14 @@ import { actions } from 'astro:actions'
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { ui, defaultLang, type Lang } from '../../i18n/ui'
 
+// Meta Pixel global — injected by MetaPixel.astro (queued/no-op until it
+// loads, see that file). Optional because it's absent in dev/when unset.
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void
+  }
+}
+
 // The selection field each wizard step writes to. Index-aligned with
 // ui[lang].contact.choiceSteps — kept separate from copy because it's logic.
 const FIELDS = ['project', 'timeline', 'company', 'budget'] as const
@@ -212,6 +220,7 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
     // all that's left — show it IN-PAGE: the sent branch renders an inline
     // cal.com embed (prefilled), so the user never leaves the site. Falls back to
     // the static success screen when PUBLIC_CALCOM_URL is unset (CAL_LINK empty).
+    window.fbq?.('track', 'Lead')
     setSent(true)
   }
 

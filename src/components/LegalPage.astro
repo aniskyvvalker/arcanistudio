@@ -9,6 +9,7 @@ import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 import GoogleAnalytics from './GoogleAnalytics.astro'
 import Clarity from './Clarity.astro'
+import MetaPixel from './MetaPixel.astro'
 import Footer from './sections/Footer.astro'
 import { getLangFromUrl, useTranslations, getAlternateUrls, localizePath } from '../i18n/utils'
 
@@ -87,5 +88,6 @@ const homeHref = localizePath('/', lang)
     <SpeedInsights />
     <GoogleAnalytics />
     <Clarity />
+    <MetaPixel />
   </body>
 </html>

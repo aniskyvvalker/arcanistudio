@@ -1,0 +1,41 @@
+---
+// Skipped entirely when the ID is unset (local dev has none by default) or
+// outside a production build, so local testing never pollutes real Pixel data.
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID
+const shouldLoad = pixelId && import.meta.env.PROD
+---
+
+{shouldLoad && (
+  <script define:vars={{ pixelId }}>
+    // Same deferred-load tradeoff as GoogleAnalytics.astro (see that file's
+    // comment for the full rationale): fbq() calls below are queued by the
+    // stub immediately, but the actual fbevents.js network request waits for
+    // the first sign of engagement or a 5s idle timeout.
+    window.fbq = window.fbq || function () {
+      (window.fbq.queue = window.fbq.queue || []).push(arguments)
+    }
+    window._fbq = window._fbq || window.fbq
+    fbq('init', pixelId)
+    fbq('track', 'PageView')
+
+    let pixelLoaded = false
+    function loadPixel() {
+      if (pixelLoaded) return
+      pixelLoaded = true
+      const script = document.createElement('script')
+      script.async = true
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js'
+      document.head.appendChild(script)
+      events.forEach((event) => window.removeEventListener(event, loadPixel))
+      clearTimeout(idleTimer)
+    }
+
+    const events = ['scroll', 'click', 'keydown', 'touchstart']
+    events.forEach((event) => window.addEventListener(event, loadPixel, { once: true, passive: true }))
+    const idleTimer = setTimeout(loadPixel, 5000)
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" alt=""
+      src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`} />
+  </noscript>
+)}
