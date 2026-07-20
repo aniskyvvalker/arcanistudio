@@ -1,5 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions'
 import { z } from 'astro:schema'
+import { createHash } from 'node:crypto'
 import * as Sentry from '@sentry/astro'
 import { ui, type Lang } from '../i18n/ui'
 
@@ -53,6 +54,11 @@ import { ui, type Lang } from '../i18n/ui'
  *     as Airtable; a second independent archive for collaborators who only use
  *     Sheets. Talks to a Google Apps Script Web App, not the official Sheets
  *     API — no OAuth/service-account needed, see .env.example for the script).
+ *   - Meta Conversions API (optional — same best-effort/non-blocking deal as
+ *     Airtable/Sheets; a server-side duplicate of the browser pixel's Lead
+ *     event, deduped via a shared event_id so Meta counts one lead, not two.
+ *     Catches conversions the browser pixel misses to ad-blockers/Safari
+ *     ITP/iOS.
  *   - Footer email capture also wired to a real backend (`submitFooterEmail`),
  *     mailto: removed there too — same reasoning as the main form.
  *   - Frontend wired: mailto removed, calls this action, shows sending/error states.
@@ -117,6 +123,7 @@ import { ui, type Lang } from '../i18n/ui'
  *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID                    → Telegram channel
  *   AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME → Airtable backup log
  *   GOOGLE_SHEETS_WEBHOOK_URL, GOOGLE_SHEETS_SECRET         → Google Sheets backup log
+ *   META_CAPI_ACCESS_TOKEN, PUBLIC_META_PIXEL_ID            → Meta Conversions API (server-side pixel)
  *   PUBLIC_CALCOM_URL                                       → read by the FRONTEND only
  * ============================================================================ */
 
@@ -154,6 +161,16 @@ const leadSchema = z.object({
   // Which site locale the visitor filled the form in — controls the language of
   // the notification we receive (Telegram + email), not the lead's own data.
   lang: z.enum(['en', 'fr']).optional().default('en'),
+
+  // --- Meta Conversions API (server-side pixel) ---
+  // eventId: generated client-side (crypto.randomUUID()) and passed to BOTH the
+  // browser fbq('track', 'Lead', {}, {eventID}) call and this action, so Meta
+  // dedupes the two into one event instead of double-counting a single lead.
+  // pageUrl: window.location.href at submit time — used as event_source_url;
+  // more accurate than guessing on the server (this endpoint's own URL isn't
+  // the page the visitor was actually on).
+  eventId: z.string().max(100).optional().default(''),
+  pageUrl: z.string().max(500).optional().default(''),
 })
 
 // The footer "drop your email" field — a much lower-intent capture than the
@@ -218,6 +235,10 @@ type NotifyPayload = {
   lines: string[]        // body text for email + Telegram
   fields: Record<string, string>  // Airtable/Sheets row
   replyTo?: string
+  // Present only for payloads that should also fire a Meta CAPI 'Lead' event —
+  // just buildLeadPayload today (footer signup isn't wired to the pixel either,
+  // see MetaPixel.astro's fbq('track','Lead') call site).
+  capi?: { eventId: string; pageUrl: string; email?: string; phone?: string }
 }
 
 // Notification labels — separate from the site's own `ui` translations (those
@@ -279,6 +300,7 @@ function buildLeadPayload(lead: Lead): NotifyPayload {
       Lang: lead.lang,
       'Submitted At': new Date().toISOString(),
     },
+    capi: { eventId: lead.eventId, pageUrl: lead.pageUrl, email: lead.email || undefined, phone: lead.phone },
   }
 }
 
@@ -409,12 +431,80 @@ async function sendGoogleSheets(payload: NotifyPayload): Promise<void> {
   if (!res.ok) throw new Error(`Google Sheets: ${res.status} ${await res.text()}`)
 }
 
+// Meta requires user_data identifiers (email, phone) as lowercase-hex SHA-256
+// — never send raw PII to their API.
+function sha256Hex(value: string): string {
+  return createHash('sha256').update(value).digest('hex')
+}
+
+// Same E.164 convention as ContactSection.tsx's toE164() (Algeria-default),
+// then strips the leading '+' — Meta's `ph` field wants digits only, no '+'.
+function normalizePhoneDigits(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, '')
+  if (digits.startsWith('+')) return digits.slice(1)
+  if (digits.startsWith('213')) return digits
+  return `213${digits.replace(/^0+/, '')}`
+}
+
+function getCookie(cookieHeader: string, name: string): string {
+  const match = cookieHeader.match(new RegExp(`(?:^|; )${name}=([^;]*)`))
+  return match ? decodeURIComponent(match[1]) : ''
+}
+
+// PASSIVE channel (see note above sendAirtable) — a secondary/duplicate
+// delivery path alongside the browser pixel (see MetaPixel.astro), not a
+// critical one: if Meta's API is slow or down, the actual lead notification
+// (email/Telegram) must still succeed. `event_id` matches the browser fbq()
+// call for the same submission so Meta deduplicates rather than double-counts.
+async function sendMetaCAPI(
+  payload: NotifyPayload,
+  meta: { ip: string; userAgent: string; fbp: string; fbc: string }
+): Promise<void> {
+  const token = import.meta.env.META_CAPI_ACCESS_TOKEN
+  const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID
+  if (!token || !pixelId || !payload.capi) return // not configured, or this payload has no pixel event → skip silently
+
+  const { eventId, pageUrl, email, phone } = payload.capi
+  const userData: Record<string, string | string[]> = {}
+  if (meta.ip && meta.ip !== 'unknown') userData.client_ip_address = meta.ip
+  if (meta.userAgent) userData.client_user_agent = meta.userAgent
+  if (meta.fbp) userData.fbp = meta.fbp
+  if (meta.fbc) userData.fbc = meta.fbc
+  if (email) userData.em = [sha256Hex(email.trim().toLowerCase())]
+  if (phone) userData.ph = [sha256Hex(normalizePhoneDigits(phone))]
+
+  const res = await fetch(
+    `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${encodeURIComponent(token)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [
+          {
+            event_name: 'Lead',
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: eventId,
+            action_source: 'website',
+            event_source_url: pageUrl || undefined,
+            user_data: userData,
+          },
+        ],
+      }),
+    }
+  )
+  if (!res.ok) throw new Error(`Meta CAPI: ${res.status} ${await res.text()}`)
+}
+
 // ---- action ----------------------------------------------------------------
 
-// Shared by both actions below: rate-limit, fan out to all four channels,
-// treat Airtable/Sheets as passive (logged, never thrown), Telegram/email as
-// critical (their failure surfaces to the visitor as a generic error).
-async function deliver(payload: NotifyPayload, ip: string): Promise<{ ok: true }> {
+// Shared by both actions below: rate-limit, fan out to all five channels,
+// treat Airtable/Sheets/Meta CAPI as passive (logged, never thrown), Telegram/
+// email as critical (their failure surfaces to the visitor as a generic error).
+async function deliver(
+  payload: NotifyPayload,
+  ip: string,
+  request: Request
+): Promise<{ ok: true }> {
   if (rateLimited(ip)) {
     throw new ActionError({
       code: 'TOO_MANY_REQUESTS',
@@ -422,11 +512,20 @@ async function deliver(payload: NotifyPayload, ip: string): Promise<{ ok: true }
     })
   }
 
-  const [emailResult, telegramResult, airtableResult, sheetsResult] = await Promise.allSettled([
+  const cookieHeader = request.headers.get('cookie') ?? ''
+  const capiMeta = {
+    ip,
+    userAgent: request.headers.get('user-agent') ?? '',
+    fbp: getCookie(cookieHeader, '_fbp'),
+    fbc: getCookie(cookieHeader, '_fbc'),
+  }
+
+  const [emailResult, telegramResult, airtableResult, sheetsResult, capiResult] = await Promise.allSettled([
     sendEmail(payload),
     sendTelegram(payload),
     sendAirtable(payload),
     sendGoogleSheets(payload),
+    sendMetaCAPI(payload, capiMeta),
   ])
 
   if (airtableResult.status === 'rejected') {
@@ -436,6 +535,10 @@ async function deliver(payload: NotifyPayload, ip: string): Promise<{ ok: true }
   if (sheetsResult.status === 'rejected') {
     console.error('[deliver] Google Sheets backup failed:', sheetsResult.reason)
     Sentry.captureException(sheetsResult.reason, { tags: { channel: 'google_sheets' } })
+  }
+  if (capiResult.status === 'rejected') {
+    console.error('[deliver] Meta CAPI failed:', capiResult.reason)
+    Sentry.captureException(capiResult.reason, { tags: { channel: 'meta_capi' } })
   }
 
   if (emailResult.status === 'rejected') {
@@ -467,7 +570,7 @@ export const server = {
     handler: async (lead, ctx) => {
       // Drop bots that filled the honeypot — pretend success, do nothing.
       if (lead.company_website) return { ok: true }
-      return deliver(buildLeadPayload(lead), ctx.clientAddress ?? 'unknown')
+      return deliver(buildLeadPayload(lead), ctx.clientAddress ?? 'unknown', ctx.request)
     },
   }),
 
@@ -478,7 +581,7 @@ export const server = {
     input: footerEmailSchema,
     handler: async (data, ctx) => {
       if (data.company_website) return { ok: true }
-      return deliver(buildFooterPayload(data.email, data.lang), ctx.clientAddress ?? 'unknown')
+      return deliver(buildFooterPayload(data.email, data.lang), ctx.clientAddress ?? 'unknown', ctx.request)
     },
   }),
 }

@@ -185,6 +185,11 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
     setSubmitting(true)
     setError('')
 
+    // Shared between the browser pixel's fbq() call below and the server's
+    // Meta CAPI call (src/actions/index.ts) so Meta dedupes the two into one
+    // Lead event instead of double-counting this single submission.
+    const eventId = crypto.randomUUID()
+
     // Field names here MUST match leadSchema in src/actions/index.ts.
     // For "Something else", we send the free-text (otherText) as the project.
     const { data, error } = await actions.submitLead({
@@ -199,6 +204,8 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
       message: contact.message,
       company_website: honeypot, // honeypot — real users leave this empty
       lang, // controls the language of the Telegram/email notification, not stored on the lead
+      eventId,
+      pageUrl: window.location.href,
     })
 
     setSubmitting(false)
@@ -220,7 +227,10 @@ export default function ContactSection({ lang = defaultLang }: { lang?: Lang }) 
     // all that's left — show it IN-PAGE: the sent branch renders an inline
     // cal.com embed (prefilled), so the user never leaves the site. Falls back to
     // the static success screen when PUBLIC_CALCOM_URL is unset (CAL_LINK empty).
-    window.fbq?.('track', 'Lead')
+    // eventID here must match the `eventId` sent to submitLead above — that's
+    // what lets Meta dedupe this browser-side event against the server-side
+    // Conversions API one for the same submission.
+    window.fbq?.('track', 'Lead', {}, { eventID: eventId })
     setSent(true)
   }
 
