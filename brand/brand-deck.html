@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>arcaniStudio — Brand Guidelines</title>
+<link rel="stylesheet" href="_fonts.css">
+<style>
+/* ==========================================================================
+   arcaniStudio — Brand Guidelines (presentation deck)
+   Layout replicated 1:1 from the reference presentation template.
+   Canvas 1920 × 1280 pt. Column grid: 80 / 520 / 960 / 1400 / 1840.
+   Baseline grid: 80 pt. Every coordinate below is in template points.
+   ========================================================================== */
+
+:root {
+  --bg:        #F8F6F1;   /* page — background-light  */
+  --ink:       #0A0A0A;   /* palette-950             */
+  --accent:    #FF6207;   /* primary-500             */
+  --accent-dk: #CE3000;   /* primary-700             */
+  --white:     #FFFFFF;
+  --hair:      #DFDBD2;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+@page { size: 1920pt 1280pt; margin: 0; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  font-family: 'Switzer', system-ui, sans-serif;
+  background: #C9C9C9;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.pg {
+  position: relative;
+  width: 1920pt;
+  height: 1280pt;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  break-after: page;
+  page-break-after: always;
+}
+.pg:last-child { break-after: auto; page-break-after: auto; }
+
+/* absolute placement helper */
+.a { position: absolute; }
+
+/* ---- shared type roles (sizes and leading taken from the template) ---- */
+.t-title {                       /* page title — 40 pt */
+  font-size: 40pt; line-height: 48pt; font-weight: 500; letter-spacing: -0.022em;
+}
+.t-body {                        /* left column copy — 20 / 28 pt */
+  font-size: 20pt; line-height: 28pt; font-weight: 400; letter-spacing: -0.006em;
+}
+.t-body + .t-body { margin-top: 28pt; }
+.col-l { position: absolute; left: 80pt; top: 237pt; width: 350pt; }
+.t-spec {                        /* spec captions — 16 / 24 pt */
+  font-size: 16pt; line-height: 24pt; font-weight: 400; text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.t-sub { font-size: 24pt; line-height: 30pt; font-weight: 500; letter-spacing: -0.015em; }
+.t-cap { font-size: 20pt; line-height: 26pt; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* ---- footer ---- */
+.rule  { position: absolute; left: 80pt; top: 1200pt; width: 1760pt; height: 1pt; background: var(--hair); }
+.f-l   { position: absolute; left: 80pt;  top: 1228pt; font-size: 16pt; letter-spacing: 0.06em; text-transform: uppercase; }
+.f-r   { position: absolute; right: 80pt; top: 1228pt; font-size: 16pt; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ---- big display type (cover + section divider) ---- */
+.display {
+  font-size: 200pt; line-height: 208pt; font-weight: 300;
+  letter-spacing: -0.035em; text-transform: uppercase;
+}
+
+/* ---- cards ---- */
+.card   { position: absolute; border-radius: 40pt; }
+.tile   { position: absolute; border-radius: 25pt; }
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     01 — COVER
+     bg #0A0A0A · mark 119,120 · wordmark 211 · display 128 / 767 / 975
+     ===================================================================== -->
+<section class="pg" style="background:#0A0A0A;color:#fff;">
+  <svg class="a" style="left:119pt;top:120pt;width:84pt;height:84pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+  <div class="a" style="left:227pt;top:134pt;font-size:52pt;line-height:56pt;font-weight:600;letter-spacing:-0.03em;">arcaniStudio</div>
+
+  <div class="a display" style="left:128pt;top:700pt;">brand<br>guidelines</div>
+</section>
+
+<!-- =====================================================================
+     02 — CONTENTS
+     divider layout · mark 128,127 · rule x=1253 · index rows 80 pt apart
+     ===================================================================== -->
+<section class="pg" style="background:var(--accent);color:#fff;">
+  <svg class="a" style="left:128pt;top:127pt;width:150pt;height:150pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+
+  <div class="a" style="left:1253pt;top:128pt;width:1pt;height:1024pt;background:rgba(255,255,255,0.45);"></div>
+
+  <div class="a" style="left:1381pt;top:209pt;font-size:16pt;line-height:40pt;">01</div>
+  <div class="a" style="left:1429pt;top:200pt;font-size:40pt;line-height:48pt;font-weight:400;letter-spacing:-0.02em;">Brand</div>
+  <div class="a" style="left:1381pt;top:289pt;font-size:16pt;line-height:40pt;">02</div>
+  <div class="a" style="left:1429pt;top:280pt;font-size:40pt;line-height:48pt;font-weight:400;letter-spacing:-0.02em;">Logo</div>
+  <div class="a" style="left:1381pt;top:369pt;font-size:16pt;line-height:40pt;">03</div>
+  <div class="a" style="left:1429pt;top:360pt;font-size:40pt;line-height:48pt;font-weight:400;letter-spacing:-0.02em;">Colour</div>
+  <div class="a" style="left:1381pt;top:449pt;font-size:16pt;line-height:40pt;">04</div>
+  <div class="a" style="left:1429pt;top:440pt;font-size:40pt;line-height:48pt;font-weight:400;letter-spacing:-0.02em;">Typography</div>
+  <div class="a" style="left:1381pt;top:529pt;font-size:16pt;line-height:40pt;">05</div>
+  <div class="a" style="left:1429pt;top:520pt;font-size:40pt;line-height:48pt;font-weight:400;letter-spacing:-0.02em;">Elements</div>
+
+  <div class="a display" style="left:128pt;top:906pt;">contents</div>
+</section>
+
+<!-- =====================================================================
+     03 — THE BRAND
+     four rows of 240 pt filling 160 → 1120 · labels x=520, values x=941
+     (same split as the type hierarchy page) · hairlines on the 80 pt grid
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">The brand</div>
+  <div class="col-l">
+    <p class="t-body">Warm, editorial, crafted. Confident and premium, never corporate.
+    Everything we publish should feel considered — like someone made a decision rather
+    than picked a template.</p>
+    <p class="t-body">The test before anything ships: could a competitor swap their logo
+    onto this and have it still work? If yes, it isn't finished.</p>
+  </div>
+
+  <div class="a" style="left:520pt;top:160pt;width:1320pt;height:1pt;background:var(--hair);"></div>
+  <div class="a" style="left:520pt;top:400pt;width:1320pt;height:1pt;background:var(--hair);"></div>
+  <div class="a" style="left:520pt;top:640pt;width:1320pt;height:1pt;background:var(--hair);"></div>
+  <div class="a" style="left:520pt;top:880pt;width:1320pt;height:1pt;background:var(--hair);"></div>
+  <div class="a" style="left:520pt;top:1120pt;width:1320pt;height:1pt;background:var(--hair);"></div>
+
+  <div class="a t-spec" style="left:520pt;top:194pt;">The name</div>
+  <div class="a" style="left:941pt;top:184pt;font-size:40pt;line-height:48pt;font-weight:500;letter-spacing:-0.02em;">arcaniStudio</div>
+  <div class="a t-body" style="left:941pt;top:252pt;width:899pt;">One word. Lowercase <b>a</b>, capital <b>S</b> — even at the start of a sentence. Never “Arcani Studio”, “ArcaniStudio”, or all caps.</div>
+
+  <div class="a t-spec" style="left:520pt;top:434pt;">Tagline</div>
+  <div class="a" style="left:941pt;top:424pt;font-size:40pt;line-height:48pt;font-family:'RecklessNeue',Georgia,serif;font-weight:500;letter-spacing:-0.02em;">Digital Solutions With Purpose</div>
+  <div class="a t-body" style="left:941pt;top:492pt;width:899pt;">FR — <span style="font-family:'RecklessNeue',Georgia,serif;">Des solutions digitales qui ont du sens</span></div>
+
+  <div class="a t-spec" style="left:520pt;top:674pt;">What we do</div>
+  <div class="a" style="left:941pt;top:664pt;font-size:40pt;line-height:48pt;font-weight:500;letter-spacing:-0.02em;">Web and app development, end to end</div>
+  <div class="a t-body" style="left:941pt;top:732pt;width:899pt;">Design, code, testing and deployment handled by one team. Clients own the code, the designs and the data on final payment.</div>
+
+  <div class="a t-spec" style="left:520pt;top:914pt;">Who we're talking to</div>
+  <div class="a" style="left:941pt;top:904pt;font-size:40pt;line-height:48pt;font-weight:500;letter-spacing:-0.02em;">Founders and product leads</div>
+  <div class="a t-body" style="left:941pt;top:972pt;width:899pt;">They are comparing agencies and want proof of craft. They respond to specifics, not adjectives.</div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 03 / 09</div>
+</section>
+
+<!-- =====================================================================
+     04 — PRIMARY VARIANTS
+     card A 520,160 1320×424 · card B 520,616 1320×424 · size row y=1104
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">Primary variants</div>
+  <div class="col-l">
+    <p class="t-body">We recommend using the logo on a dark or light background. In the case
+    of a photograph, it is essential to keep the logo sufficiently legible in relation to
+    the background image.</p>
+    <p class="t-body">The smallest size allowed for printing and online use is based on the
+    height of the logo.</p>
+  </div>
+
+  <!-- dark card -->
+  <div class="card" style="left:520pt;top:160pt;width:1320pt;height:424pt;background:var(--ink);display:flex;align-items:center;justify-content:center;gap:22pt;">
+    <svg style="width:128pt;height:128pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+    <span style="font-size:78pt;font-weight:600;letter-spacing:-0.03em;color:#fff;">arcaniStudio</span>
+  </div>
+
+  <!-- light card -->
+  <div class="card" style="left:520pt;top:616pt;width:1320pt;height:424pt;background:var(--white);display:flex;align-items:center;justify-content:center;gap:22pt;">
+    <svg style="width:128pt;height:128pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+    <span style="font-size:78pt;font-weight:600;letter-spacing:-0.03em;">arcaniStudio</span>
+  </div>
+
+  <!-- smallest size row -->
+  <div class="a" style="left:900pt;top:1096pt;display:flex;align-items:center;gap:20pt;font-size:20pt;">
+    <span>Smallest logo size</span>
+    <span style="font-weight:500;">24px / 8mm</span>
+    <span style="width:1pt;height:38pt;background:var(--hair);"></span>
+    <span style="display:flex;align-items:center;gap:7pt;">
+      <svg style="width:24pt;height:24pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+      <span style="font-size:15pt;font-weight:600;letter-spacing:-0.02em;">arcaniStudio</span>
+    </span>
+  </div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 04 / 09</div>
+</section>
+
+<!-- =====================================================================
+     05 — COLOUR PALETTE
+     divider x=488 · 5 columns 251 wide, gap 16, from 520 · y 160→1120
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">Colour Palette</div>
+  <div class="col-l">
+    <p class="t-body">Only the colours listed in the arcaniStudio brand guidelines may be used
+    in the visual style. Others that are not listed are prohibited.</p>
+    <p class="t-body">Brand Orange is the single accent — it carries roughly five percent of
+    any layout. Deep Orange is its readable counterpart, used for text and solid buttons
+    where white sits on top.</p>
+    <p class="t-body">Depending on the type of material, you can opt for a light or a dark
+    mode. For the dark mode, Ink is used in the background; for the light mode, Cream.</p>
+  </div>
+
+  <div class="a" style="left:488pt;top:80pt;width:1pt;height:1120pt;background:var(--hair);"></div>
+
+  <!-- column 1 — Brand Orange -->
+  <div class="tile" style="left:520pt;top:160pt;width:251pt;height:960pt;background:#FF6207;">
+    <div style="position:absolute;left:24pt;top:25pt;font-size:24pt;font-weight:500;color:#0A0A0A;letter-spacing:-0.015em;">Brand Orange</div>
+    <div style="position:absolute;left:24pt;top:78pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">CMYK:<br>HEX:<br>RGB:</div>
+    <div style="position:absolute;left:81pt;top:78pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">0, 62, 97, 0<br>FF6207<br>255, 98, 7</div>
+  </div>
+
+  <!-- column 2 — Deep Orange -->
+  <div class="tile" style="left:787pt;top:160pt;width:251pt;height:960pt;background:#CE3000;">
+    <div style="position:absolute;left:24pt;top:25pt;font-size:24pt;font-weight:500;color:#fff;letter-spacing:-0.015em;">Deep Orange</div>
+    <div style="position:absolute;left:24pt;top:78pt;font-size:16pt;line-height:32pt;color:#fff;">CMYK:<br>HEX:<br>RGB:</div>
+    <div style="position:absolute;left:81pt;top:78pt;font-size:16pt;line-height:32pt;color:#fff;">0, 77, 100, 19<br>CE3000<br>206, 48, 0</div>
+  </div>
+
+  <!-- column 3 — Ink -->
+  <div class="tile" style="left:1055pt;top:160pt;width:251pt;height:960pt;background:#0A0A0A;">
+    <div style="position:absolute;left:24pt;top:25pt;font-size:24pt;font-weight:500;color:#fff;letter-spacing:-0.015em;">Ink</div>
+    <div style="position:absolute;left:24pt;top:78pt;font-size:16pt;line-height:32pt;color:#fff;">CMYK:<br>HEX:<br>RGB:</div>
+    <div style="position:absolute;left:81pt;top:78pt;font-size:16pt;line-height:32pt;color:#fff;">0, 0, 0, 96<br>0A0A0A<br>10, 10, 10</div>
+  </div>
+
+  <!-- column 4 — White -->
+  <div class="tile" style="left:1322pt;top:160pt;width:251pt;height:960pt;background:#FFFFFF;">
+    <div style="position:absolute;left:24pt;top:25pt;font-size:24pt;font-weight:500;color:#0A0A0A;letter-spacing:-0.015em;">White</div>
+    <div style="position:absolute;left:24pt;top:78pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">CMYK:<br>HEX:<br>RGB:</div>
+    <div style="position:absolute;left:81pt;top:78pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">0, 0, 0, 0<br>FFFFFF<br>255, 255, 255</div>
+  </div>
+
+  <!-- column 5 — Cream (outlined, it matches the page) -->
+  <div class="tile" style="left:1589pt;top:160pt;width:251pt;height:960pt;background:#F8F6F1;border:1pt solid var(--hair);">
+    <div style="position:absolute;left:23pt;top:24pt;font-size:24pt;font-weight:500;color:#0A0A0A;letter-spacing:-0.015em;">Cream</div>
+    <div style="position:absolute;left:23pt;top:77pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">CMYK:<br>HEX:<br>RGB:</div>
+    <div style="position:absolute;left:80pt;top:77pt;font-size:16pt;line-height:32pt;color:#0A0A0A;">0, 1, 3, 3<br>F8F6F1<br>248, 246, 241</div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 05 / 09</div>
+</section>
+
+<!-- =====================================================================
+     06 — SHADES PALETTE
+     rows y 160 / 485 / 811, x 520 → 1775, 5 cells of 251
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">Shades Palette</div>
+  <div class="col-l">
+    <p class="t-body">The colour shades help with design variety and can be used freely for
+    sub-elements in communication.</p>
+  </div>
+
+  <!-- row 1 — Brand Orange -->
+  <div class="tile" style="left:520pt;top:160pt;width:1255pt;height:309pt;overflow:hidden;display:flex;">
+    <div style="flex:1;background:#FF6207;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">100%</span></div>
+    <div style="flex:1;background:#FF8139;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">80%</span></div>
+    <div style="flex:1;background:#FFA16B;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">60%</span></div>
+    <div style="flex:1;background:#FFC09D;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">40%</span></div>
+    <div style="flex:1;background:#FEE0CE;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">20%</span></div>
+  </div>
+
+  <!-- row 2 — Ink -->
+  <div class="tile" style="left:520pt;top:485pt;width:1255pt;height:310pt;overflow:hidden;display:flex;">
+    <div style="flex:1;background:#0A0A0A;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">100%</span></div>
+    <div style="flex:1;background:#3B3A38;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">80%</span></div>
+    <div style="flex:1;background:#6C6B66;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">60%</span></div>
+    <div style="flex:1;background:#9D9C95;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">40%</span></div>
+    <div style="flex:1;background:#CECDC3;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">20%</span></div>
+  </div>
+
+  <!-- row 3 — Deep Orange -->
+  <div class="tile" style="left:520pt;top:811pt;width:1255pt;height:309pt;overflow:hidden;display:flex;">
+    <div style="flex:1;background:#CE3000;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">100%</span></div>
+    <div style="flex:1;background:#D85B30;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">80%</span></div>
+    <div style="flex:1;background:#E28660;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#fff;">60%</span></div>
+    <div style="flex:1;background:#EBB091;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">40%</span></div>
+    <div style="flex:1;background:#F5DBC1;position:relative;"><span style="position:absolute;left:24pt;top:22pt;font-size:16pt;color:#0A0A0A;">20%</span></div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 06 / 09</div>
+</section>
+
+<!-- =====================================================================
+     07 — TYPEFACE
+     card 520,160 → 1840,1120 · name 600,227 @128 · weights 1038 / 1294
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title"  style="left:80pt;top:155pt;">Typeface</div>
+  <div class="col-l">
+    <p class="t-body">Our main font is Switzer (Designed by Indian Type Foundry). We use it
+    wherever possible. Switzer is a neutral grotesk with a wide variable range that stays
+    legible at caption sizes and holds its character in display settings.</p>
+    <p class="t-body">Reckless Neue is the accent serif — one phrase per layout, never body
+    copy. If neither font is available, use any system sans-serif.</p>
+  </div>
+
+  <!-- the card -->
+  <div class="card" style="left:520pt;top:160pt;width:1320pt;height:960pt;background:var(--accent-dk);overflow:hidden;">
+    <!-- ghost glyphs, clipped bottom-right -->
+    <div style="position:absolute;left:470pt;top:170pt;font-size:1020pt;line-height:1020pt;font-weight:500;color:#fff;opacity:0.07;letter-spacing:-0.04em;white-space:nowrap;">Aa</div>
+
+    <div style="position:absolute;left:80pt;top:52pt;font-size:128pt;line-height:150pt;font-weight:500;color:#fff;letter-spacing:-0.035em;">Switzer</div>
+
+    <!-- weight rows: template rows at page y 752 and 920 → card-local 592 / 760 -->
+    <div style="position:absolute;left:518pt;top:586pt;font-size:32pt;line-height:40pt;font-weight:400;color:#fff;">Regular</div>
+    <div style="position:absolute;left:774pt;top:586pt;font-size:32pt;line-height:40pt;font-weight:400;color:#fff;">
+      ABCDEFGHIJKLMNOPQRSTUVW<br>XYZ abcdefghijklmnopqrstuvwxyz<br>1234567890&amp;#$€%@!?*
+    </div>
+
+    <div style="position:absolute;left:518pt;top:754pt;font-size:32pt;line-height:40pt;font-weight:600;color:#fff;">Semibold</div>
+    <div style="position:absolute;left:774pt;top:754pt;font-size:32pt;line-height:40pt;font-weight:600;color:#fff;">
+      ABCDEFGHIJKLMNOPQRSTUVW<br>XYZ abcdefghijklmnopqrstuvwxyz<br>1234567890&amp;#$€%@!?*
+    </div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 07 / 09</div>
+</section>
+
+<!-- =====================================================================
+     08 — TYPE HIERARCHY
+     spec column x=520 · sample column x=941 · rows 242 / 434 / 594 / 742 / 878
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">Typeface</div>
+  <div class="col-l">
+    <p class="t-body">Our main font is Switzer (Designed by Indian Type Foundry). We use it
+    wherever possible. Switzer is a neutral grotesk with a wide variable range that stays
+    legible at caption sizes and holds its character in display settings.</p>
+    <p class="t-body">Reckless Neue is the accent serif — one phrase per layout, never body
+    copy. If neither font is available, use any system sans-serif.</p>
+  </div>
+
+  <div class="a t-sub" style="left:520pt;top:157pt;">Headlines</div>
+
+  <!-- row 1 -->
+  <div class="a t-spec" style="left:520pt;top:238pt;">Headline 1<br>Switzer Semibold<br>Size: 64pt / 64pt. Tracking: -3%</div>
+  <div class="a" style="left:941pt;top:230pt;font-size:64pt;line-height:68pt;font-weight:600;letter-spacing:-0.03em;">
+    Unleash your<br><span style="font-family:'RecklessNeue',Georgia,serif;font-weight:500;color:var(--accent-dk);">digital potential</span>
+  </div>
+
+  <!-- row 2 -->
+  <div class="a t-spec" style="left:520pt;top:430pt;">Headline 2<br>Switzer Semibold<br>Size: 48pt / 48pt. Tracking: -3%</div>
+  <div class="a" style="left:941pt;top:424pt;font-size:48pt;line-height:52pt;font-weight:600;letter-spacing:-0.028em;">
+    We lead digital projects built<br>for measurable results
+  </div>
+
+  <!-- row 3 -->
+  <div class="a t-spec" style="left:520pt;top:590pt;">Headline 3<br>Switzer Medium<br>Size: 36pt / 43pt. Tracking: -2%</div>
+  <div class="a" style="left:941pt;top:584pt;font-size:36pt;line-height:43pt;font-weight:500;letter-spacing:-0.02em;">
+    Need a quote?<br>Book a 30-minute call.
+  </div>
+
+  <!-- row 4 -->
+  <div class="a t-spec" style="left:520pt;top:738pt;">Headline 4<br>Switzer Semibold<br>Size: 28pt / 36pt. Tracking: -2%</div>
+  <div class="a" style="left:941pt;top:732pt;font-size:28pt;line-height:36pt;font-weight:600;letter-spacing:-0.018em;">
+    What you get at the end of<br>every project:
+  </div>
+
+  <!-- row 5 -->
+  <div class="a t-spec" style="left:520pt;top:874pt;">Subheadline<br>Switzer Regular<br>Size: 24pt / 32pt. Tracking: -1%</div>
+  <div class="a" style="left:941pt;top:868pt;font-size:24pt;line-height:32pt;font-weight:400;letter-spacing:-0.008em;width:760pt;">
+    On final payment the code, the designs and the data belong to you — no license
+    traps, no technical dependency, and 30 days of post-launch support included.
+  </div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 08 / 09</div>
+</section>
+
+<!-- =====================================================================
+     09 — KEY ELEMENTS
+     tiles 419×350 at x 520 / 971 / 1422, y 160 / 640 · captions +23
+     ===================================================================== -->
+<section class="pg">
+  <div class="a t-title" style="left:80pt;top:155pt;">Key Elements</div>
+  <div class="col-l">
+    <p class="t-body">These are the parts that make a layout recognisably ours. Used together
+    they carry the brand without the logo having to do the work.</p>
+    <p class="t-body">Each element is defined once, in the website repository, and reused —
+    never redrawn by hand for a single piece of communication.</p>
+  </div>
+
+  <!-- row 1 -->
+  <div class="tile" style="left:520pt;top:160pt;width:419pt;height:350pt;background:#fff;display:flex;align-items:center;justify-content:center;">
+    <svg style="width:130pt;height:130pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+  </div>
+  <div class="a t-cap" style="left:520pt;top:530pt;">The mark</div>
+
+  <div class="tile" style="left:971pt;top:160pt;width:419pt;height:350pt;background:#fff;display:flex;align-items:center;justify-content:center;">
+    <div style="position:relative;width:180pt;height:180pt;background:rgba(255,98,7,0.10);display:flex;align-items:center;justify-content:center;">
+      <div style="position:absolute;left:30pt;top:30pt;width:120pt;height:120pt;border:1.5pt dashed #FF6207;"></div>
+      <svg style="width:120pt;height:120pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+    </div>
+  </div>
+  <div class="a t-cap" style="left:971pt;top:530pt;">Clear space</div>
+
+  <div class="tile" style="left:1422pt;top:160pt;width:419pt;height:350pt;background:#fff;display:flex;align-items:center;justify-content:center;">
+    <span style="display:inline-flex;align-items:center;gap:16pt;background:var(--accent-dk);color:#fff;border-radius:100pt;padding:12pt 12pt 12pt 30pt;font-size:26pt;font-weight:300;">
+      Book a call
+      <span style="width:44pt;height:44pt;border-radius:50%;background:#fff;color:#0A0A0A;display:inline-flex;align-items:center;justify-content:center;font-size:26pt;">›</span>
+    </span>
+  </div>
+  <div class="a t-cap" style="left:1422pt;top:530pt;">The pill</div>
+
+  <!-- row 2 -->
+  <div class="tile" style="left:520pt;top:640pt;width:419pt;height:350pt;background:#fff;display:flex;align-items:center;justify-content:center;">
+    <div style="font-size:44pt;line-height:50pt;font-weight:600;letter-spacing:-0.03em;text-align:center;">
+      Unleash your<br><span style="font-family:'RecklessNeue',Georgia,serif;font-weight:500;color:var(--accent-dk);">digital potential</span>
+    </div>
+  </div>
+  <div class="a t-cap" style="left:520pt;top:1010pt;">Accent phrase</div>
+
+  <div class="tile" style="left:971pt;top:640pt;width:419pt;height:350pt;background:#fff;display:flex;flex-direction:column;justify-content:center;gap:26pt;padding:0 50pt;">
+    <div style="height:1pt;background:var(--hair);"></div>
+    <div style="font-size:20pt;color:#404040;">One weight. One colour. Rules divide — they never decorate.</div>
+    <div style="height:1pt;background:var(--hair);"></div>
+  </div>
+  <div class="a t-cap" style="left:971pt;top:1010pt;">Hairline</div>
+
+  <div class="tile" style="left:1422pt;top:640pt;width:419pt;height:350pt;background:var(--ink);display:flex;align-items:center;justify-content:center;gap:18pt;">
+    <svg style="width:70pt;height:70pt;" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+    <span style="font-size:42pt;font-weight:600;letter-spacing:-0.03em;color:#fff;">arcaniStudio</span>
+  </div>
+  <div class="a t-cap" style="left:1422pt;top:1010pt;">Dark surface</div>
+
+  <div class="rule"></div>
+  <div class="f-l">arcanistudio.com</div>
+  <div class="f-r">page 09 / 09</div>
+</section>
+
+</body>
+</html>

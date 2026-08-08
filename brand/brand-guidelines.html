@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>arcaniStudio — Brand Guidelines</title>
+<link rel="stylesheet" href="_fonts.css">
+<style>
+/* ==========================================================================
+   arcaniStudio — Brand Guidelines
+   Print target: A4 landscape (297 × 210 mm), rendered via Chrome --print-to-pdf
+   Tokens mirrored from src/styles/global.css @theme inline
+   ========================================================================== */
+
+:root {
+  --cream: #F8F6F1;
+  --white: #FFFFFF;
+  --black: #000000;
+  --ink: #0A0A0A;
+  --p925: #0F0F0F;
+  --p900: #171717;
+  --p850: #212121;
+  --p800: #262626;
+  --p700: #404040;
+  --p600: #525252;
+  --p500: #737373;
+  --p400: #A1A1A1;
+  --p300: #D4D4D4;
+  --p200: #E5E5E5;
+  --p100: #F5F5F5;
+  --p50:  #FAFAFA;
+
+  --o100: #FFEAD2;
+  --o200: #FFD2A4;
+  --o300: #FFB16B;
+  --o400: #FF852F;
+  --o500: #FF6207;
+  --o600: #F94500;
+  --o700: #CE3000;
+
+  --ai: #6308E2;
+  --cosmos: #330014;
+  --carmine: #A10012;
+  --spanish: #DF5B00;
+  --yellow: #FAAF01;
+  --papaya: #FAEACD;
+  --success: #158C41;
+
+  --rule: #E3DFD6;
+  --rule-dark: rgba(255,255,255,0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page { size: 297mm 210mm; margin: 0; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  font-family: 'Switzer', system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--p300);
+  font-feature-settings: 'ss01' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  position: relative;
+  width: 297mm;
+  height: 210mm;
+  overflow: hidden;
+  background: var(--cream);
+  padding: 15mm 18mm 13mm;
+  display: flex;
+  flex-direction: column;
+  break-after: page;
+  page-break-after: always;
+}
+.page:last-child { break-after: auto; page-break-after: auto; }
+
+.page--dark { background: var(--ink); color: var(--white); }
+
+/* ---------- running head / foot ---------- */
+.rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 6.6pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--p500);
+  padding-bottom: 3.5mm;
+  border-bottom: 0.4pt solid var(--rule);
+  margin-bottom: 9mm;
+  flex: none;
+}
+.rail__brand { display: flex; align-items: center; gap: 2.4mm; }
+.rail__brand svg { width: 3.2mm; height: 3.2mm; color: var(--ink); }
+.page--dark .rail { color: var(--p500); border-color: var(--rule-dark); }
+.page--dark .rail__brand svg { color: var(--white); }
+
+.folio {
+  position: absolute;
+  left: 18mm; right: 18mm; bottom: 8mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 6.6pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--p400);
+}
+.folio b { font-weight: 500; color: var(--p600); font-variant-numeric: tabular-nums; }
+.page--dark .folio { color: var(--p600); }
+.page--dark .folio b { color: var(--p400); }
+
+/* ---------- headings ---------- */
+.h-sec {
+  font-size: 25pt;
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+.h-sec em {
+  font-family: 'RecklessNeue', Georgia, serif;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--o700);
+}
+.page--dark .h-sec em { color: var(--o400); }
+
+.lede {
+  font-size: 9.6pt;
+  line-height: 1.5;
+  color: var(--p600);
+  max-width: 118mm;
+  margin-top: 4mm;
+}
+.page--dark .lede { color: var(--p400); }
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12mm;
+  margin-bottom: 9mm;
+  flex: none;
+}
+
+.label {
+  font-size: 6.4pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--p500);
+  margin-bottom: 2.6mm;
+}
+.page--dark .label { color: var(--p500); }
+
+.body { flex: 1; min-height: 0; }
+
+p, li { font-size: 8.6pt; line-height: 1.55; color: var(--p700); }
+.page--dark p, .page--dark li { color: var(--p400); }
+strong { font-weight: 600; color: var(--ink); }
+.page--dark strong { color: var(--white); }
+
+.mono {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 7.1pt;
+  letter-spacing: -0.01em;
+}
+
+hr.hair { border: 0; border-top: 0.4pt solid var(--rule); margin: 5mm 0; }
+.page--dark hr.hair { border-color: var(--rule-dark); }
+
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12mm; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm; }
+.cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7mm; }
+
+/* ==========================================================================
+   Cover
+   ========================================================================== */
+.cover { justify-content: space-between; padding: 18mm; }
+.cover__mark { width: 34mm; height: 34mm; color: var(--white); }
+.cover__title {
+  font-size: 44pt;
+  line-height: 0.94;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.cover__title span {
+  display: block;
+  font-family: 'RecklessNeue', Georgia, serif;
+  font-weight: 500;
+  color: var(--o400);
+}
+.cover__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 0.4pt solid var(--rule-dark);
+  padding-top: 5mm;
+  font-size: 7.4pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--p500);
+}
+.cover__glow {
+  position: absolute;
+  width: 190mm; height: 120mm;
+  right: -50mm; top: -30mm;
+  background: radial-gradient(ellipse at center, rgba(255,98,7,0.30) 0%, rgba(255,98,7,0.07) 42%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Contents
+   ========================================================================== */
+.toc { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16mm; align-content: start; }
+.toc a, .toc div.toc__row {
+  display: flex; align-items: baseline; gap: 3mm;
+  padding: 2.9mm 0;
+  border-bottom: 0.4pt solid var(--rule);
+  text-decoration: none; color: inherit;
+}
+.toc__num { font-size: 7pt; color: var(--o600); font-weight: 600; width: 7mm; font-variant-numeric: tabular-nums; }
+.toc__name { font-size: 9.4pt; font-weight: 500; color: var(--ink); flex: 1; letter-spacing: -0.01em; }
+.toc__pg { font-size: 7.6pt; color: var(--p500); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   Generic blocks
+   ========================================================================== */
+.card {
+  border: 0.4pt solid var(--rule);
+  border-radius: 3mm;
+  padding: 5mm;
+  background: var(--white);
+}
+/* equal-height cards only when they sit directly in a card row */
+.cols-3 > .card, .cols-4 > .card { height: 100%; }
+.page--dark .card { background: var(--p900); border-color: var(--rule-dark); }
+
+.card h4 { font-size: 9.6pt; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 2mm; }
+.card p { font-size: 8.2pt; }
+
+.stack > * + * { margin-top: 3.8mm; }
+.stack-s > * + * { margin-top: 2.2mm; }
+
+.kv { display: grid; grid-template-columns: 30mm 1fr; gap: 3mm 5mm; }
+.kv dt { font-size: 6.8pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--p500); font-weight: 600; padding-top: 0.6mm; }
+.kv dd { font-size: 8.6pt; line-height: 1.5; color: var(--p700); }
+
+/* do / don't */
+.dd { border-radius: 3mm; padding: 4.2mm 5mm; border: 0.4pt solid var(--rule); background: var(--white); }
+.dd__tag {
+  display: inline-flex; align-items: center; gap: 1.8mm;
+  font-size: 6.4pt; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase;
+  margin-bottom: 2.2mm;
+}
+.dd--do .dd__tag { color: var(--success); }
+.dd--no .dd__tag { color: var(--o700); }
+.dd__tag i {
+  width: 3.2mm; height: 3.2mm; border-radius: 50%; display: inline-block;
+  font-style: normal; font-size: 5pt; line-height: 3.2mm; text-align: center; color: var(--white);
+}
+.dd--do .dd__tag i { background: var(--success); }
+.dd--no .dd__tag i { background: var(--o700); }
+.dd p { font-size: 8.4pt; color: var(--p800); }
+.dd p.quote { font-size: 9pt; line-height: 1.45; color: var(--ink); }
+.dd--no p.quote { color: var(--p600); text-decoration: line-through; text-decoration-color: rgba(206,48,0,0.35); }
+
+/* ==========================================================================
+   Colour
+   ========================================================================== */
+.swatch { border-radius: 2.5mm; overflow: hidden; border: 0.4pt solid rgba(0,0,0,0.07); }
+.swatch__chip { height: 26mm; }
+.swatch__meta { padding: 3mm 3.2mm 3.5mm; background: var(--white); }
+.page--dark .swatch__meta { background: var(--p900); }
+.swatch__hex { font-family: ui-monospace,'SF Mono',Menlo,monospace; font-size: 7.4pt; font-weight: 500; letter-spacing: -0.01em; }
+.swatch__tok { font-size: 6.2pt; color: var(--p500); margin-top: 1mm; letter-spacing: 0.02em; }
+.swatch__use { font-size: 6.4pt; color: var(--p600); margin-top: 1.6mm; line-height: 1.35; }
+.page--dark .swatch__use { color: var(--p500); }
+
+.ratio { display: flex; height: 12mm; border-radius: 2mm; overflow: hidden; }
+.ratio > div { display: flex; align-items: center; padding-left: 3mm; font-size: 6.6pt; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; }
+
+/* tables */
+table { width: 100%; border-collapse: collapse; }
+th {
+  font-size: 6.4pt; letter-spacing: 0.09em; text-transform: uppercase; color: var(--p500);
+  text-align: left; font-weight: 600; padding: 0 3mm 2.4mm 0; border-bottom: 0.5pt solid var(--rule);
+}
+td { font-size: 8.1pt; color: var(--p700); padding: 2mm 3mm 2mm 0; border-bottom: 0.4pt solid var(--rule); vertical-align: middle; }
+td.t-ink { color: var(--ink); font-weight: 500; }
+.page--dark th { color: var(--p600); border-color: var(--rule-dark); }
+.page--dark td { color: var(--p400); border-color: var(--rule-dark); }
+
+.pill {
+  display: inline-block; font-size: 6.2pt; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0.9mm 2.2mm; border-radius: 4mm;
+}
+.pill--pass { background: rgba(21,140,65,0.12); color: var(--success); }
+.pill--large { background: rgba(250,175,1,0.18); color: #8A5D00; }
+.pill--fail { background: rgba(206,48,0,0.12); color: var(--o700); }
+
+/* ==========================================================================
+   Logo pages
+   ========================================================================== */
+.tile {
+  border-radius: 3mm; border: 0.4pt solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  height: 34mm; position: relative; overflow: hidden;
+}
+.tile svg { width: 13mm; height: 13mm; }
+.tile__cap { font-size: 6.4pt; color: var(--p600); margin-top: 2.2mm; line-height: 1.4; }
+.tile-wrap p.tile__cap b { color: var(--ink); font-weight: 600; }
+
+.no-tile { border-radius: 3mm; border: 0.4pt solid var(--rule); background: var(--white); height: 30mm; display:flex; align-items:center; justify-content:center; position: relative; overflow: hidden; }
+.no-tile__x {
+  position: absolute; top: 2mm; right: 2mm;
+  width: 4.6mm; height: 4.6mm; border-radius: 50%;
+  background: var(--o700); color: var(--white);
+  font-size: 6pt; line-height: 4.6mm; text-align: center; font-weight: 600;
+}
+
+/* ==========================================================================
+   Type specimens
+   ========================================================================== */
+.spec { border-top: 0.5pt solid var(--rule); padding-top: 4mm; }
+.spec__name { font-size: 15pt; font-weight: 600; letter-spacing: -0.02em; }
+.spec__role { font-size: 6.6pt; letter-spacing: 0.09em; text-transform: uppercase; color: var(--o600); font-weight: 600; margin-top: 1.4mm; }
+.spec__glyphs { font-size: 17pt; line-height: 1.25; letter-spacing: -0.015em; color: var(--ink); margin-top: 3mm; }
+.spec__note { font-size: 7.4pt; color: var(--p600); line-height: 1.5; margin-top: 2.5mm; }
+.f-switzer { font-family: 'Switzer', sans-serif; }
+.f-clash { font-family: 'ClashDisplay', sans-serif; }
+.f-reckless { font-family: 'RecklessNeue', Georgia, serif; }
+
+/* ==========================================================================
+   Interface samples
+   ========================================================================== */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 3mm;
+  background: var(--o600); color: var(--white);
+  border-radius: 20mm; padding: 2mm 2mm 2mm 5mm;
+  font-size: 8.4pt; font-weight: 300;
+}
+.btn-primary i {
+  width: 6.4mm; height: 6.4mm; border-radius: 50%; background: var(--white);
+  display: inline-flex; align-items: center; justify-content: center; font-style: normal;
+  color: var(--ink); font-size: 8pt; font-weight: 400;
+}
+.badge-row {
+  display: inline-flex; align-items: center; gap: 2mm;
+  border: 0.4pt solid var(--p200); background: var(--white);
+  border-radius: 20mm; padding: 1.2mm 3mm; font-size: 7pt; color: var(--p600);
+}
+.badge-new {
+  display: inline-flex; align-items: center; background: var(--o500); color: var(--white);
+  border-radius: 20mm; padding: 0.6mm 2mm; font-size: 5.4pt; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.sample-note { font-size: 6.6pt; color: var(--p500); line-height: 1.45; margin-top: 2.4mm; }
+
+.bar { height: 3mm; border-radius: 1.5mm; background: var(--o500); }
+
+.grid-demo {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.6mm; height: 22mm;
+}
+.grid-demo div { background: rgba(255,98,7,0.13); border-radius: 1mm; }
+</style>
+</head>
+<body>
+
+<!-- ======================================================================
+     01 — COVER
+     ====================================================================== -->
+<section class="page page--dark cover">
+  <div class="cover__glow"></div>
+  <svg class="cover__mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg>
+
+  <div>
+    <p style="font-size:7.6pt;letter-spacing:0.14em;text-transform:uppercase;color:var(--p500);margin-bottom:5mm;">arcaniStudio</p>
+    <h1 class="cover__title">Brand<br><span>Guidelines</span></h1>
+    <p style="font-size:9.6pt;color:var(--p400);max-width:96mm;margin-top:6mm;line-height:1.5;">
+      How the mark, the palette, the type and the voice hold together — across the website, proposals, social, and everything we ship for clients.
+    </p>
+  </div>
+
+  <div class="cover__meta">
+    <span>Version 1.0 &nbsp;·&nbsp; August 2026</span>
+    <span>arcanistudio.com</span>
+  </div>
+</section>
+
+<!-- ======================================================================
+     02 — CONTENTS
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>Contents</span>
+  </div>
+
+  <div class="head">
+    <h2 class="h-sec">What's <em>inside</em></h2>
+  </div>
+
+  <div class="body">
+    <div class="toc">
+      <div class="toc__row"><span class="toc__num">01</span><span class="toc__name">Foundation</span><span class="toc__pg">03</span></div>
+      <div class="toc__row"><span class="toc__num">10</span><span class="toc__name">Colour in use</span><span class="toc__pg">12</span></div>
+      <div class="toc__row"><span class="toc__num">02</span><span class="toc__name">Personality &amp; voice</span><span class="toc__pg">04</span></div>
+      <div class="toc__row"><span class="toc__num">11</span><span class="toc__name">Contrast &amp; accessibility</span><span class="toc__pg">13</span></div>
+      <div class="toc__row"><span class="toc__num">03</span><span class="toc__name">Voice in practice</span><span class="toc__pg">05</span></div>
+      <div class="toc__row"><span class="toc__num">12</span><span class="toc__name">Typefaces</span><span class="toc__pg">14</span></div>
+      <div class="toc__row"><span class="toc__num">04</span><span class="toc__name">The mark</span><span class="toc__pg">06</span></div>
+      <div class="toc__row"><span class="toc__num">13</span><span class="toc__name">Type scale</span><span class="toc__pg">15</span></div>
+      <div class="toc__row"><span class="toc__num">05</span><span class="toc__name">Clear space &amp; minimum size</span><span class="toc__pg">07</span></div>
+      <div class="toc__row"><span class="toc__num">14</span><span class="toc__name">Layout, spacing &amp; radius</span><span class="toc__pg">16</span></div>
+      <div class="toc__row"><span class="toc__num">06</span><span class="toc__name">The mark on backgrounds</span><span class="toc__pg">08</span></div>
+      <div class="toc__row"><span class="toc__num">15</span><span class="toc__name">Motion</span><span class="toc__pg">17</span></div>
+      <div class="toc__row"><span class="toc__num">07</span><span class="toc__name">Logo misuse</span><span class="toc__pg">09</span></div>
+      <div class="toc__row"><span class="toc__num">16</span><span class="toc__name">Imagery &amp; client logos</span><span class="toc__pg">18</span></div>
+      <div class="toc__row"><span class="toc__num">08</span><span class="toc__name">Primary — brand orange</span><span class="toc__pg">10</span></div>
+      <div class="toc__row"><span class="toc__num">17</span><span class="toc__name">Interface elements</span><span class="toc__pg">19</span></div>
+      <div class="toc__row"><span class="toc__num">09</span><span class="toc__name">Neutrals &amp; surfaces</span><span class="toc__pg">11</span></div>
+      <div class="toc__row"><span class="toc__num">18</span><span class="toc__name">What we avoid</span><span class="toc__pg">20</span></div>
+    </div>
+
+    <p style="margin-top:10mm;font-size:7.8pt;color:var(--p500);max-width:150mm;line-height:1.5;">
+      Every value in this document is the live value in <span class="mono">src/styles/global.css</span>. If a token changes there, it changes here — the code is the source of truth, this book is the explanation.
+    </p>
+  </div>
+
+  <div class="folio"><span>arcaniStudio</span><b>02</b></div>
+</section>
+
+<!-- ======================================================================
+     03 — FOUNDATION
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>01 · Foundation</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">The <em>foundation</em></h2>
+      <p class="lede">Everything else in this book — the orange, the serif, the spacing — only makes sense if this part is agreed on first.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div class="stack">
+      <div>
+        <p class="label">What we are</p>
+        <p>A web and app development agency serving founders and brands in Algeria and internationally. Design, code, testing and deployment handled end to end — one team, no handoffs.</p>
+      </div>
+      <div>
+        <p class="label">Who we serve</p>
+        <p>Founders and product leads at funded and early-stage startups who are comparing agencies. They want to feel we're technically sharp and won't hand them something generic.</p>
+      </div>
+      <div>
+        <p class="label">What we promise</p>
+        <p>Measurable results, not deliverables: fast load times, clean semantic structure, technical SEO from the first commit. Full ownership of code, design and data on final payment.</p>
+      </div>
+      <div>
+        <p class="label">Tagline</p>
+        <p style="font-family:'RecklessNeue',Georgia,serif;font-size:14pt;color:var(--ink);line-height:1.2;">Digital Solutions With&nbsp;Purpose</p>
+        <p style="font-size:7.4pt;color:var(--p500);margin-top:2mm;">FR — <em style="font-style:normal;font-family:'RecklessNeue',serif;">Des solutions digitales qui ont du sens</em></p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h4>Writing the name</h4>
+        <p style="margin-bottom:3mm;">One word. Lowercase <strong>a</strong>, capital <strong>S</strong>. It stays lowercase even at the start of a sentence — that's the point of it.</p>
+        <table>
+          <tr><td class="t-ink" style="width:50%;">arcaniStudio</td><td><span class="pill pill--pass">correct</span></td></tr>
+          <tr><td>Arcani Studio</td><td><span class="pill pill--fail">never</span></td></tr>
+          <tr><td>ArcaniStudio</td><td><span class="pill pill--fail">never</span></td></tr>
+          <tr><td>ARCANISTUDIO</td><td><span class="pill pill--fail">never</span></td></tr>
+          <tr style="border:0;"><td style="border:0;">arcani studio</td><td style="border:0;"><span class="pill pill--fail">never</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4>Design principles</h4>
+        <ol style="padding-left:4.5mm;">
+          <li style="margin-bottom:2mm;"><strong>Editorial restraint.</strong> Typography and spacing carry the hierarchy — not decoration.</li>
+          <li style="margin-bottom:2mm;"><strong>One accent.</strong> Brand orange, used deliberately, once per view.</li>
+          <li style="margin-bottom:2mm;"><strong>Break the centre reflex.</strong> Asymmetric and considered beats symmetric and safe.</li>
+          <li style="margin-bottom:2mm;"><strong>Plain, specific copy.</strong> Numbers over adjectives. No buzzwords.</li>
+          <li><strong>Intentional light and dark.</strong> Both surfaces are in use; the transition between them is a decision, not an accident.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Foundation</span><b>03</b></div>
+</section>
+
+<!-- ======================================================================
+     04 — PERSONALITY & VOICE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>02 · Personality &amp; voice</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Warm, editorial, <em>crafted</em></h2>
+      <p class="lede">Confident and premium — not corporate. Typographic and considered — not loud or templated.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="cols-4" style="margin-bottom:9mm;">
+      <div class="card"><h4>Warm</h4><p>Cream surfaces, a human orange, plain words. We sound like people who answer the phone.</p></div>
+      <div class="card"><h4>Editorial</h4><p>Pages read like a well-set article: rhythm, whitespace, hairline rules, real hierarchy.</p></div>
+      <div class="card"><h4>Crafted</h4><p>The details are the argument. Nothing shipped that we wouldn't put in the portfolio.</p></div>
+      <div class="card"><h4>Direct</h4><p>Specific claims with numbers attached. If we can't back it, we don't say it.</p></div>
+    </div>
+
+    <p class="label">Where we sit</p>
+    <div class="stack-s" style="max-width:210mm;">
+      <div style="display:grid;grid-template-columns:34mm 1fr 34mm;align-items:center;gap:4mm;">
+        <span style="font-size:7.2pt;color:var(--p500);text-align:right;">Formal</span>
+        <div style="position:relative;height:0.6mm;background:var(--p200);border-radius:1mm;">
+          <span style="position:absolute;left:64%;top:-1.7mm;width:4mm;height:4mm;border-radius:50%;background:var(--o500);"></span>
+        </div>
+        <span style="font-size:7.2pt;color:var(--p500);">Conversational</span>
+      </div>
+      <div style="display:grid;grid-template-columns:34mm 1fr 34mm;align-items:center;gap:4mm;">
+        <span style="font-size:7.2pt;color:var(--p500);text-align:right;">Matter-of-fact</span>
+        <div style="position:relative;height:0.6mm;background:var(--p200);border-radius:1mm;">
+          <span style="position:absolute;left:22%;top:-1.7mm;width:4mm;height:4mm;border-radius:50%;background:var(--o500);"></span>
+        </div>
+        <span style="font-size:7.2pt;color:var(--p500);">Poetic</span>
+      </div>
+      <div style="display:grid;grid-template-columns:34mm 1fr 34mm;align-items:center;gap:4mm;">
+        <span style="font-size:7.2pt;color:var(--p500);text-align:right;">Reserved</span>
+        <div style="position:relative;height:0.6mm;background:var(--p200);border-radius:1mm;">
+          <span style="position:absolute;left:48%;top:-1.7mm;width:4mm;height:4mm;border-radius:50%;background:var(--o500);"></span>
+        </div>
+        <span style="font-size:7.2pt;color:var(--p500);">Enthusiastic</span>
+      </div>
+      <div style="display:grid;grid-template-columns:34mm 1fr 34mm;align-items:center;gap:4mm;">
+        <span style="font-size:7.2pt;color:var(--p500);text-align:right;">Plain</span>
+        <div style="position:relative;height:0.6mm;background:var(--p200);border-radius:1mm;">
+          <span style="position:absolute;left:14%;top:-1.7mm;width:4mm;height:4mm;border-radius:50%;background:var(--o500);"></span>
+        </div>
+        <span style="font-size:7.2pt;color:var(--p500);">Technical jargon</span>
+      </div>
+    </div>
+
+    <hr class="hair" style="margin-top:9mm;">
+
+    <div class="cols-2">
+      <div>
+        <p class="label">Words we use</p>
+        <p>ship · build · own · scope · audit · handoff · milestone · discovery call · measurable · 7–10 business days</p>
+      </div>
+      <div>
+        <p class="label">Words we don't</p>
+        <p style="color:var(--p500);">leverage · synergy · seamless · cutting-edge · game-changing · revolutionary · best-in-class · robust solutions · digital transformation journey · unlock</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Personality &amp; voice</span><b>04</b></div>
+</section>
+
+<!-- ======================================================================
+     05 — VOICE IN PRACTICE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>03 · Voice in practice</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Say the <em>specific</em> thing</h2>
+      <p class="lede">Left column is live site copy. Right column is what the same idea sounds like when it goes generic.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div class="stack-s">
+      <div class="dd dd--do">
+        <span class="dd__tag"><i>✓</i> Write this</span>
+        <p class="quote">“A landing page ships in 7–10 business days, a full website in 3–5 weeks.”</p>
+      </div>
+      <div class="dd dd--do">
+        <span class="dd__tag"><i>✓</i> Write this</span>
+        <p class="quote">“Book a 30-minute call. No pitch decks, no commitment — just the fastest path from idea to launch.”</p>
+      </div>
+      <div class="dd dd--do">
+        <span class="dd__tag"><i>✓</i> Write this</span>
+        <p class="quote">“On final payment, the code, designs and data belong to you. No license traps.”</p>
+      </div>
+      <div class="dd dd--do">
+        <span class="dd__tag"><i>✓</i> Write this</span>
+        <p class="quote">“We dig into your users, competitors and constraints before touching a pixel.”</p>
+      </div>
+    </div>
+
+    <div class="stack-s">
+      <div class="dd dd--no">
+        <span class="dd__tag"><i>✕</i> Not this</span>
+        <p class="quote">“Lightning-fast turnaround times tailored to your needs.”</p>
+      </div>
+      <div class="dd dd--no">
+        <span class="dd__tag"><i>✕</i> Not this</span>
+        <p class="quote">“Let's connect and explore how we can synergize on your digital transformation journey.”</p>
+      </div>
+      <div class="dd dd--no">
+        <span class="dd__tag"><i>✕</i> Not this</span>
+        <p class="quote">“We offer industry-leading, client-first ownership terms.”</p>
+      </div>
+      <div class="dd dd--no">
+        <span class="dd__tag"><i>✕</i> Not this</span>
+        <p class="quote">“Our proven, holistic discovery framework unlocks your true potential.”</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex:none;border-top:0.5pt solid var(--rule);padding-top:4.5mm;margin-top:6mm;">
+    <div class="cols-3">
+      <div><p class="label">Rule of thumb</p><p>If a competitor could paste the sentence onto their own site unchanged, it isn't ours. Rewrite it with a number, a name, or a constraint.</p></div>
+      <div><p class="label">Sentence length</p><p>Short first sentence. Then one longer one that carries the detail. Em dashes for the aside, not semicolons.</p></div>
+      <div><p class="label">Bilingual</p><p>English and French are peers, not translations. French copy is written for French readers — same shape, same key count, never machine-translated.</p></div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Voice in practice</span><b>05</b></div>
+</section>
+
+<!-- ======================================================================
+     06 — THE MARK
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>04 · The mark</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">One path, four <em>quadrants</em></h2>
+      <p class="lede">A pinwheel cut from a 256 × 256 square. Each quadrant is a square with one corner carved by an arc — the carve alternates direction, so the shape turns without ever rotating.</p>
+    </div>
+  </div>
+
+  <div class="body" style="display:grid;grid-template-columns:1fr 88mm;gap:14mm;align-items:start;">
+    <div style="display:flex;gap:10mm;align-items:flex-start;">
+      <div style="flex:none;width:74mm;">
+        <svg viewBox="-8 -8 272 272" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- construction grid -->
+          <g stroke="#D4D4D4" stroke-width="0.75" fill="none">
+            <rect x="0" y="0" width="256" height="256"/>
+            <line x1="128" y1="0" x2="128" y2="256"/>
+            <line x1="0" y1="128" x2="256" y2="128"/>
+          </g>
+          <g stroke="#FF6207" stroke-width="0.75" fill="none" stroke-dasharray="4 3" opacity="0.85">
+            <circle cx="128" cy="128" r="100"/>
+            <circle cx="128" cy="128" r="128"/>
+          </g>
+          <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/>
+        </svg>
+        <p style="font-size:6.4pt;color:var(--p500);margin-top:2.5mm;line-height:1.4;">Construction — 256 unit artboard, arc radii <b style="color:var(--o700);">r100</b> and <b style="color:var(--o700);">r128</b> struck from centre.</p>
+      </div>
+
+      <div style="flex:1;">
+        <svg viewBox="0 0 256 256" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        <p style="font-size:6.4pt;color:var(--p500);margin-top:2.5mm;line-height:1.4;">The mark — primary lockup, ink on cream.</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">Specification</p>
+        <dl class="kv">
+          <dt>Artboard</dt><dd>256 × 256, square, no padding baked in</dd>
+          <dt>Geometry</dt><dd>Single closed path — no strokes, no compound shapes, no groups</dd>
+          <dt>Fill</dt><dd><span class="mono">currentColor</span>, so the mark inherits text colour anywhere it's placed</dd>
+          <dt>Arc radii</dt><dd><span class="mono">100</span> (inner carve) and <span class="mono">128</span> (outer carve)</dd>
+          <dt>Corner offset</dt><dd><span class="mono">28</span> units — the flat left on each carved corner</dd>
+          <dt>File</dt><dd><span class="mono">public/logo.svg</span> · component <span class="mono">src/components/Logo.astro</span></dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h4>Wordmark</h4>
+        <p>There is no drawn wordmark. When the name is set beside the mark, it is <strong>Switzer Semibold</strong>, optical size matched to the mark's height, with a gap equal to half the mark width.</p>
+        <div style="display:flex;align-items:center;gap:4mm;margin-top:4mm;padding:4mm 0;border-top:0.4pt solid var(--rule);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="8mm" height="8mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+          <span style="font-size:15pt;font-weight:600;letter-spacing:-0.025em;">arcaniStudio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>The mark</span><b>06</b></div>
+</section>
+
+<!-- ======================================================================
+     07 — CLEAR SPACE & MINIMUM SIZE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>05 · Clear space &amp; size</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Give it <em>room</em></h2>
+      <p class="lede">The mark is dense and geometric. It reads badly when something else crowds the carved corners.</p>
+    </div>
+  </div>
+
+  <div class="body" style="display:grid;grid-template-columns:1fr 1fr;gap:14mm;">
+    <div>
+      <p class="label">Clear space = ¼ of the mark width</p>
+      <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;display:flex;justify-content:center;">
+        <svg viewBox="0 0 384 384" width="72mm" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="384" height="384" fill="rgba(255,98,7,0.07)"/>
+          <rect x="64" y="64" width="256" height="256" fill="none" stroke="#FF6207" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <g transform="translate(64,64)">
+            <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/>
+          </g>
+          <g fill="#CE3000" font-family="monospace" font-size="17">
+            <text x="24" y="38">64</text>
+            <text x="336" y="356" text-anchor="middle">64</text>
+          </g>
+        </svg>
+      </div>
+      <p style="margin-top:3.5mm;">At the 256 artboard that's <strong>64 units</strong> on every side. Nothing enters that band — no type, no rule, no photo edge, no other logo. The favicon already bakes this in: its viewBox is <span class="mono">-32 -32 320 320</span>, a 12.5% inset for small-size legibility.</p>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">Minimum sizes</p>
+        <div style="display:flex;align-items:flex-end;gap:8mm;border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;">
+          <div style="text-align:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16mm" height="16mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+            <p style="font-size:6pt;color:var(--p500);margin-top:2mm;">64 px</p>
+          </div>
+          <div style="text-align:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="8mm" height="8mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+            <p style="font-size:6pt;color:var(--p500);margin-top:2mm;">32 px</p>
+          </div>
+          <div style="text-align:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="6mm" height="6mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+            <p style="font-size:6pt;color:var(--o700);margin-top:2mm;font-weight:600;">24 px — floor</p>
+          </div>
+          <div style="text-align:center;opacity:0.45;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="4mm" height="4mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+            <p style="font-size:6pt;color:var(--p500);margin-top:2mm;">too small</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>Floors</h4>
+        <table>
+          <tr><td class="t-ink" style="width:42%;">Screen</td><td>24 px minimum</td></tr>
+          <tr><td class="t-ink">Print</td><td>8 mm minimum</td></tr>
+          <tr><td class="t-ink">Favicon</td><td>16 px — use <span class="mono">favicon.svg</span>, which carries its own padding</td></tr>
+          <tr style="border:0;"><td class="t-ink" style="border:0;">Embroidery / etch</td><td style="border:0;">12 mm — the carve closes up below this</td></tr>
+        </table>
+      </div>
+
+      <div>
+        <p class="label">In the header</p>
+        <p><span class="mono">Logo.astro</span> defaults to <span class="mono">h-6 w-6</span> (24 px). That's the floor, not a default to shrink from — if the nav gets denser, keep the mark and drop something else.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Clear space &amp; size</span><b>07</b></div>
+</section>
+
+<!-- ======================================================================
+     08 — MARK ON BACKGROUNDS
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>06 · On backgrounds</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">The mark takes the <em>colour of the text</em></h2>
+      <p class="lede">Because it's filled with <span class="mono" style="font-size:8pt;">currentColor</span>, there is no separate "white version" file to keep in sync. Set the text colour and the mark follows.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="cols-4" style="margin-bottom:8mm;">
+      <div class="tile-wrap">
+        <div class="tile" style="background:#F8F6F1;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>Primary.</b> Ink <span class="mono">#0A0A0A</span> on cream <span class="mono">#F8F6F1</span>. 18.3:1.</p>
+      </div>
+      <div class="tile-wrap">
+        <div class="tile" style="background:#0A0A0A;border-color:#0A0A0A;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+        </div>
+        <p class="tile__cap"><b>Reversed.</b> White on ink. 19.8:1. Used on dark sections and the cover.</p>
+      </div>
+      <div class="tile-wrap">
+        <div class="tile" style="background:#FF6207;border-color:#FF6207;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>On accent.</b> Ink on primary-500 — 6.6:1. Never white on orange.</p>
+      </div>
+      <div class="tile-wrap">
+        <div class="tile" style="background:#FAEACD;border-color:#F0DFC0;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>On papaya.</b> Ink on <span class="mono">#FAEACD</span> — the hero glow tint. 16.7:1.</p>
+      </div>
+    </div>
+
+    <div class="cols-2" style="align-items:start;">
+      <div class="card">
+        <h4>The grey variant</h4>
+        <div style="display:flex;align-items:center;gap:5mm;margin-bottom:3mm;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="11mm" height="11mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#545454"/></svg>
+          <div>
+            <p class="mono" style="font-size:8pt;color:var(--ink);">#545454</p>
+            <p style="font-size:6.6pt;color:var(--p500);">as shipped in <span class="mono">public/logo.svg</span></p>
+          </div>
+        </div>
+        <p>The standalone SVG ships mid-grey so it sits at the same weight as the grayscale client logos in a logo wall. Use it <strong>only</strong> in peer contexts — partner strips, directory listings, footer credit rows. Anywhere the brand speaks for itself, use ink or white.</p>
+      </div>
+
+      <div class="card">
+        <h4>On photography and shaders</h4>
+        <p style="margin-bottom:3mm;">The mark has no built-in container, so it needs the background to do the work. Over a shader gradient or an image, place it on an area that is uniformly light or uniformly dark and clears <strong>4.5:1</strong> against the fill you chose.</p>
+        <p>If you can't find that area, don't add a scrim behind the mark alone — move the mark, or place it on a solid band that runs the full width of the composition.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>On backgrounds</span><b>08</b></div>
+</section>
+
+<!-- ======================================================================
+     09 — MISUSE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>07 · Misuse</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Six ways to <em>break it</em></h2>
+      <p class="lede">The geometry is the identity. Every one of these makes it read as a different mark.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7mm 8mm;">
+      <div>
+        <div class="no-tile">
+          <span class="no-tile__x">✕</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="13mm" height="13mm" style="transform:rotate(18deg);"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>Don't rotate.</b> The pinwheel already implies motion. Turning it just looks like a mistake.</p>
+      </div>
+      <div>
+        <div class="no-tile">
+          <span class="no-tile__x">✕</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="19mm" height="11mm" preserveAspectRatio="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>Don't stretch.</b> Scale proportionally, always. The artboard is square and stays square.</p>
+      </div>
+      <div>
+        <div class="no-tile">
+          <span class="no-tile__x">✕</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="13mm" height="13mm"><defs><linearGradient id="bad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6308E2"/><stop offset="1" stop-color="#FAAF01"/></linearGradient></defs><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="url(#bad)"/></svg>
+        </div>
+        <p class="tile__cap"><b>Don't recolour.</b> Ink, white, or the single grey. Gradients are for backgrounds, never for the mark.</p>
+      </div>
+      <div>
+        <div class="no-tile">
+          <span class="no-tile__x">✕</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 284 284" width="13mm" height="13mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="none" stroke="#0A0A0A" stroke-width="12"/></svg>
+        </div>
+        <p class="tile__cap"><b>Don't outline.</b> It's a filled path. An outlined version loses the solid-to-void relationship entirely.</p>
+      </div>
+      <div>
+        <div class="no-tile">
+          <span class="no-tile__x">✕</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="13mm" height="13mm" style="filter:drop-shadow(2mm 2mm 1.4mm rgba(0,0,0,0.4));"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+        </div>
+        <p class="tile__cap"><b>Don't add effects.</b> No shadow, bevel, glow, or 3D extrude. Flat, always.</p>
+      </div>
+      <div>
+        <div class="no-tile" style="background:#E5E5E5;">
+          <span class="no-tile__x">✕</span>
+          <span style="background:#FFFFFF;border:1pt solid #737373;border-radius:2mm;padding:2.5mm;display:inline-flex;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="9mm" height="9mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#0A0A0A"/></svg>
+          </span>
+        </div>
+        <p class="tile__cap"><b>Don't box it.</b> No holding shape, badge, or plate. Clear space replaces the container.</p>
+      </div>
+    </div>
+
+    <hr class="hair" style="margin-top:7mm;">
+    <p style="font-size:7.8pt;color:var(--p600);">Also: don't redraw it by hand, don't trace it from a screenshot, don't use it as a repeating pattern tile at small scale, and don't set it in a sentence as a letterform substitute.</p>
+  </div>
+
+  <div class="folio"><span>Misuse</span><b>09</b></div>
+</section>
+
+<!-- ======================================================================
+     10 — PRIMARY COLOUR
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>08 · Primary</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Brand <em>orange</em></h2>
+      <p class="lede">One accent, seven steps. <span class="mono" style="font-size:8pt;">primary-500</span> is the brand colour; the rest exist so it can survive different backgrounds and text sizes.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4mm;">
+      <div class="swatch"><div class="swatch__chip" style="background:#FFEAD2;"></div><div class="swatch__meta"><p class="swatch__hex">#FFEAD2</p><p class="swatch__tok">primary-100</p><p class="swatch__use">Tinted surfaces, hover fills on cream</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#FFD2A4;"></div><div class="swatch__meta"><p class="swatch__hex">#FFD2A4</p><p class="swatch__tok">primary-200</p><p class="swatch__use">Dividers and borders inside warm blocks</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#FFB16B;"></div><div class="swatch__meta"><p class="swatch__hex">#FFB16B</p><p class="swatch__tok">primary-300</p><p class="swatch__use">Accent text on dark — 11.1:1 on ink</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#FF852F;"></div><div class="swatch__meta"><p class="swatch__hex">#FF852F</p><p class="swatch__tok">primary-400</p><p class="swatch__use">Accent text and links on dark — 8.2:1</p></div></div>
+      <div class="swatch" style="border-color:#FF6207;"><div class="swatch__chip" style="background:#FF6207;height:26mm;position:relative;"><span style="position:absolute;left:2.6mm;bottom:2.2mm;color:#0A0A0A;font-size:6pt;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">The brand colour</span></div><div class="swatch__meta"><p class="swatch__hex">#FF6207</p><p class="swatch__tok">primary-500</p><p class="swatch__use">Badges, selection, graphic accents, focus</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#F94500;"></div><div class="swatch__meta"><p class="swatch__hex">#F94500</p><p class="swatch__tok">primary-600</p><p class="swatch__use">Solid CTA buttons (large text only)</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#CE3000;"></div><div class="swatch__meta"><p class="swatch__hex">#CE3000</p><p class="swatch__tok">primary-700</p><p class="swatch__use">Accent text on cream, white-on-orange at body size</p></div></div>
+    </div>
+
+    <div class="cols-2" style="margin-top:9mm;align-items:start;">
+      <div>
+        <p class="label">Which step, when</p>
+        <table>
+          <tr><th style="width:34%;">Job</th><th>Step</th></tr>
+          <tr><td class="t-ink">Accent word in a headline on cream</td><td><span class="mono">primary-700</span> — 4.8:1</td></tr>
+          <tr><td class="t-ink">Accent word in a headline on ink</td><td><span class="mono">primary-400</span> — 8.2:1</td></tr>
+          <tr><td class="t-ink">Solid CTA button</td><td><span class="mono">primary-600</span> fill</td></tr>
+          <tr><td class="t-ink">Badge / "new" pill</td><td><span class="mono">primary-500</span> fill, white 5.4 pt semibold</td></tr>
+          <tr><td class="t-ink">Text selection</td><td><span class="mono">primary-500</span> fill, white text</td></tr>
+          <tr style="border:0;"><td class="t-ink" style="border:0;">Body copy, anywhere</td><td style="border:0;">Never orange. Ink or <span class="mono">palette-600</span>.</td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="border-color:#FFD2A4;background:#FFF7EE;">
+        <h4>One live issue worth fixing</h4>
+        <p style="margin-bottom:3mm;">White on <span class="mono">primary-600</span> measures <strong>3.57:1</strong>. That clears WCAG AA for large text (≥ 24 px, or ≥ 18.66 px bold) but <strong>not</strong> for normal-size text.</p>
+        <p style="margin-bottom:3mm;">The hero CTA sets its label at 16 px on <span class="mono">primary-600</span> — so it currently fails AA at that size.</p>
+        <p>Two ways out: raise the label to 24 px, or move the fill to <span class="mono">primary-700</span> (<strong>5.19:1</strong>), which passes at any size and barely shifts the look.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Primary</span><b>10</b></div>
+</section>
+
+<!-- ======================================================================
+     11 — NEUTRALS & SURFACES
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>09 · Neutrals &amp; surfaces</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Neutrals do the <em>heavy lifting</em></h2>
+      <p class="lede">Thirteen greys, one warm cream, one near-black. The orange only works because everything around it is disciplined.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <p class="label">Neutral palette</p>
+    <div style="display:grid;grid-template-columns:repeat(13,1fr);gap:2mm;margin-bottom:7mm;">
+      <div class="swatch"><div class="swatch__chip" style="background:#0A0A0A;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">0A0A0A</p><p class="swatch__tok" style="font-size:5.4pt;">950</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#0F0F0F;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">0F0F0F</p><p class="swatch__tok" style="font-size:5.4pt;">925</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#171717;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">171717</p><p class="swatch__tok" style="font-size:5.4pt;">900</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#212121;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">212121</p><p class="swatch__tok" style="font-size:5.4pt;">850</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#262626;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">262626</p><p class="swatch__tok" style="font-size:5.4pt;">800</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#404040;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">404040</p><p class="swatch__tok" style="font-size:5.4pt;">700</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#525252;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">525252</p><p class="swatch__tok" style="font-size:5.4pt;">600</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#737373;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">737373</p><p class="swatch__tok" style="font-size:5.4pt;">500</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#A1A1A1;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">A1A1A1</p><p class="swatch__tok" style="font-size:5.4pt;">400</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#D4D4D4;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">D4D4D4</p><p class="swatch__tok" style="font-size:5.4pt;">300</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#E5E5E5;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">E5E5E5</p><p class="swatch__tok" style="font-size:5.4pt;">200</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#F5F5F5;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">F5F5F5</p><p class="swatch__tok" style="font-size:5.4pt;">100</p></div></div>
+      <div class="swatch"><div class="swatch__chip" style="background:#FAFAFA;height:20mm;"></div><div class="swatch__meta" style="padding:2mm 1.6mm 2.4mm;"><p class="swatch__hex" style="font-size:5.6pt;">FAFAFA</p><p class="swatch__tok" style="font-size:5.4pt;">50</p></div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9mm;">
+      <div>
+        <p class="label">Surfaces</p>
+        <div class="stack-s">
+          <div style="border:0.4pt solid var(--rule);border-radius:2.5mm;padding:4mm;background:#F8F6F1;">
+            <p class="mono" style="font-size:7.4pt;color:var(--ink);">#F8F6F1</p>
+            <p style="font-size:6.6pt;color:var(--p600);margin-top:1mm;"><b style="color:var(--ink);">background-light</b> — the default page. Warm, not white. Ink text at 18.3:1.</p>
+          </div>
+          <div style="border:0.4pt solid var(--rule);border-radius:2.5mm;padding:4mm;background:#0A0A0A;">
+            <p class="mono" style="font-size:7.4pt;color:#fff;">#0A0A0A</p>
+            <p style="font-size:6.6pt;color:var(--p400);margin-top:1mm;"><b style="color:#fff;">palette-950</b> — dark sections. White headings, <span class="mono">palette-400</span> body at 7.7:1.</p>
+          </div>
+          <div style="border:0.4pt solid var(--rule);border-radius:2.5mm;padding:4mm;background:#FFFFFF;">
+            <p class="mono" style="font-size:7.4pt;color:var(--ink);">#FFFFFF</p>
+            <p style="font-size:6.6pt;color:var(--p600);margin-top:1mm;"><b style="color:var(--ink);">white</b> — cards and pills lifted off the cream. Never the page background.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Gradient accents — backgrounds only</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2.5mm;">
+          <div><div style="height:13mm;border-radius:2mm;background:#6308E2;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">ai-accent<br><span class="mono">#6308E2</span></p></div>
+          <div><div style="height:13mm;border-radius:2mm;background:#330014;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">chocolate-cosmos<br><span class="mono">#330014</span></p></div>
+          <div><div style="height:13mm;border-radius:2mm;background:#A10012;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">carmine<br><span class="mono">#A10012</span></p></div>
+          <div><div style="height:13mm;border-radius:2mm;background:#DF5B00;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">spanish-orange<br><span class="mono">#DF5B00</span></p></div>
+          <div><div style="height:13mm;border-radius:2mm;background:#FAAF01;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">selective-yellow<br><span class="mono">#FAAF01</span></p></div>
+          <div><div style="height:13mm;border-radius:2mm;background:#FAEACD;"></div><p style="font-size:5.8pt;color:var(--p600);margin-top:1.4mm;">papaya-whip<br><span class="mono">#FAEACD</span></p></div>
+        </div>
+        <p style="font-size:6.8pt;color:var(--p600);margin-top:3mm;line-height:1.45;">These belong to the shader gradient and the hero glow. They are <strong>not</strong> UI colours — never use them for text, borders, buttons, or icons.</p>
+      </div>
+
+      <div>
+        <p class="label">Semantic</p>
+        <div style="border:0.4pt solid var(--rule);border-radius:2.5mm;padding:4mm;background:var(--white);">
+          <div style="display:flex;align-items:center;gap:3mm;">
+            <span style="width:7mm;height:7mm;border-radius:1.5mm;background:#158C41;"></span>
+            <div>
+              <p class="mono" style="font-size:7.4pt;color:var(--ink);">#158C41</p>
+              <p style="font-size:6.4pt;color:var(--p500);">success</p>
+            </div>
+          </div>
+          <p style="font-size:6.8pt;color:var(--p600);margin-top:3mm;line-height:1.45;">Form success states only. White on it measures 4.32:1 — pair it with dark text, or use it as an icon/border rather than a filled button with white label.</p>
+        </div>
+        <p style="font-size:6.8pt;color:var(--p600);margin-top:4mm;line-height:1.5;">There is no dedicated error colour. Errors use <span class="mono">primary-700</span> — the brand already reads as a warning red-orange at that step.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Neutrals &amp; surfaces</span><b>11</b></div>
+</section>
+
+<!-- ======================================================================
+     12 — COLOUR IN USE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>10 · Colour in use</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Five percent <em>orange</em></h2>
+      <p class="lede">The accent earns attention by being rare. If two things on a screen are orange, one of them is wrong.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="ratio" style="margin-bottom:2.5mm;">
+      <div style="flex:70;background:#F8F6F1;color:var(--p600);border:0.4pt solid var(--rule);border-right:0;">70% surface</div>
+      <div style="flex:25;background:#0A0A0A;color:var(--p400);">25% ink &amp; grey</div>
+      <div style="flex:5;background:#FF6207;color:#0A0A0A;padding-left:2mm;font-size:5.8pt;">5%</div>
+    </div>
+    <p style="font-size:7.4pt;color:var(--p500);margin-bottom:8mm;">Rough target for any full page or deck. The dark share rises on dark sections; the orange share does not.</p>
+
+    <div class="cols-2" style="align-items:start;">
+      <div class="stack-s">
+        <div class="dd dd--do">
+          <span class="dd__tag"><i>✓</i> Do</span>
+          <p>One primary CTA per view, in <span class="mono">primary-600</span>. Everything else is a text link or a ghost button.</p>
+        </div>
+        <div class="dd dd--do">
+          <span class="dd__tag"><i>✓</i> Do</span>
+          <p>Use the serif accent word in <span class="mono">primary-700</span> to carry the emphasis in a headline — one word or one line, not both halves.</p>
+        </div>
+        <div class="dd dd--do">
+          <span class="dd__tag"><i>✓</i> Do</span>
+          <p>Let cream and ink alternate in long scrolls. Transitions between them are compositional decisions — fade or hard cut, chosen on purpose.</p>
+        </div>
+      </div>
+
+      <div class="stack-s">
+        <div class="dd dd--no">
+          <span class="dd__tag"><i>✕</i> Don't</span>
+          <p>Set body copy, long headings, or nav links in orange. On cream, <span class="mono">primary-500</span> is 2.78:1 — unreadable by AA standards.</p>
+        </div>
+        <div class="dd dd--no">
+          <span class="dd__tag"><i>✕</i> Don't</span>
+          <p>Introduce a second accent hue for a "secondary" action. Secondary means less weight, not a different colour.</p>
+        </div>
+        <div class="dd dd--no">
+          <span class="dd__tag"><i>✕</i> Don't</span>
+          <p>Use orange gradient text, orange drop shadows, or orange section backgrounds behind body copy.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="hair" style="margin-top:7mm;">
+
+    <div class="cols-3">
+      <div><p class="label">On cream</p><p>Ink <span class="mono">#0A0A0A</span> headings · <span class="mono">palette-600</span> body · <span class="mono">palette-200</span> hairlines · white cards · orange accent.</p></div>
+      <div><p class="label">On ink</p><p>White headings · <span class="mono">palette-400</span> body · <span class="mono">white/15</span> hairlines · <span class="mono">palette-900</span> cards · <span class="mono">primary-400</span> accent.</p></div>
+      <div><p class="label">Selection</p><p>Global rule: selected text sits on <span class="mono">primary-500</span> in white. Set once in <span class="mono">::selection</span>; don't override per component.</p></div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Colour in use</span><b>12</b></div>
+</section>
+
+<!-- ======================================================================
+     13 — CONTRAST & ACCESSIBILITY
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>11 · Accessibility</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Measured, not <em>assumed</em></h2>
+      <p class="lede">Target is WCAG AA: 4.5:1 for body text, 3:1 for large text (≥ 24 px, or ≥ 18.66 px bold) and for UI boundaries.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div>
+      <p class="label">Approved pairs</p>
+      <table>
+        <tr><th style="width:48%;">Foreground on background</th><th style="width:18%;">Ratio</th><th>Verdict</th></tr>
+        <tr><td class="t-ink">Ink on cream</td><td class="mono">18.33</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">White on ink</td><td class="mono">19.80</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">Ink on papaya-whip</td><td class="mono">16.70</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">palette-300 on ink</td><td class="mono">13.36</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">primary-300 on ink</td><td class="mono">11.08</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">primary-400 on ink</td><td class="mono">8.15</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">palette-400 on ink</td><td class="mono">7.66</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">palette-600 on cream</td><td class="mono">7.23</td><td><span class="pill pill--pass">AAA</span></td></tr>
+        <tr><td class="t-ink">Ink on primary-500</td><td class="mono">6.60</td><td><span class="pill pill--pass">AA</span></td></tr>
+        <tr><td class="t-ink">White on primary-700</td><td class="mono">5.19</td><td><span class="pill pill--pass">AA</span></td></tr>
+        <tr><td class="t-ink">primary-700 on cream</td><td class="mono">4.80</td><td><span class="pill pill--pass">AA</span></td></tr>
+        <tr style="border:0;"><td class="t-ink" style="border:0;">palette-500 on cream</td><td class="mono" style="border:0;">4.39</td><td style="border:0;"><span class="pill pill--large">AA large</span></td></tr>
+      </table>
+    </div>
+
+    <div>
+      <p class="label">Handle with care</p>
+      <table>
+        <tr><th style="width:48%;">Foreground on background</th><th style="width:18%;">Ratio</th><th>Verdict</th></tr>
+        <tr><td class="t-ink">White on primary-600</td><td class="mono">3.57</td><td><span class="pill pill--large">AA large</span></td></tr>
+        <tr><td class="t-ink">primary-600 on cream</td><td class="mono">3.31</td><td><span class="pill pill--large">AA large</span></td></tr>
+        <tr><td class="t-ink">White on primary-500</td><td class="mono">3.00</td><td><span class="pill pill--large">AA large</span></td></tr>
+        <tr><td class="t-ink">primary-500 on cream</td><td class="mono">2.78</td><td><span class="pill pill--fail">fails</span></td></tr>
+        <tr style="border:0;"><td class="t-ink" style="border:0;">White on success</td><td class="mono" style="border:0;">4.32</td><td style="border:0;"><span class="pill pill--large">AA large</span></td></tr>
+      </table>
+
+      <div class="card" style="margin-top:7mm;">
+        <h4>Beyond colour</h4>
+        <ul style="padding-left:4.5mm;">
+          <li style="margin-bottom:1.8mm;"><strong>Motion.</strong> Every animation and transition respects <span class="mono">prefers-reduced-motion</span> — including the Lenis scroll easing and the shader background.</li>
+          <li style="margin-bottom:1.8mm;"><strong>Focus.</strong> Visible focus ring on every interactive element. Never <span class="mono">outline: none</span> without a replacement.</li>
+          <li style="margin-bottom:1.8mm;"><strong>Meaning.</strong> Colour never carries meaning alone — pair it with a label, an icon, or a shape.</li>
+          <li style="margin-bottom:1.8mm;"><strong>Targets.</strong> 44 × 44 px minimum for anything tappable.</li>
+          <li><strong>Language.</strong> <span class="mono">lang</span> is set correctly per locale so screen readers pronounce French copy as French.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Accessibility</span><b>13</b></div>
+</section>
+
+<!-- ======================================================================
+     14 — TYPEFACES
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>12 · Typefaces</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Three families, <em>clear jobs</em></h2>
+      <p class="lede">All three are self-hosted as variable WOFF2 from <span class="mono" style="font-size:8pt;">public/fonts/</span> with <span class="mono" style="font-size:8pt;">font-display: swap</span>. No external font requests, no CLS on load.</p>
+    </div>
+  </div>
+
+  <div class="body" style="display:grid;grid-template-rows:1fr 1fr 1fr;gap:6mm;">
+    <div class="spec" style="display:grid;grid-template-columns:52mm 1fr 62mm;gap:8mm;align-items:start;">
+      <div>
+        <p class="spec__name f-switzer">Switzer</p>
+        <p class="spec__role">Primary — everything by default</p>
+        <p class="spec__note">Variable 100–900, plus static Light through Bold. Set as <span class="mono">--font-sans</span> and <span class="mono">--font-heading</span> — body, UI, nav, and headings all use it.</p>
+      </div>
+      <div>
+        <p class="spec__glyphs f-switzer">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</p>
+      </div>
+      <div>
+        <p class="f-switzer" style="font-weight:300;font-size:9pt;line-height:1.4;">Light 300 — button labels</p>
+        <p class="f-switzer" style="font-weight:400;font-size:9pt;line-height:1.4;">Regular 400 — body copy</p>
+        <p class="f-switzer" style="font-weight:500;font-size:9pt;line-height:1.4;">Medium 500 — UI labels, emphasis</p>
+        <p class="f-switzer" style="font-weight:600;font-size:9pt;line-height:1.4;">Semibold 600 — headings, wordmark</p>
+        <p class="f-switzer" style="font-weight:700;font-size:9pt;line-height:1.4;">Bold 700 — rare, data emphasis</p>
+      </div>
+    </div>
+
+    <div class="spec" style="display:grid;grid-template-columns:52mm 1fr 62mm;gap:8mm;align-items:start;">
+      <div>
+        <p class="spec__name f-reckless">Reckless Neue</p>
+        <p class="spec__role">Accent serif — the emphasised half</p>
+        <p class="spec__note">Set as <span class="mono">--font-reckless</span>. Its job is the second line of a headline, in <span class="mono">primary-700</span> on cream. One accent phrase per screen — it stops working the moment it becomes the body face.</p>
+      </div>
+      <div>
+        <p class="spec__glyphs f-reckless">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</p>
+      </div>
+      <div>
+        <p class="f-reckless" style="font-size:15pt;color:var(--o700);font-weight:500;line-height:1.15;">Digital Potential</p>
+        <p style="font-size:6.6pt;color:var(--p500);margin-top:2mm;line-height:1.4;">Live use — hero line 2, Medium 500, <span class="mono">primary-700</span>. Also: the tagline, and pull quotes. Never at body size.</p>
+      </div>
+    </div>
+
+    <div class="spec" style="display:grid;grid-template-columns:52mm 1fr 62mm;gap:8mm;align-items:start;">
+      <div>
+        <p class="spec__name f-clash">Clash Display</p>
+        <p class="spec__role">Display alternate — reserve</p>
+        <p class="spec__note">Set as <span class="mono">--font-clash</span>, variable 200–700. Held for large display moments where Switzer Semibold feels too neutral — campaign artwork, cover slides. Not for running text or UI.</p>
+      </div>
+      <div>
+        <p class="spec__glyphs f-clash">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</p>
+      </div>
+      <div>
+        <p class="f-clash" style="font-size:19pt;font-weight:600;line-height:1.05;letter-spacing:-0.02em;">Display 600</p>
+        <p style="font-size:6.6pt;color:var(--p500);margin-top:2mm;line-height:1.4;">If a piece uses Clash, it uses it once, large. Two display faces on one page is one too many.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Typefaces</span><b>14</b></div>
+</section>
+
+<!-- ======================================================================
+     15 — TYPE SCALE
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>13 · Type scale</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">The <em>scale</em></h2>
+      <p class="lede">Named tokens, not arbitrary sizes. If a size isn't in this table, it needs a reason — and probably a new token.</p>
+    </div>
+  </div>
+
+  <div class="body" style="display:grid;grid-template-columns:1fr 96mm;gap:12mm;">
+    <div>
+      <table>
+        <tr><th style="width:24%;">Token</th><th style="width:14%;">Size</th><th style="width:16%;">Line-height</th><th>Where it's used</th></tr>
+        <tr><td class="t-ink mono">text-h1</td><td>64 px</td><td>1.0</td><td>Page-defining headline. On the homepage it's fluid: <span class="mono">clamp(45px, 3.69vw + 31.9px, 85px)</span>.</td></tr>
+        <tr><td class="t-ink mono">text-h2</td><td>48 px</td><td>1.0</td><td>Section headline</td></tr>
+        <tr><td class="t-ink mono">text-h3</td><td>36 px</td><td>1.2</td><td>Sub-section, large card title</td></tr>
+        <tr><td class="t-ink mono">text-h4</td><td>28 px</td><td>1.2</td><td>Card and panel titles</td></tr>
+        <tr><td class="t-ink mono">text-h5</td><td>20 px</td><td>1.2</td><td>Small headings, list titles</td></tr>
+        <tr><td class="t-ink mono">text-h6</td><td>18 px</td><td>1.2</td><td>Hero subtitle, lead paragraph</td></tr>
+        <tr><td class="t-ink mono">text-subtitle</td><td>20 px</td><td>1.4</td><td>Standfirst under a headline</td></tr>
+        <tr><td class="t-ink mono">text-p-regular</td><td>16 px</td><td>1.4</td><td>Body copy — the default</td></tr>
+        <tr><td class="t-ink mono">text-p-bold</td><td>16 px</td><td>1.4</td><td>Emphasised body</td></tr>
+        <tr><td class="t-ink mono">text-p-integration</td><td>16 px</td><td>1.0</td><td>Single-line labels in tight rows</td></tr>
+        <tr><td class="t-ink mono">text-tooltip-l</td><td>14 px</td><td>1.2</td><td>Badges, meta, captions</td></tr>
+        <tr><td class="t-ink mono">text-tooltip-m</td><td>12 px</td><td>1.1</td><td>Fine print, legal</td></tr>
+        <tr style="border:0;"><td class="t-ink mono" style="border:0;">text-tooltip-s</td><td style="border:0;">8 px</td><td style="border:0;">0.9</td><td style="border:0;">Uppercase micro-labels inside pills only</td></tr>
+      </table>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">Setting rules</p>
+        <ul style="padding-left:4.5mm;">
+          <li style="margin-bottom:2mm;"><strong>Tighten as you scale up.</strong> Headlines carry negative tracking (about −0.02 em); body copy stays at default.</li>
+          <li style="margin-bottom:2mm;"><strong>Measure.</strong> 60–75 characters per line for body. The hero column caps at <span class="mono">max-w-3xl</span> for exactly this reason.</li>
+          <li style="margin-bottom:2mm;"><strong>One accent per headline.</strong> The serif takes one line or one phrase, never both halves.</li>
+          <li style="margin-bottom:2mm;"><strong>No all-caps paragraphs.</strong> Uppercase is for micro-labels at 8–14 px with generous tracking, nothing longer.</li>
+          <li><strong>Numbers align.</strong> Tabular figures in tables, pricing, and stats.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>Hierarchy in one block</h4>
+        <p style="font-size:15pt;font-weight:600;letter-spacing:-0.025em;line-height:1.05;color:var(--ink);">Unleash Your<br><span class="f-reckless" style="font-weight:500;color:var(--o700);">Digital Potential</span></p>
+        <p style="font-size:8.4pt;color:var(--p600);margin-top:2.5mm;line-height:1.45;">Subtitle at <span class="mono">text-h6</span>, <span class="mono">palette-600</span> — sets the claim in plain language.</p>
+        <p style="font-size:7.4pt;color:var(--p500);margin-top:2.5mm;">Body at <span class="mono">text-p-regular</span> carries the detail underneath.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Type scale</span><b>15</b></div>
+</section>
+
+<!-- ======================================================================
+     16 — LAYOUT & SPACING
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>14 · Layout &amp; spacing</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Space is the <em>decoration</em></h2>
+      <p class="lede">Twelve columns, a 4 px rhythm, hairline rules. Nothing else is needed to build hierarchy.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div class="stack">
+      <div>
+        <p class="label">Grid — 12 columns</p>
+        <div class="grid-demo">
+          <div></div><div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <p style="margin-top:3mm;">Content columns run <strong>asymmetric by default</strong>: 7/5, 8/4, 5/7. A 6/6 split is the exception, not the starting point. Reading columns cap at <span class="mono">max-w-3xl</span>; full-bleed is reserved for dark sections and shader backgrounds.</p>
+      </div>
+
+      <div>
+        <p class="label">Spacing — 4 px base</p>
+        <div style="display:flex;align-items:flex-end;gap:2.5mm;">
+          <div style="text-align:center;"><div style="width:4mm;height:1.5mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">4</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:3mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">8</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:4.5mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">12</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:6mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">16</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:9mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">24</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:12mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">32</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:17mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">48</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:22mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">64</p></div>
+          <div style="text-align:center;"><div style="width:4mm;height:28mm;background:var(--o500);border-radius:0.5mm;"></div><p style="font-size:5.6pt;color:var(--p500);margin-top:1.2mm;">96</p></div>
+        </div>
+        <p style="margin-top:3.5mm;">Tailwind's default scale, unmodified. Section padding sits at 96–160 px on desktop; the gap between a heading and its body is 16–24 px, never more.</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">Radius — base 0.625 rem (10 px)</p>
+        <table>
+          <tr><th style="width:26%;">Token</th><th style="width:20%;">Computed</th><th>Use</th></tr>
+          <tr><td class="t-ink mono">radius-sm</td><td class="mono">6 px</td><td>Inputs, tags</td></tr>
+          <tr><td class="t-ink mono">radius-md</td><td class="mono">8 px</td><td>Small cards</td></tr>
+          <tr><td class="t-ink mono">radius-lg</td><td class="mono">10 px</td><td>Default card</td></tr>
+          <tr><td class="t-ink mono">radius-xl</td><td class="mono">14 px</td><td>Panels</td></tr>
+          <tr><td class="t-ink mono">radius-2xl</td><td class="mono">18 px</td><td>Feature blocks</td></tr>
+          <tr><td class="t-ink mono">radius-3xl</td><td class="mono">22 px</td><td>Large media frames</td></tr>
+          <tr><td class="t-ink mono">radius-4xl</td><td class="mono">26 px</td><td>Hero panels</td></tr>
+          <tr style="border:0;"><td class="t-ink mono" style="border:0;">rounded-full</td><td class="mono" style="border:0;">pill</td><td style="border:0;">Every button, badge and pill — no exceptions</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4>Borders and rules</h4>
+        <p style="margin-bottom:2.5mm;">One weight: <strong>1 px</strong>. <span class="mono">palette-200</span> on cream, <span class="mono">white/15</span> on ink. Rules divide, they don't decorate — no side-stripe accent borders, no coloured left rails on cards.</p>
+        <div style="border-top:0.4pt solid var(--rule);margin:3mm 0;"></div>
+        <p>Shadows are effectively unused. Depth comes from a change of surface — white card on cream — not from a blur.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Layout &amp; spacing</span><b>16</b></div>
+</section>
+
+<!-- ======================================================================
+     17 — MOTION
+     ====================================================================== -->
+<section class="page page--dark">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>15 · Motion</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Motion that <em>answers</em></h2>
+      <p class="lede">Every movement responds to something the visitor did — a hover, a scroll, a submit. Nothing loops on its own except the ambient shader.</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="cols-3" style="margin-bottom:8mm;">
+      <div class="card">
+        <h4>Roll-up label</h4>
+        <p>The signature interaction. On hover, the button label slides up out of frame while a duplicate slides in from below — <strong>500 ms</strong>, both halves in sync. Used on the primary CTA.</p>
+      </div>
+      <div class="card">
+        <h4>Chevron exit / enter</h4>
+        <p>The icon leaves right and re-enters from the left over the same 500 ms. Direction always follows the action's meaning — forward is right.</p>
+      </div>
+      <div class="card">
+        <h4>Scroll easing</h4>
+        <p>Lenis owns scroll easing on the homepage; native <span class="mono">scroll-behavior</span> is deliberately set to <span class="mono">auto</span> so anchor jumps aren't double-eased.</p>
+      </div>
+    </div>
+
+    <div class="cols-2">
+      <div>
+        <p class="label">Timings</p>
+        <table>
+          <tr><th style="width:36%;">Interaction</th><th style="width:24%;">Duration</th><th>Curve</th></tr>
+          <tr><td class="t-ink" style="color:#fff;">Hover / colour change</td><td class="mono">150–200 ms</td><td>ease-out</td></tr>
+          <tr><td class="t-ink" style="color:#fff;">Roll-up label, chevron</td><td class="mono">500 ms</td><td>ease-in-out</td></tr>
+          <tr><td class="t-ink" style="color:#fff;">Scroll reveal</td><td class="mono">400–600 ms</td><td>ease-out, staggered</td></tr>
+          <tr style="border:0;"><td class="t-ink" style="border:0;color:#fff;">Ambient shader</td><td class="mono" style="border:0;">continuous</td><td style="border:0;">background only, never behind body copy</td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="border-color:var(--o700);">
+        <h4 style="color:var(--o400);">Reduced motion is not optional</h4>
+        <p style="margin-bottom:3mm;">Every animation, transition, scroll effect and shader must check <span class="mono">prefers-reduced-motion: reduce</span> and degrade to a static state — not a faster version of the same movement.</p>
+        <p>That includes Lenis, the wormhole shader, the counters, and the scroll-reveal text. If a component can't be made static, it doesn't ship.</p>
+      </div>
+    </div>
+
+    <hr class="hair" style="margin-top:7mm;">
+    <div class="cols-3">
+      <div><p class="label">Do</p><p>Move one property at a time. Opacity and transform only — they're the cheap ones.</p></div>
+      <div><p class="label">Do</p><p>Stagger a group by 40–80 ms so a list reads as a sequence, not a flash.</p></div>
+      <div><p class="label">Don't</p><p>Animate on load, bounce, parallax the type, or auto-advance a carousel.</p></div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Motion</span><b>17</b></div>
+</section>
+
+<!-- ======================================================================
+     18 — IMAGERY
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>16 · Imagery</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">Show the <em>work</em></h2>
+      <p class="lede">We're judged on craft, so the imagery is the craft: real screens, real client marks, generated gradients. Never a stock photo of people pointing at a laptop.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div class="stack">
+      <div>
+        <p class="label">Client logos</p>
+        <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;display:grid;grid-template-columns:repeat(4,1fr);gap:6mm;align-items:center;">
+          <div style="height:5mm;background:var(--p300);border-radius:1mm;"></div>
+          <div style="height:4mm;background:var(--p300);border-radius:1mm;"></div>
+          <div style="height:5.5mm;background:var(--p300);border-radius:1mm;"></div>
+          <div style="height:4.5mm;background:var(--p300);border-radius:1mm;"></div>
+        </div>
+        <p style="margin-top:3mm;">Every client mark ships <strong>grayscale WebP</strong>, matched on <strong>optical</strong> height rather than bounding box — a wide wordmark and a square mark are balanced by eye, not by pixels. Colour returns only inside a case study, never in the logo wall.</p>
+      </div>
+
+      <div>
+        <p class="label">Screens and case studies</p>
+        <p>Product shots over people shots. Crop to the part of the interface that carries the point, on a cream or ink field with generous margin. No laptop mockups on wooden desks, no floating perspective phones, no drop shadows faking depth.</p>
+      </div>
+
+      <div>
+        <p class="label">Photography, when it's unavoidable</p>
+        <p>Warm, natural light. Real workspace, real people, no eye contact with the lens. If the only option is stock, use a gradient or a screen instead.</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">Generated backgrounds</p>
+        <div style="height:26mm;border-radius:3mm;background:radial-gradient(ellipse 90% 120% at 20% 20%, #FAAF01 0%, transparent 55%), radial-gradient(ellipse 90% 120% at 80% 30%, #DF5B00 0%, transparent 55%), radial-gradient(ellipse 100% 120% at 60% 90%, #A10012 0%, transparent 60%), #330014;"></div>
+        <p style="margin-top:3mm;">The shader gradient draws from the accent set — <span class="mono">chocolate-cosmos</span>, <span class="mono">carmine</span>, <span class="mono">spanish-orange</span>, <span class="mono">selective-yellow</span>, with <span class="mono">ai-accent</span> reserved for AI-related surfaces. It sits behind headlines and empty space only, at low enough intensity that any text over it still clears 4.5:1.</p>
+      </div>
+
+      <div class="card">
+        <h4>File standards</h4>
+        <table>
+          <tr><td class="t-ink" style="width:38%;">Format</td><td>WebP first; SVG for any mark or diagram</td></tr>
+          <tr><td class="t-ink">Portfolio shots</td><td>1600 px wide, quality ~80</td></tr>
+          <tr><td class="t-ink">Client logos</td><td>Grayscale WebP, ~400 px wide</td></tr>
+          <tr><td class="t-ink">OG image</td><td>1200 × 630, mark + one line of copy on ink</td></tr>
+          <tr style="border:0;"><td class="t-ink" style="border:0;">Alt text</td><td style="border:0;">Always. Describe the content, not the file.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Imagery</span><b>18</b></div>
+</section>
+
+<!-- ======================================================================
+     19 — INTERFACE ELEMENTS
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>17 · Interface</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">The <em>pieces</em></h2>
+      <p class="lede">Everything interactive is a pill. Everything static is a hairline. That's most of the system.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div class="stack">
+      <div>
+        <p class="label">Primary button</p>
+        <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;">
+          <span class="btn-primary">Book a discovery call <i>›</i></span>
+          <p class="sample-note"><span class="mono">primary-600</span> fill · white Light 300 · fully rounded · white circle icon holder at 32 px · label rolls up on hover over 500 ms. <b style="color:var(--o700);">Set the label at 24 px, or move the fill to primary-700, to clear AA.</b></p>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Badge and pill</p>
+        <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;">
+          <span class="badge-row"><span class="badge-new">New</span> AI automation now available</span>
+          <p class="sample-note">Outer pill: white fill, <span class="mono">palette-200</span> border, <span class="mono">palette-600</span> label at 14 px. Inner badge: <span class="mono">primary-500</span> fill, white uppercase Semibold at 8 px. Only the inner badge carries colour.</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Card</p>
+        <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;">
+          <p style="font-size:9.6pt;font-weight:600;margin-bottom:2mm;">Web Development</p>
+          <p style="font-size:8pt;">Fast, scalable applications built with React, Next.js, Astro and TypeScript — optimised for speed, SEO and Core Web Vitals.</p>
+          <p class="sample-note">White on cream, <span class="mono">radius-lg</span>, 1 px <span class="mono">palette-200</span> border, 24–32 px padding. No shadow, no accent stripe, no icon tile.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div>
+        <p class="label">States</p>
+        <table>
+          <tr><th style="width:26%;">State</th><th>Treatment</th></tr>
+          <tr><td class="t-ink">Hover</td><td>One step darker on fills; underline appears on text links. 150–200 ms.</td></tr>
+          <tr><td class="t-ink">Focus</td><td>Visible ring, 2 px, offset 2 px, in <span class="mono">primary-500</span>. Never removed.</td></tr>
+          <tr><td class="t-ink">Active</td><td>No scale-down bounce. Fill darkens, nothing moves.</td></tr>
+          <tr><td class="t-ink">Disabled</td><td>50% opacity, cursor <span class="mono">not-allowed</span>. Keep the shape.</td></tr>
+          <tr><td class="t-ink">Loading</td><td>Label replaced in place; the button keeps its width so nothing reflows.</td></tr>
+          <tr style="border:0;"><td class="t-ink" style="border:0;">Error</td><td style="border:0;"><span class="mono">primary-700</span> text plus an icon — never colour alone.</td></tr>
+        </table>
+      </div>
+
+      <div>
+        <p class="label">Forms</p>
+        <div style="border:0.4pt solid var(--rule);background:var(--white);border-radius:3mm;padding:6mm;">
+          <p style="font-size:6.6pt;letter-spacing:0.08em;text-transform:uppercase;color:var(--p500);font-weight:600;margin-bottom:2mm;">Email</p>
+          <div style="border:0.4pt solid var(--p300);border-radius:2mm;padding:2.6mm 3mm;font-size:8pt;color:var(--p400);">you@company.com</div>
+          <p class="sample-note">Label above the field, always visible — placeholders are not labels. <span class="mono">radius-sm</span>, 1 px <span class="mono">palette-300</span> border, 44 px minimum height. Validation messages sit below the field, never as a tooltip.</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Text link</p>
+        <p>Ink with a 1 px underline at 40% opacity, going solid on hover. On dark, <span class="mono">primary-400</span>. Links inside body copy never lose their underline — the underline is the affordance, colour alone isn't.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><span>Interface</span><b>19</b></div>
+</section>
+
+<!-- ======================================================================
+     20 — WHAT WE AVOID
+     ====================================================================== -->
+<section class="page">
+  <div class="rail">
+    <span class="rail__brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="currentColor"/></svg> arcaniStudio — Brand Guidelines</span>
+    <span>18 · What we avoid</span>
+  </div>
+
+  <div class="head">
+    <div>
+      <h2 class="h-sec">The <em>anti-references</em></h2>
+      <p class="lede">A brand is defined as much by what it refuses. These are the defaults every template falls into — and the reason clients can't tell two agencies apart.</p>
+    </div>
+  </div>
+
+  <div class="body cols-2">
+    <div>
+      <p class="label">The generic SaaS template look</p>
+      <div class="stack-s">
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Gradient text on headlines.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Hero metric blocks — "10k+ users · 99.9% uptime · 24/7 support" — with no source behind the numbers.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>A tiny uppercase eyebrow above every single section heading.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Glassmorphism, neon glow borders, and floating blurred blobs behind everything.</p></div>
+      </div>
+    </div>
+
+    <div>
+      <p class="label">Corporate agency clichés</p>
+      <div class="stack-s">
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Stock photography of diverse teams high-fiving around a laptop.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Identical three-card icon grids where the icons carry no information.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>01 / 02 / 03 numbering scaffolded onto every section whether it's a sequence or not.</p></div>
+        <div class="dd dd--no"><span class="dd__tag"><i>✕</i></span><p>Coloured side-stripe accent borders down the left edge of cards and quotes.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex:none;border-top:0.5pt solid var(--rule);padding-top:5mm;margin-top:6mm;">
+    <p style="font-size:9.2pt;color:var(--p700);max-width:190mm;line-height:1.55;">
+      The test before anything ships: <strong>could a competitor swap their logo onto this and have it still work?</strong> If yes, it isn't finished — go back and put something specific in it.
+    </p>
+  </div>
+
+  <div class="folio"><span>What we avoid</span><b>20</b></div>
+</section>
+
+<!-- ======================================================================
+     21 — BACK COVER
+     ====================================================================== -->
+<section class="page page--dark" style="justify-content:space-between;padding:18mm;">
+  <div class="cover__glow" style="right:auto;left:-60mm;top:auto;bottom:-40mm;"></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="14mm" height="14mm"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#FFFFFF"/></svg>
+    <span style="font-size:6.6pt;letter-spacing:0.1em;text-transform:uppercase;color:var(--p500);">Assets &amp; contact</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14mm;align-items:start;">
+    <div>
+      <h2 class="h-sec" style="font-size:20pt;">Where the <em>real</em> files live</h2>
+      <p style="font-size:8.2pt;color:var(--p400);margin-top:4mm;line-height:1.55;">This book explains the system. The repository holds it. When the two disagree, the repository wins — then update this book.</p>
+    </div>
+
+    <div>
+      <p class="label" style="color:var(--p500);">In the repo</p>
+      <table>
+        <tr><td style="width:44%;color:#fff;">Tokens</td><td class="mono" style="color:var(--p400);">src/styles/global.css</td></tr>
+        <tr><td style="color:#fff;">Mark (component)</td><td class="mono" style="color:var(--p400);">src/components/Logo.astro</td></tr>
+        <tr><td style="color:#fff;">Mark (file)</td><td class="mono" style="color:var(--p400);">public/logo.svg</td></tr>
+        <tr><td style="color:#fff;">Favicon</td><td class="mono" style="color:var(--p400);">public/favicon.svg</td></tr>
+        <tr><td style="color:#fff;">Fonts</td><td class="mono" style="color:var(--p400);">public/fonts/</td></tr>
+        <tr><td style="color:#fff;">Copy (EN + FR)</td><td class="mono" style="color:var(--p400);">src/i18n/ui.ts</td></tr>
+        <tr style="border:0;"><td style="border:0;color:#fff;">Brand brief</td><td class="mono" style="border:0;color:var(--p400);">PRODUCT.md</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <p class="label" style="color:var(--p500);">Typefaces</p>
+      <p style="font-size:8pt;color:var(--p400);line-height:1.55;">Switzer and Clash Display — Indian Type Foundry / Fontshare.<br>Reckless Neue — Displaay Type Foundry.<br><br>Check licence coverage before using them in client deliverables; the web licence does not automatically cover a client's own brand.</p>
+    </div>
+  </div>
+
+  <div style="border-top:0.4pt solid var(--rule-dark);padding-top:5mm;display:flex;justify-content:space-between;align-items:flex-end;">
+    <div>
+      <p style="font-size:14pt;font-weight:600;letter-spacing:-0.02em;color:#fff;">arcanistudio.com</p>
+      <p style="font-size:7.4pt;color:var(--p500);margin-top:1.5mm;letter-spacing:0.06em;text-transform:uppercase;">Algeria &amp; international</p>
+    </div>
+    <span style="font-size:7.4pt;letter-spacing:0.06em;text-transform:uppercase;color:var(--p500);">Brand Guidelines v1.0 · August 2026</span>
+  </div>
+</section>
+
+</body>
+</html>
