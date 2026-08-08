@@ -675,7 +675,7 @@ export const ui = {
       of: 'sur',
       choiceSteps: [
         // alt considered: 'De quoi avez-vous besoin ?'
-        { question: 'Quel est votre projet ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur mesure (ERP / CRM)', 'Application web / mobile', 'Autre chose'] },
+        { question: 'Quel est votre projet ?', options: ['Site vitrine / Landing page', 'Boutique en ligne', 'Logiciel de gestion sur-mesure (ERP / CRM)', 'Application web / mobile', 'Autre chose'] },
         // alt considered: 'C'est pour quand ?'
         { question: 'Pour quand en avez-vous besoin ?', options: ['Le plus tôt possible', "D'ici 1 à 3 mois", "D'ici 3 à 6 mois", "Je m'informe pour l'instant"] },
         { question: 'Quel est votre objectif principal ?', options: ['Avoir plus de clients', 'Vendre en ligne', 'Paraître professionnel et crédible', 'Remplacer un site existant'] },
@@ -687,11 +687,11 @@ export const ui = {
       budgetByProject: {
         'Site vitrine / Landing page': ['Moins de 50 000 DZD', '50 000 – 120 000 DZD', '120 000 DZD et plus'],
         'Boutique en ligne': ['Moins de 100 000 DZD', '100 000 – 250 000 DZD', '250 000 – 400 000 DZD', '400 000 DZD et plus'],
-        'Logiciel de gestion sur mesure (ERP / CRM)': ['Moins de 300 000 DZD', '300 000 – 600 000 DZD', '600 000 – 1 100 000 DZD', '1 100 000 DZD et plus'],
+        'Logiciel de gestion sur-mesure (ERP / CRM)': ['Moins de 300 000 DZD', '300 000 – 600 000 DZD', '600 000 – 1 100 000 DZD', '1 100 000 DZD et plus'],
         'Application web / mobile': ['Moins de 600 000 DZD', '600 000 – 1 500 000 DZD', '1 500 000 – 3 000 000 DZD', '3 000 000 DZD et plus'],
       } as Record<string, string[]>,
       somethingElse: 'Autre chose',
-      managementKey: 'Logiciel de gestion sur mesure (ERP / CRM)',
+      managementKey: 'Logiciel de gestion sur-mesure (ERP / CRM)',
       otherPlaceholder: "Dites-nous brièvement ce qu'il vous faut",
       almostThere: 'Presque\nfini.',
       fields: {
